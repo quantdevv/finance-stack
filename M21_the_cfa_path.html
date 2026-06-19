@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M21 · The CFA Path</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--base:#0E1116;--surface:#161B22;--raised:#1C232C;--hair:#2A323D;--hair-soft:#222932;
+    --ink:#E8EFF5;--ink-mute:#9AA7B4;--ink-faint:#5E6B78;--gold:#D4A24E;--gold-soft:#3a3017;
+    --gain:#3FB950;--loss:#F0625A;--blue:#5AA6E0;
+    --display:"Fraunces",Georgia,serif;--body:"Inter",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--base);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.72;-webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(900px 480px at 88% -8%, rgba(212,162,78,0.05), transparent 60%),radial-gradient(700px 420px at -5% 3%, rgba(90,166,224,0.035), transparent 55%);}
+  .wrap{max-width:760px;margin:0 auto;padding:0 26px;}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;background:var(--gold);z-index:99;box-shadow:0 0 10px rgba(212,162,78,0.6);transition:width .1s linear;}
+  .topbar{border-bottom:1px solid var(--hair);background:rgba(14,17,22,0.88);backdrop-filter:blur(8px);position:sticky;top:0;z-index:50;}
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:46px;max-width:980px;font-family:var(--mono);font-size:11px;letter-spacing:0.08em;color:var(--ink-mute);text-transform:uppercase;}
+  .topbar .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--gain);margin-right:8px;box-shadow:0 0 8px var(--gain);}
+  .hero{padding:72px 0 40px;border-bottom:1px solid var(--hair-soft);}
+  .hero .wrap{max-width:820px;}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:13px;margin-bottom:24px;}
+  .kicker::before{content:"";height:1px;width:38px;background:var(--gold);opacity:0.6;}
+  .hero h1{font-family:var(--display);font-weight:600;font-size:clamp(2.3rem,5.5vw,3.5rem);line-height:1.05;letter-spacing:-0.02em;margin-bottom:22px;}
+  .hero h1 em{font-style:italic;color:var(--gold);font-weight:500;}
+  .hero .stand{font-size:1.12rem;color:var(--ink-mute);max-width:60ch;}
+  .metarow{display:flex;flex-wrap:wrap;gap:22px;margin-top:30px;font-family:var(--mono);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-faint);}
+  .metarow b{color:var(--ink-mute);font-weight:500;}
+  .toc{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:24px 26px;margin:44px 0 8px;}
+  .toc h2{font-family:var(--mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:16px;font-weight:500;}
+  .toc ol{list-style:none;counter-reset:t;}
+  .toc li{counter-increment:t;padding:7px 0;border-bottom:1px solid var(--hair-soft);}
+  .toc li:last-child{border-bottom:none;}
+  .toc a{color:var(--ink);text-decoration:none;display:flex;gap:14px;align-items:baseline;transition:color .15s;}
+  .toc a:hover{color:var(--gold);}
+  .toc a::before{content:counter(t,decimal-leading-zero);font-family:var(--mono);font-size:12px;color:var(--gold);min-width:26px;}
+  section.lesson{padding:30px 0;}
+  .lesson .wrap{max-width:720px;}
+  h2.sec{font-family:var(--display);font-weight:600;font-size:1.85rem;letter-spacing:-0.015em;margin:54px 0 8px;line-height:1.15;scroll-margin-top:70px;}
+  .sec-no{font-family:var(--mono);font-size:12px;letter-spacing:0.16em;color:var(--gold);text-transform:uppercase;display:block;margin-bottom:10px;}
+  h3.sub{font-family:var(--display);font-weight:600;font-size:1.28rem;margin:38px 0 6px;letter-spacing:-0.01em;color:var(--ink);}
+  p{margin:16px 0;color:#D5DEE6;}
+  p strong{color:var(--ink);font-weight:600;}
+  em.term{font-style:normal;color:var(--gold);font-weight:500;}
+  ul.clean{margin:18px 0;padding-left:0;list-style:none;}
+  ul.clean li{position:relative;padding-left:26px;margin:11px 0;color:#D5DEE6;}
+  ul.clean li::before{content:"";position:absolute;left:6px;top:12px;width:6px;height:6px;background:var(--gold);border-radius:50%;}
+  ul.clean li b{color:var(--ink);font-weight:600;}
+  .box{border-radius:0 10px 10px 0;padding:18px 22px;margin:26px 0;font-size:0.98rem;background:var(--surface);border:1px solid var(--hair);border-left-width:3px;}
+  .box .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:9px;display:flex;align-items:center;gap:8px;font-weight:500;}
+  .box p{margin:8px 0;color:#CBD5DE;}.box p:first-of-type{margin-top:0;}
+  .box.eng{border-left-color:var(--blue);}.box.eng .tag{color:var(--blue);}
+  .box.ex{border-left-color:var(--gold);}.box.ex .tag{color:var(--gold);}
+  .box.india{border-left-color:var(--gain);}.box.india .tag{color:var(--gain);}
+  .box.key{border-left-color:var(--gold);background:rgba(212,162,78,0.06);}.box.key .tag{color:var(--gold);}
+  .box.warn{border-left-color:var(--loss);background:rgba(240,98,90,0.05);}.box.warn .tag{color:var(--loss);}
+  .box code{font-family:var(--mono);font-size:0.86em;background:rgba(255,255,255,0.05);padding:2px 6px;border-radius:4px;color:var(--gold);}
+  table.data{width:100%;border-collapse:collapse;margin:24px 0;font-size:0.92rem;}
+  table.data th,table.data td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--hair-soft);}
+  table.data th{font-family:var(--mono);font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);font-weight:500;}
+  table.data td{color:#CBD5DE;}
+  table.data td:first-child{color:var(--ink);font-weight:500;}
+  .play{background:var(--surface);border:1px solid var(--gold-soft);border-radius:14px;padding:24px 24px 20px;margin:32px 0;}
+  .play .ptitle{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+  .play .phint{font-family:var(--mono);font-size:11px;color:var(--ink-faint);margin-bottom:16px;}
+  .bars{display:flex;flex-direction:column;gap:7px;}
+  .brow{display:flex;align-items:center;gap:10px;cursor:pointer;}
+  .blabel{flex:0 0 130px;font-family:var(--mono);font-size:11px;color:var(--ink-mute);text-align:right;transition:color .15s;}
+  .brow:hover .blabel,.brow.sel .blabel{color:var(--gold);}
+  .btrack{flex:1;height:18px;background:var(--raised);border-radius:5px;overflow:hidden;position:relative;border:1px solid var(--hair);}
+  .bfill{height:100%;background:linear-gradient(90deg,#3a3017,#D4A24E);border-radius:4px 0 0 4px;transition:width .4s ease;}
+  .brow.sel .bfill{background:linear-gradient(90deg,#7a5a1e,#E8B458);}
+  .bpct{flex:0 0 38px;font-family:var(--mono);font-size:11px;color:var(--gold);font-weight:700;}
+  .detail{margin-top:16px;background:var(--raised);border:1px solid var(--hair);border-radius:10px;padding:16px 18px;min-height:96px;}
+  .detail .dt{font-family:var(--display);font-size:1.2rem;color:var(--ink);margin-bottom:4px;}
+  .detail .dmods{font-family:var(--mono);font-size:11px;color:var(--gain);margin-bottom:8px;}
+  .detail .db{color:#CBD5DE;font-size:0.94rem;}
+  .covered{text-align:center;font-family:var(--mono);font-size:12px;color:var(--gain);margin-top:14px;padding-top:12px;border-top:1px solid var(--hair-soft);}
+  .takeaways{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:28px;margin:30px 0;}
+  .takeaways h3{font-family:var(--display);font-size:1.3rem;margin-bottom:14px;color:var(--ink);}
+  .takeaways ol{counter-reset:k;list-style:none;}
+  .takeaways li{counter-increment:k;position:relative;padding:11px 0 11px 40px;border-bottom:1px solid var(--hair-soft);color:#D5DEE6;font-size:0.97rem;}
+  .takeaways li:last-child{border-bottom:none;}
+  .takeaways li::before{content:counter(k,decimal-leading-zero);position:absolute;left:0;top:11px;font-family:var(--mono);font-size:12px;color:var(--gold);}
+  .gloss{margin:24px 0;}
+  .gloss dt{font-family:var(--mono);font-size:13px;color:var(--gold);font-weight:700;margin-top:18px;}
+  .gloss dd{margin:5px 0 0;color:#CBD5DE;font-size:0.96rem;}
+  .quiz{margin:18px 0;border:1px solid var(--hair);border-radius:10px;overflow:hidden;background:var(--surface);}
+  .quiz summary{padding:15px 20px;cursor:pointer;font-weight:500;color:var(--ink);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;}
+  .quiz summary::-webkit-details-marker{display:none;}
+  .quiz summary .q{font-family:var(--mono);font-size:11px;color:var(--gold);}
+  .quiz summary::after{content:"+";font-family:var(--mono);color:var(--ink-faint);font-size:18px;}
+  .quiz[open] summary::after{content:"–";}
+  .quiz .ans{padding:0 20px 17px;color:#CBD5DE;font-size:0.95rem;border-top:1px solid var(--hair-soft);padding-top:14px;}
+  .foot{border-top:1px solid var(--hair);margin-top:60px;padding:46px 0 80px;}
+  .nextcard{background:var(--surface);border:1px solid var(--hair);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:22px 24px;}
+  .nextcard .u{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:10px;}
+  .nextcard h3{font-family:var(--display);font-size:1.4rem;color:var(--ink);margin-bottom:8px;}
+  .nextcard p{color:var(--ink-mute);font-size:0.96rem;margin:0;}
+  .nextcard .call{margin-top:16px;font-family:var(--mono);font-size:12.5px;color:var(--ink);}
+  .nextcard .call span{color:var(--gold);}
+  .endsig{font-family:var(--mono);font-size:10.5px;letter-spacing:0.1em;color:var(--ink-faint);text-transform:uppercase;text-align:center;margin-top:40px;}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}#bar{transition:none;}}
+  @media (max-width:560px){body{font-size:16px;}h2.sec{font-size:1.55rem;}.blabel{flex-basis:96px;}}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+<div class="topbar"><div class="wrap">
+  <div><a href="index.html" style="color:var(--gold);text-decoration:none;margin-right:14px;">&larr; Home</a><span class="dot"></span>MODULE 21 / 24</div>
+  <div>PART VI · CREDENTIALS DECODED</div>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">M21 · The Global Charter</div>
+  <h1>The CFA path —<br>and a <em>revelation</em>.</h1>
+  <p class="stand">The CFA charter is the world's premier investment credential — the CA's global, markets-focused cousin. By the end of this module you'll see something quietly remarkable: the entire Level I curriculum maps, almost topic for topic, onto the modules you've already finished.</p>
+  <div class="metarow">
+    <span><b>Depth</b> ◐◐○○ Core</span>
+    <span><b>Read</b> ~26 min</span>
+    <span><b>Builds on</b> all of M01–M19</span>
+  </div>
+</div></header>
+
+<div class="wrap"><nav class="toc">
+  <h2>What we'll cover</h2>
+  <ol>
+    <li><a href="#s1">What the CFA charter is</a></li>
+    <li><a href="#s2">The CFA Institute</a></li>
+    <li><a href="#s3">The three levels &amp; format</a></li>
+    <li><a href="#s4">The famously broad curriculum</a></li>
+    <li><a href="#s5">The curriculum map — your reveal</a></li>
+    <li><a href="#s6">Difficulty, pass rates &amp; time</a></li>
+    <li><a href="#s7">Careers &amp; charterholders</a></li>
+    <li><a href="#s8">CFA vs CA vs MBA</a></li>
+  </ol>
+</nav></div>
+
+<section class="lesson"><div class="wrap">
+
+  <h2 class="sec" id="s1"><span class="sec-no">Section 01</span>What the CFA charter is</h2>
+  <p>The <em class="term">CFA (Chartered Financial Analyst)</em> charter is a globally recognised qualification for investment professionals. Where the CA (M20) masters accounting, audit, and tax, the CFA masters <strong>investments and markets</strong> — valuation, portfolio management, asset classes, and ethics. It's the gold standard for people who manage money: analysts, fund managers, and researchers.</p>
+  <div class="box key">
+    <div class="tag">★ CA vs CFA in one line</div>
+    <p>The CA <em>certifies the past</em> — verifying what a company has already done in its accounts. The CFA <em>analyses the future</em> — judging what an investment is worth and how to build a portfolio. One looks backward to confirm; the other looks forward to decide. Both are elite; they simply point at different problems. Almost everything in M07–M16 was, in effect, CFA territory.</p>
+  </div>
+
+  <h2 class="sec" id="s2"><span class="sec-no">Section 02</span>The CFA Institute</h2>
+  <p>The charter is awarded by the <em class="term">CFA Institute</em>, a global, US-headquartered professional body with members in over 160 countries. Unlike the India-specific ICAI, the CFA is <strong>international</strong> — the same exam, curriculum, and standard worldwide, which is exactly why it travels so well across borders and global finance firms.</p>
+  <p>Beyond the exams, the Institute is known for its rigorous <strong>Code of Ethics and Standards of Professional Conduct</strong> (M19) — ethics is woven through every level and is famously the one topic you can never afford to neglect. The charter is as much a commitment to professional integrity as a body of knowledge.</p>
+
+  <h2 class="sec" id="s3"><span class="sec-no">Section 03</span>The three levels &amp; format</h2>
+  <p>The CFA has three sequential levels, each a single demanding exam, with rising sophistication:</p>
+  <table class="data">
+    <tr><th>Level</th><th>Focus</th><th>Format</th></tr>
+    <tr><td>Level I</td><td>Tools &amp; concepts across all topics</td><td>Multiple choice</td></tr>
+    <tr><td>Level II</td><td>Asset valuation, applied analysis</td><td>Item sets (vignettes)</td></tr>
+    <tr><td>Level III</td><td>Portfolio management &amp; wealth planning</td><td>Essays + item sets</td></tr>
+  </table>
+  <p>Crucially, the CFA also requires several years of <strong>qualified work experience</strong> in the investment field before the charter is awarded — passing all three exams alone isn't enough. Like the CA's articleship, it insists on real-world practice, not just theory.</p>
+
+  <h2 class="sec" id="s4"><span class="sec-no">Section 04</span>The famously broad curriculum</h2>
+  <p>The CFA's defining feature is its <strong>breadth</strong>. It deliberately spans the entire field of investment finance, which is why it's considered such a complete education. The ten Level I topic areas read like a table of contents for everything you've studied:</p>
+  <ul class="clean">
+    <li>Ethical &amp; Professional Standards · Quantitative Methods · Economics · Financial Statement Analysis · Corporate Issuers · Equity Investments · Fixed Income · Derivatives · Alternative Investments · Portfolio Management</li>
+  </ul>
+  <p>If that list feels familiar, it should — and the next section makes the connection explicit and, hopefully, satisfying.</p>
+
+  <h2 class="sec" id="s5"><span class="sec-no">Section 05</span>The curriculum map — your reveal</h2>
+  <p>Here's the payoff of the whole journey so far. Each bar below is a CFA Level I topic, sized by its approximate exam weight. <strong>Click any topic</strong> to see which modules of this course already covered it. You've been walking the CFA Level I curriculum the entire time:</p>
+
+  <div class="play" id="play">
+    <div class="ptitle">▶ Interactive · CFA Level I ↔ your completed modules</div>
+    <div class="phint">Click a topic bar · width = approximate exam weight</div>
+    <div class="bars" id="bars"></div>
+    <div class="detail" id="detail">
+      <div class="dt">Tap any topic above</div>
+      <div class="dmods">— </div>
+      <div class="db">Each CFA Level I topic area lines up with modules you've already completed. Click one to see the mapping.</div>
+    </div>
+    <div class="covered" id="covered"></div>
+  </div>
+
+  <div class="box key">
+    <div class="tag">★ What this means for you</div>
+    <p>This isn't a claim that you could sit Level I tomorrow — the CFA goes deeper, demands precise calculation under time pressure, and tests relentlessly. But the <strong>conceptual map</strong> — what the topics are, why they matter, how they connect — you now genuinely hold. You've built the scaffolding the CFA fills in with detail. For your goal of fluency, that scaffolding <em>is</em> the prize: you can read a CFA charterholder's analysis and follow every move.</p>
+  </div>
+
+  <h2 class="sec" id="s6"><span class="sec-no">Section 06</span>Difficulty, pass rates &amp; time</h2>
+  <p>The CFA is a marathon. Each level is recommended to need roughly <strong>300 hours of study</strong>, pass rates per level have often hovered in the <strong>40–50% range</strong> (lower in some recent sittings), and because levels are sequential with limited sittings per year, the full charter typically takes <strong>around 3–4+ years</strong> on top of the work-experience requirement.</p>
+  <div class="box warn">
+    <div class="tag">⚠ Details shift — verify with the CFA Institute</div>
+    <p>Exam structure, sitting frequency, topic weights, and pass rates change over time (the Institute has added practical/practskills elements and adjusted formats in recent years). The figures here convey the <em>scale</em> of the commitment, not exact current numbers. Anyone seriously pursuing it should confirm the latest details on the CFA Institute's official site.</p>
+  </div>
+
+  <h2 class="sec" id="s7"><span class="sec-no">Section 07</span>Careers &amp; charterholders</h2>
+  <p>The CFA is the calling card of the investment world. Charterholders work as:</p>
+  <ul class="clean">
+    <li><b>Equity / credit research analysts</b> — the deep-dive analysis of M12, professionally.</li>
+    <li><b>Portfolio &amp; fund managers</b> — running mutual funds, hedge funds, pensions (M13).</li>
+    <li><b>Wealth &amp; investment advisors</b> — managing client portfolios with fiduciary duty (M19).</li>
+    <li><b>Risk managers, consultants, and finance roles</b> across asset management and banking.</li>
+  </ul>
+  <p>Because it's global and investment-focused, the CFA is especially valued in asset management, equity research, and roles where judging the <em>value</em> of investments is the core job.</p>
+  <div class="box india">
+    <div class="tag">🇮🇳 India lens</div>
+    <p>The CFA is increasingly popular in India, especially among those targeting investment management, equity research, and global finance roles — often pursued alongside or after an MBA, or even alongside a CA for a powerful accounting-plus-investments combination. (Note there's a separate Indian "CFA" trademark history, but the globally recognised charter is the CFA Institute's.) For Indian markets specifically, it pairs naturally with the regulatory and tax knowledge of M19.</p>
+  </div>
+
+  <h2 class="sec" id="s8"><span class="sec-no">Section 08</span>CFA vs CA vs MBA</h2>
+  <p>Now you can place all three at a glance — the practical decoder for anyone's credentials:</p>
+  <table class="data">
+    <tr><th></th><th>CA</th><th>CFA</th><th>MBA</th></tr>
+    <tr><td>Focus</td><td>Accounting, audit, tax</td><td>Investments, markets</td><td>Broad management</td></tr>
+    <tr><td>Scope</td><td>India-centric</td><td>Global</td><td>Global</td></tr>
+    <tr><td>Cost</td><td>Low fees</td><td>Moderate fees</td><td>High (tuition)</td></tr>
+    <tr><td>Best for</td><td>Audit/tax/CFO</td><td>Analyst/fund mgr</td><td>Leadership/pivot</td></tr>
+  </table>
+  <div class="box eng">
+    <div class="tag">⌘ For you specifically</div>
+    <p>None of these is your goal — you're after fluency, and you've largely achieved it across M01–M19. But if you ever <em>did</em> want to formalise this knowledge, the CFA is the natural fit for an engineer drawn to markets, valuation, and quantitative analysis (M18): it's global, self-study-friendly (no quitting your job), and investment-focused. The reveal in Section 05 shows you'd be starting Level I with the conceptual map already built — a real head start. But to be clear: <strong>understanding the landscape, which you now do, was always the actual destination.</strong></p>
+  </div>
+
+  <div class="takeaways">
+    <h3>The eight things to carry forward</h3>
+    <ol>
+      <li>The <b>CFA</b> is the global gold standard for <b>investment</b> professionals — the CA's markets-focused cousin.</li>
+      <li>Awarded by the <b>CFA Institute</b>; international, with ethics woven through every level.</li>
+      <li>Three sequential exam levels (I/II/III) plus a <b>work-experience</b> requirement.</li>
+      <li>Its defining trait is <b>breadth</b> — ten topic areas spanning all of investment finance.</li>
+      <li>Those topics map <b>almost exactly onto M01–M19</b> — you've walked the Level I map.</li>
+      <li>It's a marathon: ~300 hrs/level, ~40–50% pass rates, ~3–4+ years total.</li>
+      <li>Careers: <b>research analyst, portfolio/fund manager, wealth advisor, risk.</b></li>
+      <li>CA = accounting/India · CFA = investments/global · MBA = management/broad.</li>
+    </ol>
+  </div>
+
+  <h3 class="sub">Check yourself</h3>
+  <details class="quiz"><summary><span><span class="q">Q1 ·</span> In one sentence, how do the CA and CFA differ in what they certify?</span></summary>
+    <div class="ans">The CA certifies the <b>past</b> (verifying a company's existing accounts via audit/tax expertise, India-focused), while the CFA analyses the <b>future</b> (judging investment value and building portfolios, globally focused). Backward-looking confirmation vs forward-looking decision-making.</div></details>
+  <details class="quiz"><summary><span><span class="q">Q2 ·</span> Why is the CFA curriculum's breadth considered its key strength?</span></summary>
+    <div class="ans">Because it deliberately spans the entire field of investment finance — ethics, quant, economics, financial reporting, corporate finance, equity, fixed income, derivatives, alternatives, and portfolio management — giving a genuinely complete education in markets. That same breadth is why its Level I topics map so cleanly onto this whole course (M01–M19).</div></details>
+  <details class="quiz"><summary><span><span class="q">Q3 ·</span> Passing all three CFA exams — is that enough to be a charterholder?</span></summary>
+    <div class="ans">No. The CFA Institute also requires several years of qualified investment-related <b>work experience</b> (plus sponsorship and adherence to the ethics code) before awarding the charter. Like the CA's articleship, it insists on real-world practice alongside the exams — knowledge plus applied experience.</div></details>
+
+  <h3 class="sub">Glossary — terms to know cold</h3>
+  <dl class="gloss">
+    <dt>CFA charter</dt><dd>Chartered Financial Analyst — the global gold-standard investment-profession qualification.</dd>
+    <dt>CFA Institute</dt><dd>The international body that awards the charter and sets its curriculum and ethics standards.</dd>
+    <dt>Level I / II / III</dt><dd>The three sequential CFA exams, rising from concepts to valuation to portfolio management.</dd>
+    <dt>Item set / vignette</dt><dd>The case-based question format used in Levels II and III.</dd>
+    <dt>Code of Ethics</dt><dd>The CFA Institute's professional-conduct standards, central to every level.</dd>
+    <dt>Charterholder</dt><dd>Someone who has earned the CFA charter (exams + experience).</dd>
+    <dt>Topic weight</dt><dd>The approximate share of the exam devoted to each subject area.</dd>
+    <dt>Equity research</dt><dd>Professional analysis of stocks to value them and recommend action (M12).</dd>
+    <dt>Portfolio manager</dt><dd>A professional who constructs and manages investment portfolios (M13).</dd>
+    <dt>CA vs CFA vs MBA</dt><dd>Accounting/India · investments/global · management/broad — different tools for different goals.</dd>
+  </dl>
+
+</div></section>
+
+<footer class="foot"><div class="wrap">
+  <div class="nextcard">
+    <div class="u">Up next · Module 22 — closing Part VI</div>
+    <h3>Other Credentials &amp; the Career Map</h3>
+    <p>Beyond the CA and CFA: the FRM (risk), CFP (financial planning), CAIA (alternatives), and the MBA — what each is for, and a full map of how finance careers and qualifications fit together, so you can decode anyone's title instantly.</p>
+    <div class="call">&gt; <span>say:</span> "next" to continue the run.</div>
+  </div>
+  <div class="endsig">— End of Module 21 · The CFA Path —</div>
+</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:20px;font-family:var(--mono);font-size:12px;letter-spacing:.04em;"><a href="M20_the_ca_path.html" style="color:var(--gold);text-decoration:none;">&larr; Prev · M20</a><a href="index.html" style="color:var(--ink-mute);text-decoration:none;">&#8962; Home</a><a href="M22_other_credentials_career_map.html" style="color:var(--gold);text-decoration:none;">Next · M22 &rarr;</a></div>
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const upd=()=>{const h=document.documentElement;const sc=h.scrollTop||document.body.scrollTop;
+    const max=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(sc/max*100)+'%';};
+  document.addEventListener('scroll',upd,{passive:true});upd();
+
+  const topics=[
+    {n:"Ethics & Standards",w:18,mods:"M19",d:"Professional conduct, fiduciary duty, market integrity — the most heavily weighted Level I topic, and exactly the ethics & regulation you studied in M19."},
+    {n:"Financial Reporting",w:13,mods:"M03 · M04",d:"Reading and analysing financial statements — the double-entry accounting of M03 and the ratio/quality analysis of M04."},
+    {n:"Equity Investments",w:12,mods:"M08 · M12",d:"Valuing shares and analysing companies — the equity valuation of M08 and the investment-analysis craft of M12."},
+    {n:"Fixed Income",w:12,mods:"M09",d:"Bonds, yields, duration, and credit — the entire fixed-income world you built in M09."},
+    {n:"Portfolio Mgmt",w:10,mods:"M13 · M14 · M16",d:"Diversification, the efficient frontier, risk management, and investor behaviour — M13, M14, and M16 together."},
+    {n:"Alternatives",w:9,mods:"M11",d:"Real estate, private equity, commodities, and crypto — the alternative asset classes of M11."},
+    {n:"Quant Methods",w:8,mods:"M02 · M18",d:"Time value of money, statistics, and probability — the TVM of M02 and the quantitative methods of M18."},
+    {n:"Economics",w:8,mods:"M05",d:"Micro, macro, and how policy and cycles move markets — the economics for finance of M05."},
+    {n:"Corporate Issuers",w:7,mods:"M06",d:"How firms make capital, financing, and capital-structure decisions — the corporate finance of M06."},
+    {n:"Derivatives",w:6,mods:"M10",d:"Forwards, futures, options, and swaps — the derivatives and payoff logic of M10."}
+  ];
+  const barsEl=document.getElementById('bars'),detail=document.getElementById('detail'),coveredEl=document.getElementById('covered');
+  const maxW=Math.max(...topics.map(t=>t.w));
+  topics.forEach((t,i)=>{
+    const row=document.createElement('div'); row.className='brow'; row.dataset.i=i;
+    row.innerHTML='<div class="blabel">'+t.n+'</div>'+
+      '<div class="btrack"><div class="bfill" style="width:'+(t.w/maxW*100)+'%"></div></div>'+
+      '<div class="bpct">'+t.w+'%</div>';
+    row.addEventListener('click',()=>{
+      document.querySelectorAll('.brow').forEach(r=>r.classList.remove('sel'));
+      row.classList.add('sel');
+      detail.innerHTML='<div class="dt">'+t.n+' · ~'+t.w+'% of Level I</div>'+
+        '<div class="dmods">✓ covered in '+t.mods+'</div>'+
+        '<div class="db">'+t.d+'</div>';
+    });
+    barsEl.appendChild(row);
+  });
+  coveredEl.textContent='All 10 topics ✓ already covered across M01–M19';
+</script>
+</body>
+</html>

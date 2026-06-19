@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M02 · Time Value of Money</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --base:#0E1116; --surface:#161B22; --raised:#1C232C;
+    --hair:#2A323D; --hair-soft:#222932;
+    --ink:#E8EFF5; --ink-mute:#9AA7B4; --ink-faint:#5E6B78;
+    --gold:#D4A24E; --gold-soft:#3a3017;
+    --gain:#3FB950; --loss:#F0625A; --blue:#5AA6E0;
+    --display:"Fraunces",Georgia,serif;
+    --body:"Inter",system-ui,sans-serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--base);color:var(--ink);font-family:var(--body);
+    font-size:17px;line-height:1.72;-webkit-font-smoothing:antialiased;
+    background-image:
+      radial-gradient(900px 480px at 88% -8%, rgba(212,162,78,0.05), transparent 60%),
+      radial-gradient(700px 420px at -5% 3%, rgba(90,166,224,0.035), transparent 55%);
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:0 26px;}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;background:var(--gold);z-index:99;
+    box-shadow:0 0 10px rgba(212,162,78,0.6);transition:width .1s linear;}
+
+  .topbar{border-bottom:1px solid var(--hair);background:rgba(14,17,22,0.88);
+    backdrop-filter:blur(8px);position:sticky;top:0;z-index:50;}
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:46px;
+    max-width:980px;font-family:var(--mono);font-size:11px;letter-spacing:0.08em;
+    color:var(--ink-mute);text-transform:uppercase;}
+  .topbar .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--gain);
+    margin-right:8px;box-shadow:0 0 8px var(--gain);}
+
+  .hero{padding:72px 0 40px;border-bottom:1px solid var(--hair-soft);}
+  .hero .wrap{max-width:820px;}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:0.2em;text-transform:uppercase;
+    color:var(--gold);display:flex;align-items:center;gap:13px;margin-bottom:24px;}
+  .kicker::before{content:"";height:1px;width:38px;background:var(--gold);opacity:0.6;}
+  .hero h1{font-family:var(--display);font-weight:600;font-size:clamp(2.3rem,5.5vw,3.5rem);
+    line-height:1.05;letter-spacing:-0.02em;margin-bottom:22px;}
+  .hero h1 em{font-style:italic;color:var(--gold);font-weight:500;}
+  .hero .stand{font-size:1.12rem;color:var(--ink-mute);max-width:60ch;}
+  .metarow{display:flex;flex-wrap:wrap;gap:22px;margin-top:30px;font-family:var(--mono);
+    font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-faint);}
+  .metarow b{color:var(--ink-mute);font-weight:500;}
+
+  .toc{background:var(--surface);border:1px solid var(--hair);border-radius:12px;
+    padding:24px 26px;margin:44px 0 8px;}
+  .toc h2{font-family:var(--mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;
+    color:var(--ink-faint);margin-bottom:16px;font-weight:500;}
+  .toc ol{list-style:none;counter-reset:t;}
+  .toc li{counter-increment:t;padding:7px 0;border-bottom:1px solid var(--hair-soft);}
+  .toc li:last-child{border-bottom:none;}
+  .toc a{color:var(--ink);text-decoration:none;display:flex;gap:14px;align-items:baseline;transition:color .15s;}
+  .toc a:hover{color:var(--gold);}
+  .toc a::before{content:counter(t,decimal-leading-zero);font-family:var(--mono);font-size:12px;color:var(--gold);min-width:26px;}
+
+  section.lesson{padding:30px 0;}
+  .lesson .wrap{max-width:720px;}
+  h2.sec{font-family:var(--display);font-weight:600;font-size:1.85rem;letter-spacing:-0.015em;
+    margin:54px 0 8px;line-height:1.15;scroll-margin-top:70px;}
+  .sec-no{font-family:var(--mono);font-size:12px;letter-spacing:0.16em;color:var(--gold);
+    text-transform:uppercase;display:block;margin-bottom:10px;}
+  h3.sub{font-family:var(--display);font-weight:600;font-size:1.28rem;margin:38px 0 6px;
+    letter-spacing:-0.01em;color:var(--ink);}
+  p{margin:16px 0;color:#D5DEE6;}
+  p strong{color:var(--ink);font-weight:600;}
+  em.term{font-style:normal;color:var(--gold);font-weight:500;}
+
+  ul.clean{margin:18px 0;padding-left:0;list-style:none;}
+  ul.clean li{position:relative;padding-left:26px;margin:11px 0;color:#D5DEE6;}
+  ul.clean li::before{content:"";position:absolute;left:6px;top:12px;width:6px;height:6px;background:var(--gold);border-radius:50%;}
+  ul.clean li b{color:var(--ink);font-weight:600;}
+
+  .box{border-radius:0 10px 10px 0;padding:18px 22px;margin:26px 0;font-size:0.98rem;
+    background:var(--surface);border:1px solid var(--hair);border-left-width:3px;}
+  .box .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;
+    margin-bottom:9px;display:flex;align-items:center;gap:8px;font-weight:500;}
+  .box p{margin:8px 0;color:#CBD5DE;}.box p:first-of-type{margin-top:0;}
+  .box.eng{border-left-color:var(--blue);}.box.eng .tag{color:var(--blue);}
+  .box.ex{border-left-color:var(--gold);}.box.ex .tag{color:var(--gold);}
+  .box.india{border-left-color:var(--gain);}.box.india .tag{color:var(--gain);}
+  .box.key{border-left-color:var(--gold);background:rgba(212,162,78,0.06);}.box.key .tag{color:var(--gold);}
+  .box.warn{border-left-color:var(--loss);}.box.warn .tag{color:var(--loss);}
+  .box code{font-family:var(--mono);font-size:0.86em;background:rgba(255,255,255,0.05);padding:2px 6px;border-radius:4px;color:var(--gold);}
+
+  /* formula */
+  .formula{background:var(--raised);border:1px solid var(--hair);border-radius:10px;
+    padding:22px 20px;margin:26px 0;text-align:center;}
+  .formula .eq{font-family:var(--mono);font-size:1.15rem;color:var(--ink);letter-spacing:0.01em;display:block;}
+  .formula .eq b{color:var(--gold);font-weight:700;}
+  .formula .eq sup{font-size:0.7em;}
+  .formula .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;
+    color:var(--ink-faint);margin-top:12px;display:block;}
+  .where{font-family:var(--mono);font-size:12px;color:var(--ink-mute);margin:10px 0 0;line-height:1.9;}
+  .where b{color:var(--gold);}
+
+  figure{margin:34px 0;background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:26px 22px 18px;}
+  figure svg{width:100%;height:auto;display:block;}
+  figcaption{font-family:var(--mono);font-size:11px;letter-spacing:0.05em;color:var(--ink-faint);text-align:center;margin-top:16px;}
+
+  /* interactive playground */
+  .play{background:var(--surface);border:1px solid var(--gold-soft);border-radius:14px;
+    padding:24px 24px 20px;margin:32px 0;}
+  .play .ptitle{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
+    color:var(--gold);margin-bottom:18px;display:flex;align-items:center;gap:8px;}
+  .ctrl{margin:14px 0;}
+  .ctrl label{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;
+    color:var(--ink-mute);margin-bottom:7px;}
+  .ctrl label b{color:var(--gold);font-weight:700;}
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:4px;border-radius:3px;
+    background:var(--hair);outline:none;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;
+    background:var(--gold);cursor:pointer;box-shadow:0 0 0 4px rgba(212,162,78,0.15);}
+  input[type=range]::-moz-range-thumb{width:16px;height:16px;border:none;border-radius:50%;background:var(--gold);cursor:pointer;}
+  .readout{display:flex;flex-wrap:wrap;gap:14px;margin:18px 0 6px;}
+  .ro{flex:1 1 30%;min-width:120px;background:var(--raised);border:1px solid var(--hair);border-radius:9px;padding:13px 15px;}
+  .ro .v{font-family:var(--display);font-size:1.4rem;font-weight:600;color:var(--ink);line-height:1.1;}
+  .ro .v.cmp{color:var(--gold);} .ro .v.sim{color:var(--blue);}
+  .ro .k{font-family:var(--mono);font-size:9.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-faint);margin-top:6px;}
+  .chartbox{margin-top:8px;}
+  .legend{display:flex;gap:18px;font-family:var(--mono);font-size:10.5px;color:var(--ink-mute);margin-top:6px;justify-content:center;}
+  .legend i{display:inline-block;width:14px;height:3px;border-radius:2px;margin-right:6px;vertical-align:middle;}
+
+  .takeaways{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:28px;margin:30px 0;}
+  .takeaways h3{font-family:var(--display);font-size:1.3rem;margin-bottom:14px;color:var(--ink);}
+  .takeaways ol{counter-reset:k;list-style:none;}
+  .takeaways li{counter-increment:k;position:relative;padding:11px 0 11px 40px;border-bottom:1px solid var(--hair-soft);color:#D5DEE6;font-size:0.97rem;}
+  .takeaways li:last-child{border-bottom:none;}
+  .takeaways li::before{content:counter(k,decimal-leading-zero);position:absolute;left:0;top:11px;font-family:var(--mono);font-size:12px;color:var(--gold);}
+
+  .gloss{margin:24px 0;}
+  .gloss dt{font-family:var(--mono);font-size:13px;color:var(--gold);font-weight:700;margin-top:18px;}
+  .gloss dd{margin:5px 0 0;color:#CBD5DE;font-size:0.96rem;}
+
+  .quiz{margin:18px 0;border:1px solid var(--hair);border-radius:10px;overflow:hidden;background:var(--surface);}
+  .quiz summary{padding:15px 20px;cursor:pointer;font-weight:500;color:var(--ink);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;}
+  .quiz summary::-webkit-details-marker{display:none;}
+  .quiz summary .q{font-family:var(--mono);font-size:11px;color:var(--gold);}
+  .quiz summary::after{content:"+";font-family:var(--mono);color:var(--ink-faint);font-size:18px;}
+  .quiz[open] summary::after{content:"–";}
+  .quiz .ans{padding:0 20px 17px;color:#CBD5DE;font-size:0.95rem;border-top:1px solid var(--hair-soft);padding-top:14px;}
+
+  .foot{border-top:1px solid var(--hair);margin-top:60px;padding:46px 0 80px;}
+  .nextcard{background:var(--surface);border:1px solid var(--hair);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:22px 24px;}
+  .nextcard .u{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:10px;}
+  .nextcard h3{font-family:var(--display);font-size:1.4rem;color:var(--ink);margin-bottom:8px;}
+  .nextcard p{color:var(--ink-mute);font-size:0.96rem;margin:0;}
+  .nextcard .call{margin-top:16px;font-family:var(--mono);font-size:12.5px;color:var(--ink);}
+  .nextcard .call span{color:var(--gold);}
+  .endsig{font-family:var(--mono);font-size:10.5px;letter-spacing:0.1em;color:var(--ink-faint);text-transform:uppercase;text-align:center;margin-top:40px;}
+
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}#bar{transition:none;}}
+  @media (max-width:560px){body{font-size:16px;}h2.sec{font-size:1.55rem;}.formula .eq{font-size:1rem;}}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+
+<div class="topbar">
+  <div class="wrap">
+    <div><a href="index.html" style="color:var(--gold);text-decoration:none;margin-right:14px;">&larr; Home</a><span class="dot"></span>MODULE 02 / 24</div>
+    <div>PART I · FOUNDATIONS</div>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">M02 · The Master Tool</div>
+    <h1>Time value<br>of <em>money</em>.</h1>
+    <p class="stand">A rupee today is worth more than a rupee tomorrow — and finance gives us the exact math to say <em>how much</em> more. Master this one idea and you can value anything: a stock, a bond, a loan, a business, a lottery win. Everything downstream is built on it.</p>
+    <div class="metarow">
+      <span><b>Depth</b> ◐◐○○ Core</span>
+      <span><b>Read</b> ~28 min</span>
+      <span><b>Builds on</b> M01 (interest, inflation)</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <nav class="toc">
+    <h2>What we'll cover</h2>
+    <ol>
+      <li><a href="#s1">Why a rupee today beats a rupee tomorrow</a></li>
+      <li><a href="#s2">Future value &amp; the miracle of compounding</a></li>
+      <li><a href="#s3">Present value &amp; discounting (the workhorse)</a></li>
+      <li><a href="#s4">The discount rate — the most important number</a></li>
+      <li><a href="#s5">Compounding frequency: APR vs APY</a></li>
+      <li><a href="#s6">Annuities — streams of equal payments</a></li>
+      <li><a href="#s7">Perpetuities — money forever</a></li>
+      <li><a href="#s8">Net Present Value — the master decision rule</a></li>
+    </ol>
+  </nav>
+</div>
+
+<section class="lesson">
+<div class="wrap">
+
+  <h2 class="sec" id="s1"><span class="sec-no">Section 01</span>Why a rupee today beats a rupee tomorrow</h2>
+  <p>Offer someone ₹1,000 now or ₹1,000 in a year, and everyone picks now. That instinct is correct, and finance turns it into precise math. There are <strong>three reasons</strong> money has a time value, and you already met all of them in M01:</p>
+  <ul class="clean">
+    <li><b>Opportunity</b> — ₹1,000 today can be invested and grow. Wait a year and you've lost a year of earning. The rupee now is a working rupee.</li>
+    <li><b>Inflation</b> — prices rise, so ₹1,000 next year buys less than ₹1,000 today. The future rupee is a weaker rupee.</li>
+    <li><b>Risk &amp; uncertainty</b> — a promise of future money might not be kept. A rupee in hand is certain; a rupee promised is not.</li>
+  </ul>
+  <p>So money has a <em class="term">time value</em>: the same number means different real worth at different moments. To compare amounts across time, we need a way to <strong>move money forward and backward through time</strong> — and the engine that does it is compounding (forward) and discounting (backward). That's this whole module.</p>
+
+  <div class="box key">
+    <div class="tag">★ Why this is THE foundation</div>
+    <p>Here is the secret that makes finance learnable: <strong>the value of any asset is the present value of all the cash it will generate in the future.</strong> A stock, a bond, a rental flat, an entire company — all of them are just future cash flows, pulled back to today. Once you can do that arithmetic, valuation stops being magic. Every module from M06 onward leans on what you learn here.</p>
+  </div>
+
+  <h2 class="sec" id="s2"><span class="sec-no">Section 02</span>Future value &amp; the miracle of compounding</h2>
+  <p><em class="term">Future value (FV)</em> answers: if I invest money today at some rate, what will it be worth later? The mechanism is <strong>compounding</strong> — earning returns on your returns. After year one you earn interest on the principal; after year two you earn interest on the principal <em>plus</em> last year's interest, and so on. It snowballs.</p>
+
+  <div class="formula">
+    <span class="eq"><b>FV</b> = PV × (1 + r)<sup>n</sup></span>
+    <span class="lbl">future value</span>
+    <p class="where"><b>PV</b> = amount today &nbsp;·&nbsp; <b>r</b> = rate per period &nbsp;·&nbsp; <b>n</b> = number of periods</p>
+  </div>
+
+  <p>That little exponent <code>n</code> is where the magic lives. Compare it to <strong>simple interest</strong> (FV = PV × (1 + r×n)), where you only ever earn on the original principal — a straight line. Compounding is exponential, and over long horizons the gap becomes staggering.</p>
+
+  <div class="box ex">
+    <div class="tag">▸ Worked example — the staggering gap</div>
+    <p>Invest <code>₹10,000</code> at <code>8%</code> for <code>30 years</code>.</p>
+    <p><b>Simple interest:</b> 10,000 × (1 + 0.08×30) = 10,000 × 3.4 = <code>₹34,000</code>.</p>
+    <p><b>Compound interest:</b> 10,000 × (1.08)<sup>30</sup> = 10,000 × 10.06 = <code>₹1,00,627</code>.</p>
+    <p>Same rate, same money, same time. Compounding produces nearly <strong>three times</strong> as much. The difference is entirely "interest on interest." This is why Einstein supposedly called compounding the eighth wonder of the world — and why starting early matters more than almost anything else in personal finance.</p>
+  </div>
+
+  <div class="box eng">
+    <div class="tag">⌘ Engineer's note</div>
+    <p>Compounding is just exponential growth — the same <code>(1+r)<sup>n</sup></code> you'd recognize from population models or Moore's law. Mentally: <code>balance = balance * (1 + r)</code> run in a loop, n times. Simple interest is linear; compound is geometric. The "miracle" is nothing mystical — it's the difference between O(n) and exponential, applied to your savings account.</p>
+  </div>
+
+  <h3 class="sub">A shortcut worth memorizing: the Rule of 72</h3>
+  <p>Want to know how fast money doubles? Divide 72 by the rate. At 8%, money doubles in about <code>72 ÷ 8 = 9 years</code>. At 12%, about 6 years. It's an approximation, but it's accurate enough to do in your head and it builds real intuition for what a rate <em>means</em> over time.</p>
+
+  <div class="play" id="play">
+    <div class="ptitle">▶ Interactive · Compounding playground — drag the sliders</div>
+    <div class="ctrl">
+      <label>Amount invested today <b><span id="pVal">₹10,000</span></b></label>
+      <input type="range" id="p" min="1000" max="100000" step="1000" value="10000">
+    </div>
+    <div class="ctrl">
+      <label>Annual return <b><span id="rVal">8%</span></b></label>
+      <input type="range" id="r" min="1" max="20" step="0.5" value="8">
+    </div>
+    <div class="ctrl">
+      <label>Years <b><span id="nVal">30</span></b></label>
+      <input type="range" id="n" min="1" max="40" step="1" value="30">
+    </div>
+    <div class="readout">
+      <div class="ro"><div class="v cmp" id="outCmp">₹1,00,627</div><div class="k">Compound FV</div></div>
+      <div class="ro"><div class="v sim" id="outSim">₹34,000</div><div class="k">Simple FV</div></div>
+      <div class="ro"><div class="v" id="outDiff">₹66,627</div><div class="k">Compounding bonus</div></div>
+    </div>
+    <div class="chartbox">
+      <svg id="chart" viewBox="0 0 600 240" xmlns="http://www.w3.org/2000/svg" aria-label="Growth chart"></svg>
+      <div class="legend">
+        <span><i style="background:#D4A24E"></i>Compound</span>
+        <span><i style="background:#5AA6E0"></i>Simple</span>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="sec" id="s3"><span class="sec-no">Section 03</span>Present value &amp; discounting</h2>
+  <p>Now run the machine <strong>backwards</strong>. If future value asks "what will today's money become?", <em class="term">present value (PV)</em> asks the far more useful question: <strong>"what is future money worth today?"</strong> This single skill — pulling future cash back to the present — is the workhorse of all valuation.</p>
+
+  <p>It's just the FV formula rearranged. Instead of multiplying by <code>(1+r)<sup>n</sup></code>, you divide by it. That division is called <em class="term">discounting</em>, and <code>r</code> in this direction is the <em class="term">discount rate</em>.</p>
+
+  <div class="formula">
+    <span class="eq"><b>PV</b> = FV ÷ (1 + r)<sup>n</sup></span>
+    <span class="lbl">present value · "discounting"</span>
+  </div>
+
+  <div class="box ex">
+    <div class="tag">▸ Worked example — what's a future promise worth now?</div>
+    <p>Someone will pay you <code>₹10,00,000</code> in <code>20 years</code>. If you could otherwise earn <code>8%</code>, what's that promise worth to you <em>today</em>?</p>
+    <p>PV = 10,00,000 ÷ (1.08)<sup>20</sup> = 10,00,000 ÷ 4.66 = <strong>₹2,14,548</strong>.</p>
+    <p>So you should be indifferent between ₹2.14 lakh now and ₹10 lakh in 20 years — because ₹2.14 lakh invested at 8% <em>becomes</em> ₹10 lakh in 20 years. They're the same value, just at different times. That's the whole trick: <strong>time-travel for money.</strong></p>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 700 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Timeline showing future cash flows discounted back to present value">
+      <line x1="40" y1="160" x2="660" y2="160" stroke="#3A434F" stroke-width="1.5"/>
+      <!-- year markers -->
+      <g font-family="JetBrains Mono,monospace" font-size="11" fill="#5E6B78" text-anchor="middle">
+        <line x1="60" y1="155" x2="60" y2="165" stroke="#3A434F"/><text x="60" y="185">today</text>
+        <line x1="210" y1="155" x2="210" y2="165" stroke="#3A434F"/><text x="210" y="185">yr 1</text>
+        <line x1="360" y1="155" x2="360" y2="165" stroke="#3A434F"/><text x="360" y="185">yr 2</text>
+        <line x1="510" y1="155" x2="510" y2="165" stroke="#3A434F"/><text x="510" y="185">yr 3</text>
+      </g>
+      <!-- future cashflows -->
+      <g font-family="Inter,sans-serif" font-size="12" text-anchor="middle">
+        <rect x="178" y="95" width="64" height="34" rx="6" fill="#1C232C" stroke="#D4A24E"/><text x="210" y="116" fill="#E8EFF5">₹1000</text>
+        <rect x="328" y="95" width="64" height="34" rx="6" fill="#1C232C" stroke="#D4A24E"/><text x="360" y="116" fill="#E8EFF5">₹1000</text>
+        <rect x="478" y="95" width="64" height="34" rx="6" fill="#1C232C" stroke="#D4A24E"/><text x="510" y="116" fill="#E8EFF5">₹1000</text>
+      </g>
+      <!-- discount arrows back to PV -->
+      <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#5AA6E0"/></marker></defs>
+      <path d="M205,100 C150,70 100,80 78,118" stroke="#5AA6E0" stroke-width="1.4" fill="none" stroke-dasharray="4 3" marker-end="url(#a)"/>
+      <path d="M355,100 C250,55 110,70 80,116" stroke="#5AA6E0" stroke-width="1.4" fill="none" stroke-dasharray="4 3" marker-end="url(#a)"/>
+      <path d="M505,100 C340,40 110,62 82,114" stroke="#5AA6E0" stroke-width="1.4" fill="none" stroke-dasharray="4 3" marker-end="url(#a)"/>
+      <!-- PV box -->
+      <rect x="22" y="112" width="74" height="40" rx="7" fill="#161B22" stroke="#3FB950" stroke-width="1.5"/>
+      <text x="59" y="130" text-anchor="middle" fill="#3FB950" font-family="JetBrains Mono,monospace" font-size="10">PV</text>
+      <text x="59" y="145" text-anchor="middle" fill="#E8EFF5" font-family="Inter,sans-serif" font-size="11">₹2723</text>
+      <text x="350" y="30" text-anchor="middle" fill="#9AA7B4" font-family="Inter,sans-serif" font-size="13">Each future ₹1000 is discounted back — the further away, the less it's worth today</text>
+    </svg>
+    <figcaption>Discounting: distant cash flows shrink as they're pulled to the present (here at ~10%).</figcaption>
+  </figure>
+
+  <p>The crucial intuition from that picture: <strong>the further in the future a cash flow is, the less it's worth today.</strong> A rupee in year 30 is worth far less than a rupee next year. This is why long-dated promises (and far-off profits) get heavily discounted, and it explains a lot of market behaviour you'll see later.</p>
+
+  <h2 class="sec" id="s4"><span class="sec-no">Section 04</span>The discount rate — the most important number</h2>
+  <p>Notice that everything hinges on <code>r</code>. Change the discount rate and the value of every future cash flow changes. So what <em>is</em> the discount rate, really? It's the <strong>return you require to part with your money</strong> — your opportunity cost of capital. And it's built from the same three ingredients as any interest rate (M01):</p>
+  <div class="formula">
+    <span class="eq">r ≈ <span style="color:#9AA7B4">risk-free rate</span> + <span style="color:#9AA7B4">inflation comp.</span> + <span style="color:#F0625A">risk premium</span></span>
+    <span class="lbl">what goes into a discount rate</span>
+  </div>
+  <p>The riskier or more uncertain the future cash, the higher the rate you demand, and the more you discount it. This is the hinge between this module and all of investing: <strong>two analysts can look at the identical company and disagree on its value purely because they used different discount rates.</strong></p>
+
+  <div class="box warn">
+    <div class="tag">⚠ The relationship to burn in</div>
+    <p><strong>Higher discount rate → lower present value.</strong> They move in opposite directions, always. This is why, when central banks raise interest rates (M01's master lever), stock and bond prices tend to <em>fall</em> — a higher rate discounts all those future cash flows more heavily, so they're worth less today. You now understand one of the deepest links in all of finance. Keep it close.</p>
+  </div>
+
+  <h2 class="sec" id="s5"><span class="sec-no">Section 05</span>Compounding frequency: APR vs APY</h2>
+  <p>So far we've compounded once a year. But interest often compounds more often — monthly, daily, even continuously. The more frequently it compounds, the more you earn, because your interest starts earning interest sooner. This creates a trap you must learn to see through.</p>
+  <ul class="clean">
+    <li><b>APR (nominal rate)</b> — the stated annual rate, ignoring within-year compounding. The number on the advertisement.</li>
+    <li><b>APY / EAR (effective rate)</b> — the <em>true</em> annual rate after accounting for compounding frequency. The number that actually hits your account.</li>
+  </ul>
+  <div class="formula">
+    <span class="eq"><b>EAR</b> = (1 + r/m)<sup>m</sup> − 1</span>
+    <span class="lbl">effective annual rate · m = compounding periods/year</span>
+  </div>
+
+  <div class="box ex">
+    <div class="tag">▸ Worked example — the credit-card trap</div>
+    <p>A card quotes <code>12% APR</code>, but compounds <strong>monthly</strong>. The real annual rate is:</p>
+    <p>EAR = (1 + 0.12/12)<sup>12</sup> − 1 = (1.01)<sup>12</sup> − 1 = <strong>12.68%</strong>.</p>
+    <p>You're actually paying 12.68%, not 12%. Lenders advertise the APR; you should always compute the EAR. The more often something compounds <em>against</em> you (debt) the worse the trap — and the more often it compounds <em>for</em> you (investments) the better.</p>
+  </div>
+
+  <div class="box india">
+    <div class="tag">🇮🇳 India lens</div>
+    <p>This is why bank FDs advertise both a "rate" and an "annualised yield" — the yield is the EAR after quarterly compounding. And it's the legal reason loan ads must disclose the APR. When you compare two FDs or two loans, <strong>compare effective rates, never the headline number</strong>, especially if their compounding frequencies differ.</p>
+  </div>
+
+  <h2 class="sec" id="s6"><span class="sec-no">Section 06</span>Annuities — streams of equal payments</h2>
+  <p>Real life rarely involves one lump sum. It involves <strong>streams</strong> — a salary every month, an EMI every month, a SIP every month, a pension every year. An <em class="term">annuity</em> is a series of equal payments at regular intervals. Rather than discounting each payment one by one, there's a clean formula:</p>
+  <div class="formula">
+    <span class="eq"><b>PV</b> = C × [ 1 − (1 + r)<sup>−n</sup> ] ÷ r</span>
+    <span class="lbl">present value of an annuity · C = payment per period</span>
+  </div>
+  <div class="formula">
+    <span class="eq"><b>FV</b> = C × [ (1 + r)<sup>n</sup> − 1 ] ÷ r</span>
+    <span class="lbl">future value of an annuity (e.g. a SIP)</span>
+  </div>
+  <p>You don't need to memorize these to understand finance — any calculator or spreadsheet does them (<code>PV()</code>, <code>FV()</code>, <code>PMT()</code> in Excel). What you need is to recognize the <em>shape</em>: whenever you see "equal payments over time," it's an annuity, and it has a present value and a future value.</p>
+
+  <div class="box ex">
+    <div class="tag">▸ Worked example — the SIP that builds a fortune</div>
+    <p>You invest <code>₹5,000/month</code> for <code>20 years</code> (240 months) at a 12% annual return (1% per month). Future value of the annuity:</p>
+    <p>FV = 5,000 × [(1.01)<sup>240</sup> − 1] ÷ 0.01 ≈ 5,000 × 989 = <strong>₹49.5 lakh</strong>.</p>
+    <p>You put in only <code>₹12 lakh</code> (5,000 × 240). The other <strong>~₹37.5 lakh is pure compounding.</strong> This single calculation is the entire case for disciplined, early, regular investing — and it's why the SIP is the most quietly powerful tool a regular Indian investor has.</p>
+  </div>
+
+  <div class="box eng">
+    <div class="tag">⌘ Engineer's note</div>
+    <p>An annuity formula is just the closed-form sum of a geometric series — the same collapse from a <code>for</code>-loop of discounted terms into one expression. EMIs work identically in reverse: the bank solves the annuity PV equation for <code>C</code> given the loan amount, rate, and tenure. Your home-loan EMI is literally <code>PMT(rate, n, principal)</code>.</p>
+  </div>
+
+  <h2 class="sec" id="s7"><span class="sec-no">Section 07</span>Perpetuities — money forever</h2>
+  <p>Push an annuity to its limit: payments that continue <strong>forever</strong>. That's a <em class="term">perpetuity</em>. It sounds like it should be worth infinity, but it isn't — because those far-future payments are discounted so heavily they add almost nothing. The math collapses to something beautifully simple:</p>
+  <div class="formula">
+    <span class="eq"><b>PV</b> = C ÷ r</span>
+    <span class="lbl">present value of a perpetuity</span>
+  </div>
+  <p>₹1,000 every year forever, discounted at 5%, is worth just <code>1,000 ÷ 0.05 = ₹20,000</code> today. That's it. And if the payments <em>grow</em> at a steady rate <code>g</code>, you get the <strong>growing perpetuity</strong>: <code>PV = C ÷ (r − g)</code>.</p>
+  <div class="box key">
+    <div class="tag">★ Why you'll see this again</div>
+    <p>That growing-perpetuity formula is the seed of the <strong>Gordon Growth Model</strong> used to value stocks (M08), where C is next year's dividend, r is the required return, and g is the dividend growth rate. A huge chunk of equity valuation is just this one line dressed up. You're already holding the key to it.</p>
+  </div>
+
+  <h2 class="sec" id="s8"><span class="sec-no">Section 08</span>Net Present Value — the master decision rule</h2>
+  <p>Here's where it all pays off. Suppose an investment costs money now and returns cash over several future years. How do you decide if it's worth it? You <strong>discount every future cash flow back to today, add them up, and subtract what you paid.</strong> That's <em class="term">Net Present Value (NPV)</em>:</p>
+  <div class="formula">
+    <span class="eq"><b>NPV</b> = Σ [ CF<sub>t</sub> ÷ (1 + r)<sup>t</sup> ] − initial cost</span>
+    <span class="lbl">net present value</span>
+  </div>
+  <p>The rule is simple and absolute: <strong>if NPV &gt; 0, the investment creates value</strong> (it returns more, in today's money, than it costs). If NPV &lt; 0, it destroys value. This single rule is how companies decide whether to build factories, how investors decide whether a deal is good, and how you can decide whether any financial choice makes sense.</p>
+  <p>We'll use NPV properly in M06 (Corporate Finance), but recognize what just happened: with present value, the discount rate, and a sum, you now have a <strong>universal yardstick for comparing any set of cash flows across time.</strong> That is the entire reason this module sits at the base of the curriculum.</p>
+
+  <div class="takeaways">
+    <h3>The eight things to carry forward</h3>
+    <ol>
+      <li>Money has a <b>time value</b> — driven by opportunity, inflation, and risk.</li>
+      <li><b>Compounding</b> (FV = PV(1+r)<sup>n</sup>) is exponential and dwarfs simple interest over time.</li>
+      <li><b>Discounting</b> (PV = FV/(1+r)<sup>n</sup>) pulls future money to today — the core valuation skill.</li>
+      <li>An asset's value = the <b>present value of its future cash flows.</b></li>
+      <li>The <b>discount rate</b> is opportunity cost; higher rate → lower present value, always.</li>
+      <li>Always compare <b>effective (EAR/APY)</b> rates, not headline APR.</li>
+      <li><b>Annuities</b> (equal streams: EMIs, SIPs) and <b>perpetuities</b> (C/r) have clean formulas.</li>
+      <li><b>NPV &gt; 0</b> means an investment creates value — the master decision rule.</li>
+    </ol>
+  </div>
+
+  <h3 class="sub">Check yourself</h3>
+  <details class="quiz">
+    <summary><span><span class="q">Q1 ·</span> Why is ₹10 lakh in 20 years worth only ~₹2 lakh today (at 8%)?</span></summary>
+    <div class="ans">Because of <b>discounting</b>. That ₹2 lakh, invested at 8%, would itself <em>grow into</em> ₹10 lakh over 20 years — so they're equivalent. The further away a cash flow, the more heavily it's divided by (1+r)<sup>n</sup>, so the less it's worth now.</div>
+  </details>
+  <details class="quiz">
+    <summary><span><span class="q">Q2 ·</span> A card says 24% APR, compounded monthly. Roughly what are you really paying?</span></summary>
+    <div class="ans">EAR = (1 + 0.24/12)<sup>12</sup> − 1 = (1.02)<sup>12</sup> − 1 ≈ <b>26.8%</b>. Monthly compounding pushes the true cost well above the headline 24%. Always compute the effective rate.</div>
+  </details>
+  <details class="quiz">
+    <summary><span><span class="q">Q3 ·</span> The central bank raises interest rates. Why do stock and bond prices tend to fall?</span></summary>
+    <div class="ans">Higher rates mean a <b>higher discount rate</b>. Since an asset's value is the present value of its future cash flows, discounting those cash flows more heavily makes them worth <b>less today</b> — so prices fall. Higher r → lower PV.</div>
+  </details>
+  <details class="quiz">
+    <summary><span><span class="q">Q4 ·</span> In a ₹5,000/month SIP that grows to ₹49.5 lakh over 20 years, where did the money come from?</span></summary>
+    <div class="ans">You contributed only <b>₹12 lakh</b> (5,000 × 240 months). The remaining <b>~₹37.5 lakh is compounding</b> — returns earning returns. This is the entire argument for investing early and regularly.</div>
+  </details>
+
+  <h3 class="sub">Glossary — terms to know cold</h3>
+  <dl class="gloss">
+    <dt>Time value of money</dt><dd>The principle that money available now is worth more than the same amount later.</dd>
+    <dt>Future value (FV)</dt><dd>What an amount today will grow to, via compounding: FV = PV(1+r)<sup>n</sup>.</dd>
+    <dt>Present value (PV)</dt><dd>What a future amount is worth today, via discounting: PV = FV/(1+r)<sup>n</sup>.</dd>
+    <dt>Compounding</dt><dd>Earning returns on previously earned returns; produces exponential growth.</dd>
+    <dt>Discounting</dt><dd>Reversing compounding — converting future cash to its present value.</dd>
+    <dt>Discount rate</dt><dd>The required return used to discount; reflects opportunity cost, inflation, and risk.</dd>
+    <dt>APR vs EAR/APY</dt><dd>APR = stated nominal rate; EAR/APY = true rate after within-year compounding.</dd>
+    <dt>Annuity</dt><dd>A series of equal payments at regular intervals (EMIs, SIPs, pensions).</dd>
+    <dt>Perpetuity</dt><dd>An annuity that pays forever; PV = C/r (or C/(r−g) if growing).</dd>
+    <dt>Net Present Value (NPV)</dt><dd>Sum of discounted future cash flows minus cost; positive means value created.</dd>
+  </dl>
+
+</div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="nextcard">
+      <div class="u">Up next · Module 03</div>
+      <h3>Accounting — The Language of Business</h3>
+      <p>You can now value future cash flows. Next: where those cash flows actually come from. Accounting is how every company reports what it earns, owns, and owes — the three financial statements. Learn to read them and you can read any business on earth.</p>
+      <div class="call">&gt; <span>say:</span> "give me M03" when you're ready to continue.</div>
+    </div>
+    <div class="endsig">— End of Module 02 · Time Value of Money —</div>
+  </div>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:20px;font-family:var(--mono);font-size:12px;letter-spacing:.04em;"><a href="M01_the_financial_world.html" style="color:var(--gold);text-decoration:none;">&larr; Prev · M01</a><a href="index.html" style="color:var(--ink-mute);text-decoration:none;">&#8962; Home</a><a href="M03_accounting.html" style="color:var(--gold);text-decoration:none;">Next · M03 &rarr;</a></div>
+</footer>
+
+<script>
+  // scroll progress
+  const bar=document.getElementById('bar');
+  const upd=()=>{const h=document.documentElement;const sc=h.scrollTop||document.body.scrollTop;
+    const max=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(sc/max*100)+'%';};
+  document.addEventListener('scroll',upd,{passive:true});upd();
+
+  // compounding playground
+  const P=document.getElementById('p'),R=document.getElementById('r'),N=document.getElementById('n');
+  const pVal=document.getElementById('pVal'),rVal=document.getElementById('rVal'),nVal=document.getElementById('nVal');
+  const outCmp=document.getElementById('outCmp'),outSim=document.getElementById('outSim'),outDiff=document.getElementById('outDiff');
+  const chart=document.getElementById('chart');
+  const fmt=v=>'₹'+Math.round(v).toLocaleString('en-IN');
+
+  function draw(){
+    const p=+P.value, r=+R.value/100, n=+N.value;
+    pVal.textContent=fmt(p); rVal.textContent=(+R.value)+'%'; nVal.textContent=n;
+    const cmp=p*Math.pow(1+r,n), sim=p*(1+r*n);
+    outCmp.textContent=fmt(cmp); outSim.textContent=fmt(sim); outDiff.textContent=fmt(cmp-sim);
+
+    // chart
+    const W=600,H=240,pad=10,plotW=W-2*pad,plotH=H-2*pad;
+    const max=cmp; const cPts=[],sPts=[];
+    for(let y=0;y<=n;y++){
+      const x=pad+(y/n)*plotW;
+      const cv=p*Math.pow(1+r,y), sv=p*(1+r*y);
+      cPts.push([x, pad+(1-cv/max)*plotH]);
+      sPts.push([x, pad+(1-sv/max)*plotH]);
+    }
+    const toPath=pts=>pts.map((pt,i)=>(i?'L':'M')+pt[0].toFixed(1)+' '+pt[1].toFixed(1)).join(' ');
+    const area=toPath(cPts)+` L ${(pad+plotW).toFixed(1)} ${(pad+plotH).toFixed(1)} L ${pad} ${(pad+plotH).toFixed(1)} Z`;
+    chart.innerHTML=
+      `<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#D4A24E" stop-opacity="0.28"/>
+        <stop offset="1" stop-color="#D4A24E" stop-opacity="0"/></linearGradient></defs>
+      <line x1="${pad}" y1="${pad+plotH}" x2="${pad+plotW}" y2="${pad+plotH}" stroke="#2A323D"/>
+      <path d="${area}" fill="url(#g)"/>
+      <path d="${toPath(sPts)}" fill="none" stroke="#5AA6E0" stroke-width="2" stroke-dasharray="5 4"/>
+      <path d="${toPath(cPts)}" fill="none" stroke="#D4A24E" stroke-width="2.4"/>`;
+  }
+  [P,R,N].forEach(el=>el.addEventListener('input',draw)); draw();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Finance Mastery — The Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --base:#0E1116;
+    --surface:#161B22;
+    --raised:#1C232C;
+    --hair:#2A323D;
+    --hair-soft:#222932;
+    --ink:#E6EDF3;
+    --ink-mute:#8B98A5;
+    --ink-faint:#5E6B78;
+    --gold:#D4A24E;
+    --gold-soft:#3a3017;
+    --gain:#3FB950;
+    --loss:#F0625A;
+    --display:"Fraunces", Georgia, serif;
+    --body:"Inter", system-ui, sans-serif;
+    --mono:"JetBrains Mono", ui-monospace, monospace;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--base);
+    color:var(--ink);
+    font-family:var(--body);
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    background-image:
+      radial-gradient(900px 500px at 85% -10%, rgba(212,162,78,0.06), transparent 60%),
+      radial-gradient(700px 400px at 0% 5%, rgba(63,185,80,0.035), transparent 55%);
+  }
+
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
+
+  /* ---------- TERMINAL TOP BAR ---------- */
+  .topbar{
+    border-bottom:1px solid var(--hair);
+    background:rgba(14,17,22,0.85);
+    backdrop-filter:blur(8px);
+    position:sticky;top:0;z-index:50;
+  }
+  .topbar .wrap{
+    display:flex;align-items:center;justify-content:space-between;
+    height:46px;font-family:var(--mono);font-size:11px;
+    letter-spacing:0.08em;color:var(--ink-mute);text-transform:uppercase;
+  }
+  .topbar .dot{display:inline-block;width:7px;height:7px;border-radius:50%;
+    background:var(--gain);margin-right:8px;box-shadow:0 0 8px var(--gain);
+    animation:pulse 2.4s ease-in-out infinite;}
+  .topbar .right span{color:var(--gold);}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.35}}
+
+  /* ---------- HERO ---------- */
+  .hero{padding:84px 0 56px;border-bottom:1px solid var(--hair-soft);position:relative;}
+  .eyebrow{
+    font-family:var(--mono);font-size:12px;letter-spacing:0.22em;
+    text-transform:uppercase;color:var(--gold);margin-bottom:26px;
+    display:flex;align-items:center;gap:14px;
+  }
+  .eyebrow::before{content:"";height:1px;width:42px;background:var(--gold);opacity:0.6;}
+  .hero h1{
+    font-family:var(--display);font-weight:600;
+    font-size:clamp(2.6rem,6.5vw,4.6rem);line-height:1.02;
+    letter-spacing:-0.02em;margin-bottom:28px;
+  }
+  .hero h1 em{font-style:italic;color:var(--gold);font-weight:500;}
+  .hero .lede{
+    font-size:1.12rem;color:var(--ink-mute);max-width:60ch;
+  }
+  .hero .lede strong{color:var(--ink);font-weight:500;}
+
+  .stats{
+    display:flex;flex-wrap:wrap;gap:0;margin-top:48px;
+    border:1px solid var(--hair);border-radius:10px;overflow:hidden;
+    background:var(--surface);
+  }
+  .stat{
+    flex:1 1 0;min-width:140px;padding:20px 24px;
+    border-right:1px solid var(--hair);
+  }
+  .stat:last-child{border-right:none;}
+  .stat .num{font-family:var(--display);font-size:2rem;font-weight:600;color:var(--ink);line-height:1;}
+  .stat .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:0.12em;
+    text-transform:uppercase;color:var(--ink-faint);margin-top:8px;}
+
+  /* ---------- TICKER ---------- */
+  .ticker{
+    border-bottom:1px solid var(--hair-soft);overflow:hidden;
+    white-space:nowrap;background:var(--surface);
+  }
+  .ticker-track{
+    display:inline-block;padding:11px 0;
+    font-family:var(--mono);font-size:11.5px;letter-spacing:0.05em;
+    color:var(--ink-mute);animation:scroll 34s linear infinite;
+  }
+  .ticker-track span{margin:0 26px;}
+  .ticker-track b{color:var(--gold);font-weight:500;}
+  .ticker-track i{color:var(--gain);font-style:normal;}
+  @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* ---------- SECTION: HOW IT RUNS ---------- */
+  .runs{padding:64px 0;border-bottom:1px solid var(--hair-soft);}
+  .sec-label{
+    font-family:var(--mono);font-size:12px;letter-spacing:0.2em;
+    text-transform:uppercase;color:var(--ink-faint);margin-bottom:14px;
+  }
+  .runs h2{font-family:var(--display);font-weight:500;font-size:1.9rem;
+    letter-spacing:-0.01em;margin-bottom:34px;}
+  .runs-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;
+    background:var(--hair);border:1px solid var(--hair);border-radius:10px;overflow:hidden;}
+  .run-cell{background:var(--surface);padding:24px 26px;}
+  .run-cell .k{font-family:var(--mono);font-size:11px;letter-spacing:0.1em;
+    color:var(--gold);text-transform:uppercase;margin-bottom:10px;}
+  .run-cell p{font-size:0.96rem;color:var(--ink-mute);}
+  .run-cell p strong{color:var(--ink);font-weight:500;}
+
+  /* ---------- ROADMAP ---------- */
+  .roadmap{padding:70px 0 30px;}
+  .roadmap-head{margin-bottom:8px;}
+  .roadmap-head .sec-label{margin-bottom:18px;}
+  .roadmap-head h2{font-family:var(--display);font-weight:600;
+    font-size:clamp(1.9rem,4vw,2.7rem);letter-spacing:-0.015em;margin-bottom:14px;}
+  .roadmap-head p{color:var(--ink-mute);max-width:64ch;margin-bottom:10px;}
+
+  .part{margin-top:58px;}
+  .part-head{
+    display:flex;align-items:baseline;gap:18px;
+    padding-bottom:16px;margin-bottom:6px;
+    border-bottom:1px solid var(--hair);
+  }
+  .part-num{font-family:var(--mono);font-size:12px;font-weight:700;
+    letter-spacing:0.14em;color:var(--gold);
+    border:1px solid var(--gold-soft);background:rgba(212,162,78,0.07);
+    padding:5px 10px;border-radius:6px;white-space:nowrap;}
+  .part-titles{flex:1;}
+  .part-titles h3{font-family:var(--display);font-weight:600;font-size:1.45rem;
+    letter-spacing:-0.01em;line-height:1.2;}
+  .part-titles .sub{font-family:var(--body);font-size:0.88rem;color:var(--ink-faint);margin-top:3px;}
+
+  .modules{display:flex;flex-direction:column;gap:10px;margin-top:18px;}
+
+  .mod{
+    display:grid;
+    grid-template-columns:64px 1fr auto;
+    gap:0 20px;
+    background:var(--surface);
+    border:1px solid var(--hair);
+    border-radius:11px;
+    padding:20px 22px;
+    transition:border-color .22s ease, transform .22s ease, background .22s ease;
+  }
+  .mod:hover{border-color:rgba(212,162,78,0.55);transform:translateY(-2px);
+    background:var(--raised);}
+  .mod .code{
+    font-family:var(--mono);font-size:13px;font-weight:700;color:var(--gold);
+    letter-spacing:0.02em;padding-top:3px;
+  }
+  .mod .code .arrow{display:block;color:var(--ink-faint);font-size:11px;
+    margin-top:6px;opacity:0;transition:opacity .22s ease;}
+  .mod:hover .code .arrow{opacity:1;}
+  .mod .body h4{font-family:var(--body);font-weight:600;font-size:1.06rem;
+    color:var(--ink);margin-bottom:5px;letter-spacing:-0.01em;}
+  .mod .body .essence{font-size:0.92rem;color:var(--ink-mute);margin-bottom:13px;}
+  .chips{display:flex;flex-wrap:wrap;gap:7px;}
+  .chip{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:0.03em;
+    color:var(--ink-mute);background:rgba(255,255,255,0.025);
+    border:1px solid var(--hair-soft);border-radius:5px;padding:4px 9px;
+  }
+  .mod .meta{display:flex;flex-direction:column;align-items:flex-end;gap:10px;
+    min-width:108px;}
+  .status{
+    font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;
+    padding:5px 11px;border-radius:20px;cursor:pointer;user-select:none;
+    border:1px solid var(--hair);color:var(--ink-faint);background:transparent;
+    transition:all .18s ease;white-space:nowrap;
+  }
+  .status:hover{border-color:var(--ink-mute);color:var(--ink-mute);}
+  .status[data-s="active"]{color:var(--gold);border-color:var(--gold-soft);
+    background:rgba(212,162,78,0.08);}
+  .status[data-s="done"]{color:var(--gain);border-color:rgba(63,185,80,0.3);
+    background:rgba(63,185,80,0.08);}
+  .depth{font-family:var(--mono);font-size:10px;color:var(--ink-faint);
+    letter-spacing:0.06em;display:flex;align-items:center;gap:5px;}
+  .bars{display:inline-flex;gap:2px;}
+  .bars i{width:3px;height:9px;background:var(--hair);border-radius:1px;display:inline-block;}
+  .bars i.on{background:var(--gold);}
+
+  /* ---------- FOOTER ---------- */
+  .foot{margin-top:70px;border-top:1px solid var(--hair);padding:54px 0 80px;}
+  .foot .sec-label{margin-bottom:16px;}
+  .foot h2{font-family:var(--display);font-weight:500;font-size:1.7rem;margin-bottom:16px;
+    letter-spacing:-0.01em;}
+  .foot p{color:var(--ink-mute);max-width:62ch;margin-bottom:14px;}
+  .foot .call{
+    margin-top:24px;font-family:var(--mono);font-size:13px;color:var(--ink);
+    background:var(--surface);border:1px solid var(--hair);border-left:3px solid var(--gold);
+    border-radius:0 8px 8px 0;padding:16px 20px;
+  }
+  .foot .call .c{color:var(--gold);}
+  .foot .sig{margin-top:34px;font-family:var(--mono);font-size:11px;
+    letter-spacing:0.1em;color:var(--ink-faint);text-transform:uppercase;}
+
+  @media (max-width:720px){
+    .runs-grid{grid-template-columns:1fr;}
+    .stat{border-right:none;border-bottom:1px solid var(--hair);}
+    .stat:last-child{border-bottom:none;}
+    .mod{grid-template-columns:1fr;gap:14px;}
+    .mod .code{padding-top:0;}
+    .mod .meta{flex-direction:row;align-items:center;justify-content:space-between;width:100%;}
+    .part-head{flex-wrap:wrap;gap:12px;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .ticker-track{animation:none;}
+    .topbar .dot{animation:none;}
+    html{scroll-behavior:auto;}
+    .mod{transition:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="left"><span class="dot"></span>FIN_CURRICULUM · ONLINE</div>
+    <div class="right">v1.0 · <span>24 MODULES</span> · 7 PARTS</div>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">A learning roadmap, built for an engineer</div>
+    <h1>From first principles<br>to the <em>trading floor</em>.</h1>
+    <p class="lede">A complete map of finance — the way you'd architect a system. We start at <strong>what money actually is</strong>, build through accounting, markets, and valuation, and end where the CFA charter and the trading desk live. You won't be making a career of it. You'll just <strong>never be blind</strong> in a room where money is the language.</p>
+
+    <div class="stats">
+      <div class="stat"><div class="num">7</div><div class="lbl">Parts / Tiers</div></div>
+      <div class="stat"><div class="num">24</div><div class="lbl">Modules</div></div>
+      <div class="stat"><div class="num">0&rarr;Pro</div><div class="lbl">Depth range</div></div>
+      <div class="stat"><div class="num">1×1</div><div class="lbl">One at a time</div></div>
+    </div>
+  </div>
+</header>
+
+<div class="ticker">
+  <div class="ticker-track">
+    <span><b>FOUNDATIONS</b> money · time value · accounting</span>
+    <span><b>CORPORATE</b> economics · capital decisions</span>
+    <span><b>MARKETS</b> equities · bonds · derivatives · alts</span>
+    <span><b>STRATEGY</b> research · portfolios · risk · trading</span>
+    <span><b>INSTITUTIONS</b> banking · quant · regulation</span>
+    <span><b>CREDENTIALS</b> CA · <i>CFA</i> · FRM · CFP</span>
+    <span><b>SYNTHESIS</b> your money · the whole picture</span>
+    <span><b>FOUNDATIONS</b> money · time value · accounting</span>
+    <span><b>CORPORATE</b> economics · capital decisions</span>
+    <span><b>MARKETS</b> equities · bonds · derivatives · alts</span>
+    <span><b>STRATEGY</b> research · portfolios · risk · trading</span>
+    <span><b>INSTITUTIONS</b> banking · quant · regulation</span>
+    <span><b>CREDENTIALS</b> CA · <i>CFA</i> · FRM · CFP</span>
+    <span><b>SYNTHESIS</b> your money · the whole picture</span>
+  </div>
+</div>
+
+<section class="runs">
+  <div class="wrap">
+    <div class="sec-label">// how we'll run this</div>
+    <h2>The protocol</h2>
+    <div class="runs-grid">
+      <div class="run-cell">
+        <div class="k">Sequential by design</div>
+        <p>Each module assumes the ones below it. <strong>Time value of money</strong> shows up in every valuation; <strong>accounting</strong> underpins every analysis. We build the stack bottom-up so nothing is hand-waved.</p>
+      </div>
+      <div class="run-cell">
+        <div class="k">You call the next module</div>
+        <p>This doc is the index. When you're ready, just say <strong>"give me M03"</strong> (or any module) and I'll generate its full standalone <strong>.html</strong> lesson. No rush, no autopilot.</p>
+      </div>
+      <div class="run-cell">
+        <div class="k">Translated for an engineer</div>
+        <p>Where it helps, I'll lean on what you already know — systems, dependencies, data, state. <strong>Module 18</strong> in particular is finance through a coder's lens: simulation, models, Python.</p>
+      </div>
+      <div class="run-cell">
+        <div class="k">Understanding over coverage</div>
+        <p>The goal isn't to pass an exam — it's <strong>fluency</strong>. We go deep enough that financial news, balance sheets, and market talk stop being a foreign language.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main class="roadmap">
+  <div class="wrap">
+    <div class="roadmap-head">
+      <div class="sec-label">// the curriculum</div>
+      <h2>The full stack of finance</h2>
+      <p>Read top to bottom — it's the order we'll learn in. Click a status pill to track yourself (Planned &rarr; Active &rarr; Done). The depth meter shows roughly how heavy each module gets.</p>
+    </div>
+
+    <!-- PART I -->
+    <section class="part">
+      <div class="part-head">
+        <div class="part-num">PART I</div>
+        <div class="part-titles">
+          <h3>Foundations</h3>
+          <div class="sub">The bedrock. Nothing above this makes sense without it.</div>
+        </div>
+      </div>
+      <div class="modules">
+
+        <article class="mod">
+          <a href="M01_the_financial_world.html" style="text-decoration:none;color:inherit;display:block;"><div class="code">01<span class="arrow">&rarr;</span></div></a>
+          <div class="body">
+            <h4>The Financial World &amp; How Money Works</h4>
+            <div class="essence">What money actually is, and the map of who's who — households, firms, governments, banks, markets, regulators — and how cash flows between them.</div>
+            <div class="chips"><span class="chip">fiat vs commodity</span><span class="chip">the financial system</span><span class="chip">savings → investment</span><span class="chip">interest rates 101</span><span class="chip">inflation</span><span class="chip">central banks</span></div>
+          </div>
+          <div class="meta"><span class="status" data-s="planned">Planned</span><span class="depth"><span class="bars"><i class="on"></i><i></i><i></i><i></i></span></span></div>
+        </article>
+
+        <article class="mod">
+          <a href="M02_time_value_of_money.html" style="text-decoration:none;color:inherit;display:block;"><div class="code">02<span class="arrow">&rarr;</span></div></a>
+          <div class="body">
+            <h4>Time Value of Money</h4>
+            <div class="essence">The single most important idea in finance: a rupee today is worth more than a rupee tomorrow. This is the engine behind every valuation you'll ever see.</div>
+            <div class="chips"><span class="chip">present &amp; future value</span><span class="chip">compounding</span><span class="chip">discounting</span><span class="chip">annuities</span><span class="chip">APR vs APY</span><span class="chip">the discount rate</span></div>
+          </div>
+          <div class="meta"><span class="status" data-s="planned">Planned</span><span class="depth"><span class="bars"><i class="on"></i><i class="on"></i><i></i><i></i></span></span></div>
+        </article>
+
+        <article class="mod">
+          <a href="M03_accounting.html" style="text-decoration:none;color:inherit;display:block;"><div class="code">03<span class="arrow">&rarr;</span></div></a>
+          <div class="body">
+            <h4>Accounting — The Language of Business</h4>
+            <div class="essence">Every company speaks in three statements. Learn to read them and you can read any business on earth.</div>
+            <div class="chips"><span class="chip">double-entry</span><span class="chip">income statement</span><span class="chip">balance sheet</span><span class="chip">cash flow</span><span class="chip">accrual vs cash</span><span class="chip">GAAP vs IFRS</span></div>
+          </div>
+          <div class="meta"><span class="status" data-s="planned">Planned</span><span class="depth"><span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></span></div>
+        </article>
+
+        <article class="mod">
+          <a href="M04_financial_statement_analysis.html" style="text-decoration:none;color:inherit;display:block;"><div class="code">04<span class="arrow">&rarr;</span></div></a>
+          <div class="body">
+            <h4>Reading &amp; Analyzing Financial Statements</h4>
+            <div class="essence">From raw statements to judgment: ratios, trends, and the red flags that separate a healthy company from a ticking bomb.</div>
+            <div class="chips"><span class="chip">ratio analysis</span><span class="chip">liquidity &amp; solvency</span><span class="chip">profitability</span><span class="chip">DuPont</span><span class="chip">quality of earnings</span><span class="chip">reading a 10-K</span></div>
+          </div>
+          <div class="meta"><span class="status" data-s="planned">Planned</span><span class="depth"><span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></span></div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- PART II -->
+    <section class="part">
+      <div class="part-head">
+        <div class="part-num">PART II</div>
+        <div class="part-titles">
+          <h3>The Commerce &amp; Corporate Core</h3>
+          <div class="sub">How the wider economy works, and how companies make money decisions.</div>
+        </div>
+      </div>
+      <div class="modules">
+
+        <article class="mod">
+          <a href="M05_economics_for_finance.html" style="text-decoration:none;color:inherit;display:block;"><div class="code">05<span class="arrow">&rarr;</span></div></a>
+          <div class="body">
+            <h4>Economics for Finance (Micro + Macro)</h4>
+            <div class="essence">The forces behind prices, growth, and policy — just enough economics to understand why markets move.</div>
+            <div class="chips"><span class="chip">supply &amp; demand</span><span class="chip">elasticity</span><span class="chip">GDP &amp; inflation</span><span class="chip">monetary &amp; fiscal policy</span><span class="chip">business cycles</span><span class="chip">FX basics</span></div>
+          </div>
+          <div class="meta"><span class="status" data-s="planned">Planned</span><span class="depth"><span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></span></div>
+        </article>
+
+        <article class="mod">
+          <a href="M06_corporate_finance.html" style="text-decoration:none;color:inherit;display:block;"><div class="code">06<span class="arrow">&rarr;</span></div></a>
+          <div class="body">
+            <h4>Corporate Finance &amp; Capital Decisions</h4>
+            <div class="essence">How firms decide what to build, how to fund it, and what to do with profit — the discipline at the heart of every CFO's job.</div>
+            <div class="chips"><span class="chip">NPV &amp; IRR</span><span class="chip">cost of capital / WACC</span><span class="chip">capital structure</span><span class="chip">leverage</span><span class="chip">dividend policy</span><span class="chip">M&amp;A intro</span></div>
+          </div>
+          <div class="meta"><span class="status" data-s="planned">Planned</span><span class="depth"><span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></span></div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- PART III -->
+    <section class="part">
+      <div class="part-head">
+        <div class="part-num">PART III</div>
+        <div class="part-titles">
+          <h3>Markets &amp; Instruments</h3>
+          <div class="sub">The actual things that get traded — and where they trade.</div>
+        </div>
+      </div>
+      <div class="modules">
+
+        <article class="mod">
+          <a href="M07_financial_markets.html" style="text-decoration:none;color:inherit;display:block;"><div class="code">07<span class="arrow">&rarr;</span></div></a>
+          <div class="body">
+            <h4>Financial Markets, Institutions &amp; Participants</h4>
+            <div class="essence">The architecture of markets: who plays, where, and how a trade actually goes from your click to settlement.</div>
+            <div class="chips"><span class="chip">money vs capital markets</span><span class="chip">primary vs secondary</span><span class="chip">exchanges &amp; OTC</span><span class="chip">market makers &amp; brokers</span><span class="chip">indices</span><span class="chip">clearing &amp; settlement</span></div>
+          </div>
+          <div class="meta"><span class="status" data-s="planned">Planned</span><span class="depth"><span class="bars"><i class="on"></i><i class="on"></i><i></i><i></i></span></span></div>
+        </article>
+
+        <article class="mod">
+          <a href="M08_equities_valuation.html" style="text-decoration:none;color:inherit;display:block;"><div class="code">08<span class="arrow">&rarr;</span></div></a>
+          <div class="body">
+            <h4>Equities &amp; Stock Valuation</h4>
+            <div class="essence">What owning a share really means, and the real methods used to decide what a stock is worth versus what it costs.</div>
+            <div class="chips"><span class="chip">shares &amp; market cap</span><span class="chip">DCF valuation</span><span class="chip">dividend discount</span><span class="chip">multiples (P/E, EV/EBITDA)</span><span class="chip">growth vs value</span><span class="chip">intrinsic value</span></div>
+          </div>
+          <div class="meta"><span class="status" data-s="planned">Planned</span><span class="depth"><span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></span></div>
+        </article>
+
+        <article class="mod">
+          <a href="M09_fixed_income_bonds.html" style="text-decoration:none;color:inherit;display:block;"><div class="code">09<span class="arrow">&rarr;</span></div></a>
+          <div class="body">
+            <h4>Fixed Income &amp; Bonds</h4>
+            <div class="essence">The largest market in the world. How debt is priced, why bond prices fall when rates rise, and what the yield curve is telling you.</div>
+            <div class="chips"><span class="chip">coupon, face, maturity</span><span class="chip">yield to maturity</span><span class="chip">price–yield link</span><span class="chip">duration &amp; convexity</span><span class="chip">the yield curve</span><span class="chip">credit ratings</span></div>
+          </div>
+          <div class="meta"><span class="status" data-s="planned">Planned</span><span class="depth"><span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></span></div>
+        </article>
+
+        <article class="mod">
+          <a href="M10_derivatives.html" style="text-decoration:none;color:inherit;display:block;"><div class="code">10<span class="arrow">&rarr;</span></div></a>
+          <div class="body">
+            <h4>Derivatives</h4>
+            <div class="essence">Contracts whose value derives from something else. Powerful for hedging, dangerous with leverage — and where a lot of finance's reputation comes from.</div>
+            <div class="chips"><span class="chip">forwards &amp; futures</span><span class="chip">options (calls/puts)</span><span class="chip">the Greeks</span><span class="chip">swaps</span><span class="chip">hedging vs speculation</span><span class="chip">Black–Scholes intuition</span></div>
+          </div>
+          <div class="meta"><span class="status" data-s="planned">Planned</span><span class="depth"><span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></span></div>
+        </article>
+
+        <article class="mod">
+          <a href="M11_alternatives.html" style="text-decoration:none;color:inherit;display:block;"><div class="code">11<span class="arrow">&rarr;</span></div></a>
+          <div class="body">
+            <h4>Alternatives — Real Estate, PE, Commodities, FX &amp; Crypto</h4>
+            <div class="essence">Everything beyond plain stocks and bonds, and why big investors hold it: different risks, different returns, real diversification.</div>
+            <div class="chips"><span class="chip">REITs</span><span class="chip">private equity &amp; VC</span><span class="chip">hedge funds</span><span class="chip">commodities &amp; gold</span><span class="chip">foreign exchange</span><span class="chip">crypto &amp; digital assets</span></div>
+          </div>
+          <div class="meta"><span class="status" data-s="planned">Planned</span><span class="depth"><span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></span></div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- PART IV -->
+    <section class="part">
+      <div class="part-head">
+        <div class="part-num">PART IV</div>
+        <div class="part-titles">
+          <h3>Analysis, Investing &amp; Strategy</h3>
+          <div class="sub">Now we use the instruments — to analyze, to build portfolios, to trade.</div>
+        </div>
+      </div>
+      <div class="modules">
+
+        <article class="mod">
+          <a href="M12_investment_analysis.html" style="text-decoration:none;color:inherit;display:block;"><div class="code">12<span class="arrow">&rarr;</span></div></a>
+          <div class="body">
+            <h4>Investment Analysis &amp; Equity Research</h4>
+            <div class="essence">How professional analysts actually work — from a thesis to a financial model to a buy/sell/hold call.</div>
+            <div class="chips"><span class="chip">top-down vs bottom-up</span><span class="chip">building a model</span><span class="chip">forecasting</span><span class="chip">scenario &amp; sensitivity</span><span class="chip">the research thesis</span><span class="chip">the analyst's call</span></div>
+          </div>
+          <div class="meta"><span class="status" data-s="planned">Planned</span><span class="depth"><span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></span></div>
+        </article>
+
+        <article class="mod">
+          <a href="M13_portfolio_management.html" style="text-decoration:none;color:inherit;display:block;"><div class="code">13<span class="arrow">&rarr;</span></div></a>
+          <div class="body">
+            <h4>Portfolio Management &amp; Asset Allocation</h4>
+            <div class="essence">The leap from picking one stock to managing a whole pool of money — diversification, risk-return tradeoffs, and the theory that won Nobel prizes.</div>
+            <div class="chips"><span class="chip">risk &amp; return</span><span class="chip">diversification</span><span class="chip">Modern Portfolio Theory</span><span class="chip">CAPM &amp; beta</span><span class="chip">factor investing</span><span class="chip">Sharpe &amp; alpha</span></div>
+          </div>
+          <div class="meta"><span class="status" data-s="planned">Planned</span><span class="depth"><span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></span></div>
+        </article>
+
+        <article class="mod">
+          <a href="M14_risk_management.html" style="text-decoration:none;color:inherit;display:block;"><div class="code">14<span class="arrow">&rarr;</span></div></a>
+          <div class="body">
+            <h4>Risk Management</h4>
+            <div class="essence">Finance is the business of managing uncertainty. The types of risk, how they're measured, and how institutions try not to blow up.</div>
+            <div class="chips"><span class="chip">market / credit / liquidity risk</span><span class="chip">volatility</span><span class="chip">Value at Risk (VaR)</span><span class="chip">stress testing</span><span class="chip">correlation &amp; tail risk</span><span class="chip">hedging</span></div>
+          </div>
+          <div class="meta"><span class="status" data-s="planned">Planned</span><span class="depth"><span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></span></div>
+        </article>
+
+        <article class="mod">
+          <a href="M15_trading_technicals.html" style="text-decoration:none;color:inherit;display:block;"><div class="code">15<span class="arrow">&rarr;</span></div></a>
+          <div class="body">
+            <h4>Trading — Markets, Technicals &amp; Strategy</h4>
+            <div class="essence">The trader's world: how orders interact, reading charts, managing risk per trade, the psychology — and where algorithms take over.</div>
+            <div class="chips"><span class="chip">order book &amp; microstructure</span><span class="chip">order types</span><span class="chip">technical analysis</span><span class="chip">trading styles</span><span class="chip">risk per trade</span><span class="chip">algo trading intro</span></div>
+          </div>
+          <div class="meta"><span class="status" data-s="planned">Planned</span><span class="depth"><span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></span></div>
+        </article>
+
+        <article class="mod">
+          <a href="M16_behavioral_finance.html" style="text-decoration:none;color:inherit;display:block;"><div class="code">16<span class="arrow">&rarr;</span></div></a>
+          <div class="body">
+            <h4>Behavioral Finance</h4>
+            <div class="essence">Markets are made of people, and people are predictably irrational. The biases that drive bubbles, crashes, and your own bad calls.</div>
+            <div class="chips"><span class="chip">cognitive biases</span><span class="chip">loss aversion</span><span class="chip">herding</span><span class="chip">bubbles &amp; crashes</span><span class="chip">efficient markets debate</span><span class="chip">better decisions</span></div>
+          </div>
+          <div class="meta"><span class="status" data-s="planned">Planned</span><span class="depth"><span class="bars"><i class="on"></i><i class="on"></i><i></i><i></i></span></span></div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- PART V -->
+    <section class="part">
+      <div class="part-head">
+        <div class="part-num">PART V</div>
+        <div class="part-titles">
+          <h3>Institutions &amp; The Professional World</h3>
+          <div class="sub">The big machines — banks, quants, regulators — that run the system.</div>
+        </div>
+      </div>
+      <div class="modules">
+
+        <article class="mod">
+          <a href="M17_banking.html" style="text-decoration:none;color:inherit;display:block;"><div class="code">17<span class="arrow">&rarr;</span></div></a>
+          <div class="body">
+            <h4>Banking — Commercial, Investment &amp; Central</h4>
+            <div class="essence">How banks make money, how they literally create it, what investment banks do on deals, and how central banks steer the whole economy.</div>
+            <div class="chips"><span class="chip">net interest margin</span><span class="chip">money creation</span><span class="chip">commercial vs investment</span><span class="chip">IPOs &amp; underwriting</span><span class="chip">central banking</span><span class="chip">Basel &amp; crises</span></div>
+          </div>
+          <div class="meta"><span class="status" data-s="planned">Planned</span><span class="depth"><span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></span></div>
+        </article>
+
+        <article class="mod">
+          <a href="M18_quantitative_finance.html" style="text-decoration:none;color:inherit;display:block;"><div class="code">18<span class="arrow">&rarr;</span></div></a>
+          <div class="body">
+            <h4>Quantitative &amp; Computational Finance <span style="color:var(--gold);font-family:var(--mono);font-size:11px;">[your home turf]</span></h4>
+            <div class="essence">Finance through a coder's eyes — the math and the code. Tailored to your IT background, this is where it'll click hardest.</div>
+            <div class="chips"><span class="chip">stochastic processes</span><span class="chip">Black–Scholes derivation</span><span class="chip">Monte Carlo simulation</span><span class="chip">volatility models</span><span class="chip">algo systems</span><span class="chip">Python &amp; data</span></div>
+          </div>
+          <div class="meta"><span class="status" data-s="planned">Planned</span><span class="depth"><span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></span></div>
+        </article>
+
+        <article class="mod">
+          <a href="M19_regulation_ethics_tax.html" style="text-decoration:none;color:inherit;display:block;"><div class="code">19<span class="arrow">&rarr;</span></div></a>
+          <div class="body">
+            <h4>Regulation, Ethics, Governance &amp; Taxation</h4>
+            <div class="essence">The rules of the game — who enforces them, how companies are governed, the ethics that finance keeps re-learning the hard way, and tax basics for an investor.</div>
+            <div class="chips"><span class="chip">SEBI / SEC / RBI / Fed</span><span class="chip">disclosure &amp; compliance</span><span class="chip">corporate governance</span><span class="chip">financial ethics</span><span class="chip">capital gains tax</span><span class="chip">famous frauds</span></div>
+          </div>
+          <div class="meta"><span class="status" data-s="planned">Planned</span><span class="depth"><span class="bars"><i class="on"></i><i class="on"></i><i></i><i></i></span></span></div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- PART VI -->
+    <section class="part">
+      <div class="part-head">
+        <div class="part-num">PART VI</div>
+        <div class="part-titles">
+          <h3>The Professional Credentials, Decoded</h3>
+          <div class="sub">What the famous letters after people's names actually mean.</div>
+        </div>
+      </div>
+      <div class="modules">
+
+        <article class="mod">
+          <a href="M20_the_ca_path.html" style="text-decoration:none;color:inherit;display:block;"><div class="code">20<span class="arrow">&rarr;</span></div></a>
+          <div class="body">
+            <h4>The CA (Chartered Accountancy) Path</h4>
+            <div class="essence">What a CA really does and how the qualification is structured — the accounting, audit, and tax powerhouse of the commerce world.</div>
+            <div class="chips"><span class="chip">what a CA does</span><span class="chip">Foundation/Inter/Final</span><span class="chip">articleship</span><span class="chip">audit &amp; assurance</span><span class="chip">taxation</span><span class="chip">CA vs finance roles</span></div>
+          </div>
+          <div class="meta"><span class="status" data-s="planned">Planned</span><span class="depth"><span class="bars"><i class="on"></i><i class="on"></i><i></i><i></i></span></span></div>
+        </article>
+
+        <article class="mod">
+          <a href="M21_the_cfa_path.html" style="text-decoration:none;color:inherit;display:block;"><div class="code">21<span class="arrow">&rarr;</span></div></a>
+          <div class="body">
+            <h4>The CFA (Chartered Financial Analyst) Path</h4>
+            <div class="essence">The gold standard for investment professionals. We'll map all three levels — and you'll realize how much of it you've already learned in the modules above.</div>
+            <div class="chips"><span class="chip">Levels I, II, III</span><span class="chip">ethics &amp; quant</span><span class="chip">equity &amp; fixed income</span><span class="chip">derivatives &amp; alts</span><span class="chip">portfolio management</span><span class="chip">curriculum map</span></div>
+          </div>
+          <div class="meta"><span class="status" data-s="planned">Planned</span><span class="depth"><span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></span></div>
+        </article>
+
+        <article class="mod">
+          <a href="M22_other_credentials_career_map.html" style="text-decoration:none;color:inherit;display:block;"><div class="code">22<span class="arrow">&rarr;</span></div></a>
+          <div class="body">
+            <h4>Other Credentials &amp; The Career Map — FRM, CFP, CAIA, MBA</h4>
+            <div class="essence">The rest of the alphabet soup, and a clear map of the roles: analyst, portfolio manager, trader, banker, advisor, quant — who does what.</div>
+            <div class="chips"><span class="chip">FRM (risk)</span><span class="chip">CFP (planning)</span><span class="chip">CAIA (alternatives)</span><span class="chip">MBA-Finance</span><span class="chip">Series exams</span><span class="chip">role comparison</span></div>
+          </div>
+          <div class="meta"><span class="status" data-s="planned">Planned</span><span class="depth"><span class="bars"><i class="on"></i><i class="on"></i><i></i><i></i></span></span></div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- PART VII -->
+    <section class="part">
+      <div class="part-head">
+        <div class="part-num">PART VII</div>
+        <div class="part-titles">
+          <h3>Synthesis</h3>
+          <div class="sub">Pointing everything back at the real world — and at your own money.</div>
+        </div>
+      </div>
+      <div class="modules">
+
+        <article class="mod">
+          <a href="M23_personal_finance.html" style="text-decoration:none;color:inherit;display:block;"><div class="code">23<span class="arrow">&rarr;</span></div></a>
+          <div class="body">
+            <h4>Personal Finance &amp; Wealth Building</h4>
+            <div class="essence">All the theory, aimed at one portfolio: yours. How a knowledgeable person actually manages money, taxes, and risk over a lifetime.</div>
+            <div class="chips"><span class="chip">budgeting &amp; emergency fund</span><span class="chip">debt</span><span class="chip">investing for goals</span><span class="chip">retirement</span><span class="chip">insurance</span><span class="chip">tax-efficient investing</span></div>
+          </div>
+          <div class="meta"><span class="status" data-s="planned">Planned</span><span class="depth"><span class="bars"><i class="on"></i><i class="on"></i><i></i><i></i></span></span></div>
+        </article>
+
+        <article class="mod">
+          <a href="M24_capstone.html" style="text-decoration:none;color:inherit;display:block;"><div class="code">24<span class="arrow">&rarr;</span></div></a>
+          <div class="body">
+            <h4>Capstone — Your Mental Model of Finance</h4>
+            <div class="essence">We connect all 24 modules into one picture: how money, markets, and institutions interlock — so you can read any financial story fluently and keep learning on your own.</div>
+            <div class="chips"><span class="chip">the whole system</span><span class="chip">how it interlocks</span><span class="chip">reading the news</span><span class="chip">staying current</span><span class="chip">where to go deeper</span></div>
+          </div>
+          <div class="meta"><span class="status" data-s="planned">Planned</span><span class="depth"><span class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></span></div>
+        </article>
+
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="sec-label">// next move</div>
+    <h2>Ready when you are.</h2>
+    <p>This is the full map. We don't have to start at M01 — but it's the natural front door, and everything leans on it. Pick wherever your curiosity is loudest.</p>
+    <div class="call">&gt; <span class="c">say:</span> "give me M01" &nbsp;— or any module code — and I'll generate its full lesson as a standalone .html file.</div>
+    <div class="sig">FINANCE_MASTERY · 24 MODULES · NO RUSH · BUILT FOR CLARITY</div>
+  </div>
+</footer>
+
+<script>
+  // Session-only progress tracker (does not persist across reloads — just for tracking as you go)
+  const cycle = { planned: ['Active','active'], active: ['Done','done'], done: ['Planned','planned'] };
+  document.querySelectorAll('.status').forEach(el => {
+    el.addEventListener('click', () => {
+      const cur = el.getAttribute('data-s');
+      const [label, next] = cycle[cur];
+      el.textContent = label;
+      el.setAttribute('data-s', next);
+    });
+  });
+</script>
+
+</body>
+</html>

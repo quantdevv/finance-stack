@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M18 · Quantitative &amp; Computational Finance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--base:#0E1116;--surface:#161B22;--raised:#1C232C;--hair:#2A323D;--hair-soft:#222932;
+    --ink:#E8EFF5;--ink-mute:#9AA7B4;--ink-faint:#5E6B78;--gold:#D4A24E;--gold-soft:#3a3017;
+    --gain:#3FB950;--loss:#F0625A;--blue:#5AA6E0;
+    --display:"Fraunces",Georgia,serif;--body:"Inter",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--base);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.72;-webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(900px 480px at 88% -8%, rgba(212,162,78,0.05), transparent 60%),radial-gradient(700px 420px at -5% 3%, rgba(90,166,224,0.035), transparent 55%);}
+  .wrap{max-width:760px;margin:0 auto;padding:0 26px;}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;background:var(--gold);z-index:99;box-shadow:0 0 10px rgba(212,162,78,0.6);transition:width .1s linear;}
+  .topbar{border-bottom:1px solid var(--hair);background:rgba(14,17,22,0.88);backdrop-filter:blur(8px);position:sticky;top:0;z-index:50;}
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:46px;max-width:980px;font-family:var(--mono);font-size:11px;letter-spacing:0.08em;color:var(--ink-mute);text-transform:uppercase;}
+  .topbar .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--gain);margin-right:8px;box-shadow:0 0 8px var(--gain);}
+  .hero{padding:72px 0 40px;border-bottom:1px solid var(--hair-soft);}
+  .hero .wrap{max-width:820px;}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:13px;margin-bottom:24px;}
+  .kicker::before{content:"";height:1px;width:38px;background:var(--gold);opacity:0.6;}
+  .hero h1{font-family:var(--display);font-weight:600;font-size:clamp(2.3rem,5.5vw,3.5rem);line-height:1.05;letter-spacing:-0.02em;margin-bottom:22px;}
+  .hero h1 em{font-style:italic;color:var(--gold);font-weight:500;}
+  .hero .stand{font-size:1.12rem;color:var(--ink-mute);max-width:60ch;}
+  .metarow{display:flex;flex-wrap:wrap;gap:22px;margin-top:30px;font-family:var(--mono);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-faint);}
+  .metarow b{color:var(--ink-mute);font-weight:500;}
+  .toc{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:24px 26px;margin:44px 0 8px;}
+  .toc h2{font-family:var(--mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:16px;font-weight:500;}
+  .toc ol{list-style:none;counter-reset:t;}
+  .toc li{counter-increment:t;padding:7px 0;border-bottom:1px solid var(--hair-soft);}
+  .toc li:last-child{border-bottom:none;}
+  .toc a{color:var(--ink);text-decoration:none;display:flex;gap:14px;align-items:baseline;transition:color .15s;}
+  .toc a:hover{color:var(--gold);}
+  .toc a::before{content:counter(t,decimal-leading-zero);font-family:var(--mono);font-size:12px;color:var(--gold);min-width:26px;}
+  section.lesson{padding:30px 0;}
+  .lesson .wrap{max-width:720px;}
+  h2.sec{font-family:var(--display);font-weight:600;font-size:1.85rem;letter-spacing:-0.015em;margin:54px 0 8px;line-height:1.15;scroll-margin-top:70px;}
+  .sec-no{font-family:var(--mono);font-size:12px;letter-spacing:0.16em;color:var(--gold);text-transform:uppercase;display:block;margin-bottom:10px;}
+  h3.sub{font-family:var(--display);font-weight:600;font-size:1.28rem;margin:38px 0 6px;letter-spacing:-0.01em;color:var(--ink);}
+  p{margin:16px 0;color:#D5DEE6;}
+  p strong{color:var(--ink);font-weight:600;}
+  em.term{font-style:normal;color:var(--gold);font-weight:500;}
+  ul.clean{margin:18px 0;padding-left:0;list-style:none;}
+  ul.clean li{position:relative;padding-left:26px;margin:11px 0;color:#D5DEE6;}
+  ul.clean li::before{content:"";position:absolute;left:6px;top:12px;width:6px;height:6px;background:var(--gold);border-radius:50%;}
+  ul.clean li b{color:var(--ink);font-weight:600;}
+  .box{border-radius:0 10px 10px 0;padding:18px 22px;margin:26px 0;font-size:0.98rem;background:var(--surface);border:1px solid var(--hair);border-left-width:3px;}
+  .box .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:9px;display:flex;align-items:center;gap:8px;font-weight:500;}
+  .box p{margin:8px 0;color:#CBD5DE;}.box p:first-of-type{margin-top:0;}
+  .box.eng{border-left-color:var(--blue);}.box.eng .tag{color:var(--blue);}
+  .box.ex{border-left-color:var(--gold);}.box.ex .tag{color:var(--gold);}
+  .box.india{border-left-color:var(--gain);}.box.india .tag{color:var(--gain);}
+  .box.key{border-left-color:var(--gold);background:rgba(212,162,78,0.06);}.box.key .tag{color:var(--gold);}
+  .box.warn{border-left-color:var(--loss);background:rgba(240,98,90,0.05);}.box.warn .tag{color:var(--loss);}
+  .box code{font-family:var(--mono);font-size:0.86em;background:rgba(255,255,255,0.05);padding:2px 6px;border-radius:4px;color:var(--gold);}
+  pre.code{background:#0A0D12;border:1px solid var(--hair);border-radius:10px;padding:16px 18px;margin:22px 0;overflow-x:auto;font-family:var(--mono);font-size:13px;line-height:1.65;color:#C8D2DC;}
+  pre.code .c{color:#5E6B78;} pre.code .k{color:#5AA6E0;} pre.code .s{color:#3FB950;} pre.code .n{color:#D4A24E;} pre.code .f{color:#E8EFF5;}
+  pre.code .lbl{display:block;font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+  .formula{background:var(--raised);border:1px solid var(--hair);border-radius:10px;padding:20px;margin:26px 0;text-align:center;}
+  .formula .eq{font-family:var(--mono);font-size:1.02rem;color:var(--ink);display:block;}
+  .formula .eq b{color:var(--gold);font-weight:700;}
+  .formula .eq sub{font-size:0.7em;}
+  .formula .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-faint);margin-top:12px;display:block;}
+  table.data{width:100%;border-collapse:collapse;margin:24px 0;font-size:0.92rem;}
+  table.data th,table.data td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--hair-soft);}
+  table.data th{font-family:var(--mono);font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);font-weight:500;}
+  table.data td{color:#CBD5DE;}
+  table.data td:first-child{color:var(--ink);font-weight:500;}
+  .play{background:var(--surface);border:1px solid var(--gold-soft);border-radius:14px;padding:24px 24px 20px;margin:32px 0;}
+  .play .ptitle{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+  .ctrl{margin:14px 0;}
+  .ctrl label{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;color:var(--ink-mute);margin-bottom:7px;}
+  .ctrl label b{color:var(--gold);font-weight:700;}
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:4px;border-radius:3px;background:var(--hair);outline:none;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--gold);cursor:pointer;box-shadow:0 0 0 4px rgba(212,162,78,0.15);}
+  input[type=range]::-moz-range-thumb{width:16px;height:16px;border:none;border-radius:50%;background:var(--gold);cursor:pointer;}
+  .btnrow{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:6px 0 4px;}
+  .btn{font-family:var(--mono);font-size:12px;background:var(--raised);color:var(--ink);border:1px solid var(--hair);border-radius:8px;padding:9px 15px;cursor:pointer;transition:all .15s;}
+  .btn:hover{border-color:var(--gold);color:var(--gold);}
+  .btn.primary{background:var(--gold);color:#1a1206;border-color:var(--gold);font-weight:700;}
+  .readout{display:flex;flex-wrap:wrap;gap:14px;margin:16px 0 6px;}
+  .ro{flex:1 1 30%;min-width:100px;background:var(--raised);border:1px solid var(--hair);border-radius:9px;padding:12px 14px;text-align:center;}
+  .ro .v{font-family:var(--display);font-size:1.25rem;font-weight:600;color:var(--ink);line-height:1.1;}
+  .ro .v.g{color:var(--gold);} .ro .v.gn{color:var(--gain);} .ro .v.ls{color:var(--loss);}
+  .ro .k{font-family:var(--mono);font-size:9px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-faint);margin-top:6px;}
+  .takeaways{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:28px;margin:30px 0;}
+  .takeaways h3{font-family:var(--display);font-size:1.3rem;margin-bottom:14px;color:var(--ink);}
+  .takeaways ol{counter-reset:k;list-style:none;}
+  .takeaways li{counter-increment:k;position:relative;padding:11px 0 11px 40px;border-bottom:1px solid var(--hair-soft);color:#D5DEE6;font-size:0.97rem;}
+  .takeaways li:last-child{border-bottom:none;}
+  .takeaways li::before{content:counter(k,decimal-leading-zero);position:absolute;left:0;top:11px;font-family:var(--mono);font-size:12px;color:var(--gold);}
+  .gloss{margin:24px 0;}
+  .gloss dt{font-family:var(--mono);font-size:13px;color:var(--gold);font-weight:700;margin-top:18px;}
+  .gloss dd{margin:5px 0 0;color:#CBD5DE;font-size:0.96rem;}
+  .quiz{margin:18px 0;border:1px solid var(--hair);border-radius:10px;overflow:hidden;background:var(--surface);}
+  .quiz summary{padding:15px 20px;cursor:pointer;font-weight:500;color:var(--ink);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;}
+  .quiz summary::-webkit-details-marker{display:none;}
+  .quiz summary .q{font-family:var(--mono);font-size:11px;color:var(--gold);}
+  .quiz summary::after{content:"+";font-family:var(--mono);color:var(--ink-faint);font-size:18px;}
+  .quiz[open] summary::after{content:"–";}
+  .quiz .ans{padding:0 20px 17px;color:#CBD5DE;font-size:0.95rem;border-top:1px solid var(--hair-soft);padding-top:14px;}
+  .foot{border-top:1px solid var(--hair);margin-top:60px;padding:46px 0 80px;}
+  .nextcard{background:var(--surface);border:1px solid var(--hair);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:22px 24px;}
+  .nextcard .u{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:10px;}
+  .nextcard h3{font-family:var(--display);font-size:1.4rem;color:var(--ink);margin-bottom:8px;}
+  .nextcard p{color:var(--ink-mute);font-size:0.96rem;margin:0;}
+  .nextcard .call{margin-top:16px;font-family:var(--mono);font-size:12.5px;color:var(--ink);}
+  .nextcard .call span{color:var(--gold);}
+  .endsig{font-family:var(--mono);font-size:10.5px;letter-spacing:0.1em;color:var(--ink-faint);text-transform:uppercase;text-align:center;margin-top:40px;}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}#bar{transition:none;}}
+  @media (max-width:560px){body{font-size:16px;}h2.sec{font-size:1.55rem;}.formula .eq{font-size:0.9rem;}}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+<div class="topbar"><div class="wrap">
+  <div><a href="index.html" style="color:var(--gold);text-decoration:none;margin-right:14px;">&larr; Home</a><span class="dot"></span>MODULE 18 / 24</div>
+  <div>PART V · INSTITUTIONS &amp; THE PROFESSIONAL WORLD</div>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">M18 · Your Home Turf</div>
+  <h1>Quantitative &amp;<br>computational <em>finance</em>.</h1>
+  <p class="stand">This is the module written for you. Everything finance does with uncertainty — pricing, risk, simulation, prediction — is, underneath, math and code. With an engineering background you already own most of the toolkit; here you'll see exactly how it maps onto markets, and run a real Monte Carlo simulation in the browser.</p>
+  <div class="metarow">
+    <span><b>Depth</b> ◐◐◐◐ Specialist</span>
+    <span><b>Read</b> ~32 min</span>
+    <span><b>Builds on</b> M02, M13, M14</span>
+  </div>
+</div></header>
+
+<div class="wrap"><nav class="toc">
+  <h2>What we'll cover</h2>
+  <ol>
+    <li><a href="#s1">What quant finance is</a></li>
+    <li><a href="#s2">Returns, log returns &amp; why we model them</a></li>
+    <li><a href="#s3">The random walk &amp; Brownian motion</a></li>
+    <li><a href="#s4">Monte Carlo — your power tool</a></li>
+    <li><a href="#s5">Black-Scholes, intuitively</a></li>
+    <li><a href="#s6">Algorithmic &amp; high-frequency trading</a></li>
+    <li><a href="#s7">Factor models &amp; the search for alpha</a></li>
+    <li><a href="#s8">The toolkit &amp; how to start</a></li>
+  </ol>
+</nav></div>
+
+<section class="lesson"><div class="wrap">
+
+  <h2 class="sec" id="s1"><span class="sec-no">Section 01</span>What quant finance is</h2>
+  <p><em class="term">Quantitative finance</em> is the application of mathematics, statistics, and computation to financial problems: pricing complex instruments, measuring and managing risk, building trading strategies, and modelling how prices behave. The people who do it — "quants" — are overwhelmingly physicists, mathematicians, statisticians, and <strong>engineers and computer scientists</strong>. The field is, frankly, applied modelling and software engineering pointed at markets.</p>
+  <div class="box eng">
+    <div class="tag">⌘ Engineer's note · you already speak this language</div>
+    <p>Map your existing skills directly: a <strong>pricing model</strong> is a function from inputs to a value. <strong>Backtesting</strong> is validation on held-out data, with overfitting as the enemy (M15). <strong>Risk modelling</strong> is uncertainty quantification. <strong>Monte Carlo</strong> is exactly what it is in physics or graphics. <strong>Time-series analysis</strong> is signal processing. You're not learning a new discipline from scratch — you're re-pointing tools you have at a domain where the "system under test" happens to be a market.</p>
+  </div>
+
+  <h2 class="sec" id="s2"><span class="sec-no">Section 02</span>Returns, log returns &amp; why we model them</h2>
+  <p>Quants rarely model prices directly; they model <em class="term">returns</em>. A simple return is the percentage change: <code>(P₁ − P₀)/P₀</code>. But quants usually prefer <em class="term">log returns</em> — <code>ln(P₁/P₀)</code> — for reasons an engineer will appreciate immediately:</p>
+  <ul class="clean">
+    <li><b>They're additive over time.</b> Log returns sum across periods, so a multi-day return is just the sum of daily log returns — far cleaner than compounding multiplicatively.</li>
+    <li><b>They're roughly symmetric &amp; better-behaved</b> statistically, and they prevent prices from ever going negative in models (since price = P₀·e^(sum of log returns)).</li>
+  </ul>
+  <p>Empirically, daily log returns look approximately normal in the middle but have <strong>fat tails</strong> (M14) — extreme moves happen more than a Gaussian predicts. Modelling them as normal is the convenient assumption that makes the math tractable, and the dangerous one that breaks in crises. Hold both facts at once.</p>
+
+  <h2 class="sec" id="s3"><span class="sec-no">Section 03</span>The random walk &amp; Brownian motion</h2>
+  <p>The foundational model of price movement is the <em class="term">random walk</em>: tomorrow's price is today's price plus a random shock. If markets are efficient (M16), past moves don't predict future ones — each step is independent. Scale this to continuous time and you get <em class="term">geometric Brownian motion (GBM)</em>, the workhorse model where a stock has a steady <strong>drift</strong> (μ, the expected return) plus random <strong>volatility</strong> (σ, the noise):</p>
+  <div class="formula">
+    <span class="eq">S<sub>t+1</sub> = S<sub>t</sub> · exp[ (μ − ½σ²)·dt + σ·√dt·Z ]</span>
+    <span class="lbl">one step of geometric Brownian motion · Z ~ standard normal</span>
+  </div>
+  <div class="box eng">
+    <div class="tag">⌘ Engineer's note</div>
+    <p>That's just <strong>drift + scaled Gaussian noise</strong> applied multiplicatively — a discretized stochastic differential equation. The same Brownian motion that describes a particle diffusing in fluid (Einstein, 1905) was borrowed to describe prices diffusing in a market (Bachelier actually did it for markets <em>first</em>, in 1900). The <code>−½σ²</code> term is a convexity correction so the drift comes out right under exponentiation — a detail you'd debug into existence if you coded it naively.</p>
+  </div>
+
+  <h2 class="sec" id="s4"><span class="sec-no">Section 04</span>Monte Carlo — your power tool</h2>
+  <p>Here's where computation earns its keep. If we can't solve a problem with a clean formula, we <strong>simulate it thousands of times</strong> and read the answer off the distribution of outcomes. That's <em class="term">Monte Carlo simulation</em>, and it's arguably the most useful single technique in computational finance. To see a stock's possible futures, you don't predict one path — you generate thousands and look at the spread.</p>
+  <p>Run it live below. Each faint line is one simulated future of a ₹100 stock under GBM; the shaded band shows where most outcomes land. Change the drift and volatility and watch the cone of uncertainty breathe:</p>
+
+  <div class="play" id="play">
+    <div class="ptitle">▶ Interactive · Monte Carlo simulation (geometric Brownian motion)</div>
+    <div class="ctrl"><label>Annual drift μ (expected return) <b><span id="muV">10%</span></b></label><input type="range" id="mu" min="-5" max="25" step="1" value="10"></div>
+    <div class="ctrl"><label>Annual volatility σ <b><span id="sigV">20%</span></b></label><input type="range" id="sig" min="5" max="60" step="1" value="20"></div>
+    <div class="ctrl"><label>Time horizon <b><span id="yrV">3</span> years</b></label><input type="range" id="yr" min="1" max="10" step="1" value="3"></div>
+    <svg id="mc" viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg"></svg>
+    <div class="readout">
+      <div class="ro"><div class="v" id="median">₹—</div><div class="k">Median outcome</div></div>
+      <div class="ro"><div class="v gn" id="p95">₹—</div><div class="k">95th percentile</div></div>
+      <div class="ro"><div class="v ls" id="p5">₹—</div><div class="k">5th percentile</div></div>
+    </div>
+    <div class="btnrow"><button class="btn primary" id="rerun">↻ Re-run 300 paths</button></div>
+  </div>
+
+  <pre class="code"><span class="lbl">// the same simulation, in Python (NumPy) — your real-world version</span><span class="k">import</span> numpy <span class="k">as</span> np
+
+S0, mu, sigma, T, steps, paths = <span class="n">100</span>, <span class="n">0.10</span>, <span class="n">0.20</span>, <span class="n">3</span>, <span class="n">756</span>, <span class="n">10000</span>
+dt = T / steps
+Z  = np.random.standard_normal((paths, steps))
+incr = (mu - <span class="n">0.5</span>*sigma**<span class="n">2</span>)*dt + sigma*np.sqrt(dt)*Z
+S = S0 * np.exp(np.cumsum(incr, axis=<span class="n">1</span>))   <span class="c"># every path, every step</span>
+
+final = S[:, -<span class="n">1</span>]
+<span class="f">print</span>(np.percentile(final, [<span class="n">5</span>, <span class="n">50</span>, <span class="n">95</span>]))   <span class="c"># the same cone you see above</span></pre>
+
+  <div class="box key">
+    <div class="tag">★ Why this reframes investing</div>
+    <p>Monte Carlo replaces the false comfort of a single forecast ("the stock will be ₹130") with the honest truth: <strong>a distribution of outcomes.</strong> This is the right mental model for everything uncertain — retirement planning, option pricing, portfolio risk. The same engine, fed your SIP contributions and a return distribution, tells you not "you'll have ₹X" but "here's the range, and the odds." That probabilistic thinking is the single biggest upgrade quant tools give an investor.</p>
+  </div>
+
+  <h2 class="sec" id="s5"><span class="sec-no">Section 05</span>Black-Scholes, intuitively</h2>
+  <p>The most famous equation in finance, the <em class="term">Black-Scholes model</em> (Nobel Prize, 1997), prices an option (M10). You don't need its derivation, but you should grasp its <em>idea</em>: the "fair" price of an option is the <strong>expected payoff under all possible future paths of the underlying, discounted to today</strong> — exactly the Monte Carlo logic above, solved analytically for the simple case.</p>
+  <p>Its inputs are intuitive: the more <strong>volatile</strong> the stock and the more <strong>time</strong> to expiry, the more valuable the option (more chance to finish in the money). The radical insight underneath was that you can <strong>replicate</strong> an option by continuously trading the underlying — meaning its price is determined by no-arbitrage (M10), not by anyone's opinion about direction.</p>
+  <div class="box warn">
+    <div class="tag">⚠ The model is not the market</div>
+    <p>Black-Scholes assumes constant volatility and normal returns — both false. Markets price in the difference via the "volatility smile," a visible fingerprint of the model's wrong assumptions. The 1998 collapse of LTCM (a hedge fund run by Black-Scholes Nobel laureates) is the field's cautionary tale: <strong>elegant models, applied with leverage and over-confidence, meet fat-tailed reality and blow up.</strong> Respect the model; never worship it.</p>
+  </div>
+
+  <h2 class="sec" id="s6"><span class="sec-no">Section 06</span>Algorithmic &amp; high-frequency trading</h2>
+  <p><em class="term">Algorithmic trading</em> means executing trades by computer, following coded rules — from simple "buy at this price" automation to complex strategies reacting to data in microseconds. Its extreme form, <em class="term">high-frequency trading (HFT)</em>, competes on raw speed, holding positions for fractions of a second and profiting from tiny, fleeting price discrepancies (a computational version of the arbitrage in M10).</p>
+  <div class="box eng">
+    <div class="tag">⌘ Engineer's note</div>
+    <p>HFT is a <strong>latency and systems-engineering arms race</strong> — co-located servers, kernel-bypass networking, FPGAs, microwave links between exchanges to shave nanoseconds. It's closer to competitive distributed systems than to "investing." Most of the volume on modern exchanges is algorithmic. The relevance to you: this is why retail traders (M15) are competing against machines and shouldn't expect to win on speed or reaction — your edge, if any, is patience and a longer horizon, where the machines aren't playing.</p>
+  </div>
+
+  <h2 class="sec" id="s7"><span class="sec-no">Section 07</span>Factor models &amp; the search for alpha</h2>
+  <p>Quants decompose returns into <em class="term">factors</em> — systematic drivers that explain why assets move. The CAPM (M14, M21) is the simplest: a stock's return is explained by its exposure (beta) to the overall market. Later models added factors like <strong>size</strong> (small companies), <strong>value</strong> (cheap stocks, M12), <strong>momentum</strong>, and <strong>quality</strong>.</p>
+  <div class="formula">
+    <span class="eq">Return = α + β<sub>1</sub>·Factor<sub>1</sub> + β<sub>2</sub>·Factor<sub>2</sub> + ... + ε</span>
+    <span class="lbl">a factor model — yes, it's a linear regression</span>
+  </div>
+  <p>That's a regression you've likely fit a hundred times. The prize term is <em class="term">alpha (α)</em> — return that <em>isn't</em> explained by known factors, i.e. genuine skill or a real edge. Most apparent alpha turns out to be hidden factor exposure or luck; true, persistent alpha is rare and fiercely competed for. "Smart beta" and quant funds are largely the industrialization of harvesting these factors systematically.</p>
+
+  <h2 class="sec" id="s8"><span class="sec-no">Section 08</span>The toolkit &amp; how to start</h2>
+  <p>The good news for you: the practical stack is the <strong>Python data ecosystem you may already know.</strong></p>
+  <table class="data">
+    <tr><th>Tool</th><th>Role</th></tr>
+    <tr><td>NumPy</td><td>Fast array math — the basis of every simulation</td></tr>
+    <tr><td>pandas</td><td>Time-series &amp; tabular data wrangling (price histories)</td></tr>
+    <tr><td>matplotlib / plotly</td><td>Visualization of prices, returns, distributions</td></tr>
+    <tr><td>SciPy / statsmodels</td><td>Statistics, regressions, optimization</td></tr>
+    <tr><td>scikit-learn</td><td>Machine learning on financial features</td></tr>
+    <tr><td>yfinance / NSEpy</td><td>Pulling market data (incl. Indian markets)</td></tr>
+  </table>
+  <div class="box india">
+    <div class="tag">🇮🇳 India lens · a concrete first project</div>
+    <p>A perfect starter, given your background: pull a few years of Nifty 50 data with <code>yfinance</code>, compute daily log returns, plot the distribution and check the fat tails yourself, calculate annualized volatility and the Sharpe ratio (M13), then run the Monte Carlo above on real parameters to project a SIP. You'd learn more finance in a weekend of code than in a month of reading — because you'd be <em>building the models</em> instead of just reading about them. That's the fastest path to fluency for someone who thinks in code.</p>
+  </div>
+  <div class="box key">
+    <div class="tag">★ The honest meta-lesson</div>
+    <p>Quant tools are extraordinarily powerful for <em>understanding</em> risk and uncertainty — and treacherous for <em>predicting</em> markets, because markets adapt and fat tails lurk. The disciplined quant uses models to <strong>quantify what they don't know</strong>, not to pretend certainty. For you, the highest-value use isn't building an HFT system — it's bringing rigorous, probabilistic, code-driven thinking to your own financial decisions, where almost no one else does.</p>
+  </div>
+
+  <div class="takeaways">
+    <h3>The eight things to carry forward</h3>
+    <ol>
+      <li><b>Quant finance</b> = math + stats + code on markets; your engineering skills transfer directly.</li>
+      <li>Quants model <b>returns</b> (especially <b>log returns</b> — additive, well-behaved), not raw prices.</li>
+      <li>Prices are modelled as a <b>random walk / geometric Brownian motion</b>: drift + Gaussian noise.</li>
+      <li><b>Monte Carlo</b> simulates thousands of futures to get a <b>distribution</b>, not a single forecast.</li>
+      <li><b>Black-Scholes</b> prices options as discounted expected payoff under no-arbitrage — but its assumptions break.</li>
+      <li><b>Algorithmic/HFT</b> trading is a systems &amp; latency arms race; retail can't win on speed.</li>
+      <li><b>Factor models</b> are regressions explaining returns; true <b>alpha</b> (unexplained edge) is rare.</li>
+      <li>The stack is <b>Python (NumPy/pandas/SciPy)</b> — build models to learn finance fastest.</li>
+    </ol>
+  </div>
+
+  <h3 class="sub">Check yourself</h3>
+  <details class="quiz"><summary><span><span class="q">Q1 ·</span> Why do quants prefer log returns over simple returns?</span></summary>
+    <div class="ans">Because log returns are <b>additive over time</b> (multi-period return = sum of single-period log returns), they're better-behaved statistically, and they keep modelled prices strictly positive (price = P₀·e^Σreturns). Simple returns compound multiplicatively, which is messier to work with across periods.</div></details>
+  <details class="quiz"><summary><span><span class="q">Q2 ·</span> What does a Monte Carlo simulation give you that a single forecast doesn't?</span></summary>
+    <div class="ans">A full <b>distribution of possible outcomes</b> and their probabilities, rather than one point estimate. Instead of "the stock will be ₹130," you get "the median is ₹X, with a 90% range from ₹Y to ₹Z" — the honest, probabilistic picture of an uncertain future, which is the correct way to reason about risk.</div></details>
+  <details class="quiz"><summary><span><span class="q">Q3 ·</span> A backtested strategy looks brilliant on historical data. Why be skeptical?</span></summary>
+    <div class="ans">Overfitting (M15): the strategy may have been tuned to fit historical noise rather than a real, persistent edge, so it fails on new live data. Plus markets adapt and any true edge gets competed away. It's the same generalization-vs-memorization problem as in any predictive model — validate out-of-sample and stay humble.</div></details>
+
+  <h3 class="sub">Glossary — terms to know cold</h3>
+  <dl class="gloss">
+    <dt>Quantitative finance</dt><dd>Applying mathematics, statistics, and computation to financial problems.</dd>
+    <dt>Log return</dt><dd>ln(P₁/P₀); additive over time and well-behaved for modelling.</dd>
+    <dt>Random walk</dt><dd>A model where each price change is an independent random shock.</dd>
+    <dt>Geometric Brownian motion</dt><dd>The standard continuous price model: drift plus scaled Gaussian noise, applied multiplicatively.</dd>
+    <dt>Monte Carlo simulation</dt><dd>Estimating outcomes by running many randomized trials and reading the distribution.</dd>
+    <dt>Black-Scholes</dt><dd>The classic option-pricing model based on no-arbitrage replication.</dd>
+    <dt>Algorithmic / HFT</dt><dd>Computerized rule-based trading; HFT competes on microsecond speed.</dd>
+    <dt>Factor model</dt><dd>A regression explaining returns via systematic factors (market, size, value, momentum).</dd>
+    <dt>Alpha</dt><dd>Return not explained by known factors — genuine skill or edge; rare and competed away.</dd>
+    <dt>Fat tails</dt><dd>Extreme outcomes occurring more often than a normal distribution predicts.</dd>
+  </dl>
+
+</div></section>
+
+<footer class="foot"><div class="wrap">
+  <div class="nextcard">
+    <div class="u">Up next · Module 19</div>
+    <h3>Regulation, Ethics, Governance &amp; Taxation</h3>
+    <p>The rules of the game. Why regulation exists, who enforces it (SEBI, RBI), insider trading and market abuse, corporate governance, professional ethics and fiduciary duty — and a practical guide to how investments are taxed in India. We'll build a capital-gains tax calculator.</p>
+    <div class="call">&gt; <span>say:</span> "next" to continue the run.</div>
+  </div>
+  <div class="endsig">— End of Module 18 · Quantitative &amp; Computational Finance —</div>
+</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:20px;font-family:var(--mono);font-size:12px;letter-spacing:.04em;"><a href="M17_banking.html" style="color:var(--gold);text-decoration:none;">&larr; Prev · M17</a><a href="index.html" style="color:var(--ink-mute);text-decoration:none;">&#8962; Home</a><a href="M19_regulation_ethics_tax.html" style="color:var(--gold);text-decoration:none;">Next · M19 &rarr;</a></div>
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const upd=()=>{const h=document.documentElement;const sc=h.scrollTop||document.body.scrollTop;
+    const max=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(sc/max*100)+'%';};
+  document.addEventListener('scroll',upd,{passive:true});upd();
+
+  const MU=document.getElementById('mu'),SIG=document.getElementById('sig'),YR=document.getElementById('yr');
+  const muV=document.getElementById('muV'),sigV=document.getElementById('sigV'),yrV=document.getElementById('yrV');
+  const mc=document.getElementById('mc'),rerun=document.getElementById('rerun');
+  const medianEl=document.getElementById('median'),p95El=document.getElementById('p95'),p5El=document.getElementById('p5');
+  let seed=42;
+  function rnd(){seed=(seed*1103515245+12345)&0x7fffffff;return seed/0x7fffffff;}
+  function gauss(){ // Box-Muller
+    let u=0,v=0; while(u===0)u=rnd(); while(v===0)v=rnd();
+    return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);
+  }
+  const S0=100, NP=300, STEPS=120;
+  function simulate(){
+    const mu=+MU.value/100, sig=+SIG.value/100, T=+YR.value;
+    muV.textContent=(+MU.value)+'%'; sigV.textContent=(+SIG.value)+'%'; yrV.textContent=T;
+    const dt=T/STEPS;
+    const paths=[]; const finals=[];
+    for(let p=0;p<NP;p++){
+      let S=S0; const path=[S];
+      for(let i=0;i<STEPS;i++){
+        S=S*Math.exp((mu-0.5*sig*sig)*dt+sig*Math.sqrt(dt)*gauss());
+        path.push(S);
+      }
+      paths.push(path); finals.push(S);
+    }
+    finals.sort((a,b)=>a-b);
+    const pct=q=>finals[Math.floor(q*(finals.length-1))];
+    const med=pct(0.5),p95=pct(0.95),p5=pct(0.05);
+    medianEl.textContent='₹'+med.toFixed(0); p95El.textContent='₹'+p95.toFixed(0); p5El.textContent='₹'+p5.toFixed(0);
+    // draw
+    const W=600,H=280,padL=8,padR=8,padT=12,padB=20;
+    const plotW=W-padL-padR, plotH=H-padT-padB;
+    let mx=Math.max(...finals)*1.05, mn=Math.min(...finals,S0*0.6)*0.95;
+    mx=Math.max(mx,S0*1.2); mn=Math.min(mn,S0*0.8);
+    const X=i=>padL+(i/STEPS)*plotW;
+    const Y=v=>padT+(1-(v-mn)/(mx-mn))*plotH;
+    let s='';
+    // baseline at S0
+    s+='<line x1="'+padL+'" y1="'+Y(S0).toFixed(1)+'" x2="'+(padL+plotW)+'" y2="'+Y(S0).toFixed(1)+'" stroke="#2A323D" stroke-dasharray="3 4"/>';
+    s+='<text x="'+(padL+4)+'" y="'+(Y(S0)-5).toFixed(1)+'" fill="#5E6B78" font-family="JetBrains Mono,monospace" font-size="9">₹100 start</text>';
+    // draw subset of paths faintly
+    for(let p=0;p<NP;p+=2){
+      let d='';
+      for(let i=0;i<=STEPS;i++){d+=(i?'L':'M')+X(i).toFixed(1)+' '+Y(paths[p][i]).toFixed(1)+' ';}
+      s+='<path d="'+d+'" fill="none" stroke="#D4A24E" stroke-width="0.6" stroke-opacity="0.13"/>';
+    }
+    mc.innerHTML=s;
+  }
+  rerun.addEventListener('click',()=>{seed=Math.floor(Math.random()*1e7)+1;simulate();});
+  [MU,SIG,YR].forEach(el=>el.addEventListener('input',()=>{seed=42;simulate();}));
+  simulate();
+</script>
+</body>
+</html>

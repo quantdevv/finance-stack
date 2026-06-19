@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M05 · Economics for Finance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--base:#0E1116;--surface:#161B22;--raised:#1C232C;--hair:#2A323D;--hair-soft:#222932;
+    --ink:#E8EFF5;--ink-mute:#9AA7B4;--ink-faint:#5E6B78;--gold:#D4A24E;--gold-soft:#3a3017;
+    --gain:#3FB950;--loss:#F0625A;--blue:#5AA6E0;
+    --display:"Fraunces",Georgia,serif;--body:"Inter",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--base);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.72;-webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(900px 480px at 88% -8%,rgba(212,162,78,0.05),transparent 60%),radial-gradient(700px 420px at -5% 3%,rgba(90,166,224,0.035),transparent 55%);}
+  .wrap{max-width:760px;margin:0 auto;padding:0 26px;}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;background:var(--gold);z-index:99;box-shadow:0 0 10px rgba(212,162,78,0.6);transition:width .1s linear;}
+  .topbar{border-bottom:1px solid var(--hair);background:rgba(14,17,22,0.88);backdrop-filter:blur(8px);position:sticky;top:0;z-index:50;}
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:46px;max-width:980px;font-family:var(--mono);font-size:11px;letter-spacing:0.08em;color:var(--ink-mute);text-transform:uppercase;}
+  .topbar .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--gain);margin-right:8px;box-shadow:0 0 8px var(--gain);}
+  .hero{padding:72px 0 40px;border-bottom:1px solid var(--hair-soft);}.hero .wrap{max-width:820px;}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:13px;margin-bottom:24px;}
+  .kicker::before{content:"";height:1px;width:38px;background:var(--gold);opacity:0.6;}
+  .hero h1{font-family:var(--display);font-weight:600;font-size:clamp(2.3rem,5.5vw,3.5rem);line-height:1.05;letter-spacing:-0.02em;margin-bottom:22px;}
+  .hero h1 em{font-style:italic;color:var(--gold);font-weight:500;}
+  .hero .stand{font-size:1.12rem;color:var(--ink-mute);max-width:60ch;}
+  .metarow{display:flex;flex-wrap:wrap;gap:22px;margin-top:30px;font-family:var(--mono);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-faint);}
+  .metarow b{color:var(--ink-mute);font-weight:500;}
+  .toc{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:24px 26px;margin:44px 0 8px;}
+  .toc h2{font-family:var(--mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:16px;font-weight:500;}
+  .toc ol{list-style:none;counter-reset:t;}
+  .toc li{counter-increment:t;padding:7px 0;border-bottom:1px solid var(--hair-soft);}.toc li:last-child{border-bottom:none;}
+  .toc a{color:var(--ink);text-decoration:none;display:flex;gap:14px;align-items:baseline;transition:color .15s;}.toc a:hover{color:var(--gold);}
+  .toc a::before{content:counter(t,decimal-leading-zero);font-family:var(--mono);font-size:12px;color:var(--gold);min-width:26px;}
+  section.lesson{padding:30px 0;}.lesson .wrap{max-width:720px;}
+  h2.sec{font-family:var(--display);font-weight:600;font-size:1.85rem;letter-spacing:-0.015em;margin:54px 0 8px;line-height:1.15;scroll-margin-top:70px;}
+  .sec-no{font-family:var(--mono);font-size:12px;letter-spacing:0.16em;color:var(--gold);text-transform:uppercase;display:block;margin-bottom:10px;}
+  h3.sub{font-family:var(--display);font-weight:600;font-size:1.28rem;margin:38px 0 6px;letter-spacing:-0.01em;color:var(--ink);}
+  p{margin:16px 0;color:#D5DEE6;}p strong{color:var(--ink);font-weight:600;}
+  em.term{font-style:normal;color:var(--gold);font-weight:500;}
+  ul.clean{margin:18px 0;padding-left:0;list-style:none;}
+  ul.clean li{position:relative;padding-left:26px;margin:11px 0;color:#D5DEE6;}
+  ul.clean li::before{content:"";position:absolute;left:6px;top:12px;width:6px;height:6px;background:var(--gold);border-radius:50%;}
+  ul.clean li b{color:var(--ink);font-weight:600;}
+  .box{border-radius:0 10px 10px 0;padding:18px 22px;margin:26px 0;font-size:0.98rem;background:var(--surface);border:1px solid var(--hair);border-left-width:3px;}
+  .box .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:9px;display:flex;align-items:center;gap:8px;font-weight:500;}
+  .box p{margin:8px 0;color:#CBD5DE;}.box p:first-of-type{margin-top:0;}
+  .box.eng{border-left-color:var(--blue);}.box.eng .tag{color:var(--blue);}
+  .box.ex{border-left-color:var(--gold);}.box.ex .tag{color:var(--gold);}
+  .box.india{border-left-color:var(--gain);}.box.india .tag{color:var(--gain);}
+  .box.key{border-left-color:var(--gold);background:rgba(212,162,78,0.06);}.box.key .tag{color:var(--gold);}
+  .box.warn{border-left-color:var(--loss);}.box.warn .tag{color:var(--loss);}
+  .box code{font-family:var(--mono);font-size:0.86em;background:rgba(255,255,255,0.05);padding:2px 6px;border-radius:4px;color:var(--gold);}
+  .formula{background:var(--raised);border:1px solid var(--hair);border-radius:10px;padding:22px 20px;margin:26px 0;text-align:center;}
+  .formula .eq{font-family:var(--mono);font-size:1.1rem;color:var(--ink);letter-spacing:0.01em;display:block;}
+  .formula .eq b{color:var(--gold);font-weight:700;}
+  .formula .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-faint);margin-top:12px;display:block;}
+  figure{margin:34px 0;background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:26px 22px 18px;}
+  figure svg{width:100%;height:auto;display:block;}
+  figcaption{font-family:var(--mono);font-size:11px;letter-spacing:0.05em;color:var(--ink-faint);text-align:center;margin-top:16px;}
+  .play{background:var(--surface);border:1px solid var(--gold-soft);border-radius:14px;padding:24px;margin:32px 0;}
+  .play .ptitle{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:18px;}
+  .ctrl{margin:14px 0;}
+  .ctrl label{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;color:var(--ink-mute);margin-bottom:7px;}
+  .ctrl label b{color:var(--gold);font-weight:700;}
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:4px;border-radius:3px;background:var(--hair);outline:none;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--gold);cursor:pointer;box-shadow:0 0 0 4px rgba(212,162,78,0.15);}
+  input[type=range]::-moz-range-thumb{width:16px;height:16px;border:none;border-radius:50%;background:var(--gold);cursor:pointer;}
+  .eqout{display:flex;gap:14px;justify-content:center;margin-top:8px;}
+  .eqout .ro{background:var(--raised);border:1px solid var(--hair);border-radius:9px;padding:11px 18px;text-align:center;}
+  .eqout .ro .v{font-family:var(--display);font-size:1.35rem;font-weight:600;color:var(--gold);}
+  .eqout .ro .k{font-family:var(--mono);font-size:9px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-faint);margin-top:4px;}
+  .takeaways{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:28px;margin:30px 0;}
+  .takeaways h3{font-family:var(--display);font-size:1.3rem;margin-bottom:14px;color:var(--ink);}
+  .takeaways ol{counter-reset:k;list-style:none;}
+  .takeaways li{counter-increment:k;position:relative;padding:11px 0 11px 40px;border-bottom:1px solid var(--hair-soft);color:#D5DEE6;font-size:0.97rem;}
+  .takeaways li:last-child{border-bottom:none;}
+  .takeaways li::before{content:counter(k,decimal-leading-zero);position:absolute;left:0;top:11px;font-family:var(--mono);font-size:12px;color:var(--gold);}
+  .gloss{margin:24px 0;}.gloss dt{font-family:var(--mono);font-size:13px;color:var(--gold);font-weight:700;margin-top:18px;}
+  .gloss dd{margin:5px 0 0;color:#CBD5DE;font-size:0.96rem;}
+  .quiz{margin:18px 0;border:1px solid var(--hair);border-radius:10px;overflow:hidden;background:var(--surface);}
+  .quiz summary{padding:15px 20px;cursor:pointer;font-weight:500;color:var(--ink);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;}
+  .quiz summary::-webkit-details-marker{display:none;}
+  .quiz summary .q{font-family:var(--mono);font-size:11px;color:var(--gold);}
+  .quiz summary::after{content:"+";font-family:var(--mono);color:var(--ink-faint);font-size:18px;}.quiz[open] summary::after{content:"–";}
+  .quiz .ans{padding:0 20px 17px;color:#CBD5DE;font-size:0.95rem;border-top:1px solid var(--hair-soft);padding-top:14px;}
+  .foot{border-top:1px solid var(--hair);margin-top:60px;padding:46px 0 80px;}
+  .nextcard{background:var(--surface);border:1px solid var(--hair);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:22px 24px;}
+  .nextcard .u{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:10px;}
+  .nextcard h3{font-family:var(--display);font-size:1.4rem;color:var(--ink);margin-bottom:8px;}
+  .nextcard p{color:var(--ink-mute);font-size:0.96rem;margin:0;}
+  .nextcard .call{margin-top:16px;font-family:var(--mono);font-size:12.5px;color:var(--ink);}.nextcard .call span{color:var(--gold);}
+  .endsig{font-family:var(--mono);font-size:10.5px;letter-spacing:0.1em;color:var(--ink-faint);text-transform:uppercase;text-align:center;margin-top:40px;}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}#bar{transition:none;}}
+  @media (max-width:560px){body{font-size:16px;}h2.sec{font-size:1.55rem;}.formula .eq{font-size:0.95rem;}}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+<div class="topbar"><div class="wrap"><div><a href="index.html" style="color:var(--gold);text-decoration:none;margin-right:14px;">&larr; Home</a><span class="dot"></span>MODULE 05 / 24</div><div>PART II · COMMERCE &amp; CORPORATE</div></div></div>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">M05 · The World Around the Company</div>
+  <h1>Economics for <em>finance</em>.</h1>
+  <p class="stand">Companies don't exist in a vacuum — they swim in an ocean of prices, growth, inflation, and policy. This module is the just-enough economics that lets you understand <em>why</em> markets move, why rates change, and what those headlines actually mean.</p>
+  <div class="metarow"><span><b>Depth</b> ◐◐◐○ Core</span><span><b>Read</b> ~30 min</span><span><b>Builds on</b> M01</span></div>
+</div></header>
+
+<div class="wrap"><nav class="toc"><h2>What we'll cover</h2><ol>
+  <li><a href="#s1">The two halves: micro &amp; macro</a></li>
+  <li><a href="#s2">Supply, demand &amp; price (interactive)</a></li>
+  <li><a href="#s3">Elasticity — how sensitive is demand?</a></li>
+  <li><a href="#s4">Market structures — competition to monopoly</a></li>
+  <li><a href="#s5">GDP &amp; the business cycle</a></li>
+  <li><a href="#s6">Inflation &amp; unemployment</a></li>
+  <li><a href="#s7">Monetary vs fiscal policy — the two levers</a></li>
+  <li><a href="#s8">Exchange rates &amp; the global picture</a></li>
+</ol></nav></div>
+
+<section class="lesson"><div class="wrap">
+
+  <h2 class="sec" id="s1"><span class="sec-no">Section 01</span>The two halves: micro &amp; macro</h2>
+  <p>Economics is the study of how people and societies allocate <strong>scarce resources</strong>. It splits cleanly into two scales, and finance draws on both:</p>
+  <ul class="clean">
+    <li><b>Microeconomics</b> — the small picture. Individual buyers, sellers, and firms; how prices form; why a company prices a product the way it does. This shapes how you analyze a single business.</li>
+    <li><b>Macroeconomics</b> — the big picture. Whole economies; growth, inflation, unemployment, interest rates, government policy. This shapes the environment <em>every</em> investment lives in.</li>
+  </ul>
+  <p>You don't need to become an economist. You need the handful of mechanisms that actually drive financial markets — and they're surprisingly few. Let's build them from the ground up, starting with the single most important idea in all of micro.</p>
+
+  <h2 class="sec" id="s2"><span class="sec-no">Section 02</span>Supply, demand &amp; price</h2>
+  <p>Almost every price on earth — for goods, labour, money, stocks — emerges from two opposing forces meeting. <em class="term">Demand</em> slopes downward: as price rises, buyers want less. <em class="term">Supply</em> slopes upward: as price rises, sellers offer more. Where the two curves cross is the <em class="term">equilibrium</em> — the price and quantity at which the market clears, with no shortage or surplus.</p>
+  <p>The real insight isn't the static crossing point — it's what happens when a curve <strong>shifts</strong>. A new technology, a tax, a trend, a supply shock: each moves a whole curve, and the equilibrium slides to a new price and quantity. Drag the sliders below to feel it:</p>
+
+  <div class="play" id="play">
+    <div class="ptitle">▶ Interactive · Supply &amp; demand — shift the curves, watch price move</div>
+    <div class="ctrl"><label>Demand (shift right = people want more) <b><span id="dVal">0</span></b></label><input type="range" id="d" min="-40" max="40" step="2" value="0"></div>
+    <div class="ctrl"><label>Supply (shift right = more available) <b><span id="sVal">0</span></b></label><input type="range" id="s" min="-40" max="40" step="2" value="0"></div>
+    <figure style="margin:14px 0 0;border:none;background:transparent;padding:0;">
+      <svg id="sdchart" viewBox="0 0 480 320" xmlns="http://www.w3.org/2000/svg" aria-label="Supply and demand chart"></svg>
+    </figure>
+    <div class="eqout">
+      <div class="ro"><div class="v" id="eqP">₹50</div><div class="k">equilibrium price</div></div>
+      <div class="ro"><div class="v" id="eqQ">50</div><div class="k">equilibrium quantity</div></div>
+    </div>
+  </div>
+  <p>Notice the patterns: a rise in demand pushes <em>both</em> price and quantity up; a rise in supply pushes quantity up but price <em>down</em>. This single mental model explains oil prices, housing, wages, and — crucially — the price of money itself (interest rates are just the price where the supply of savings meets the demand for borrowing).</p>
+  <div class="box eng"><div class="tag">⌘ Engineer's note</div><p>Equilibrium is a <strong>feedback system settling to a stable state</strong>. Too-high price → surplus → downward pressure; too-low price → shortage → upward pressure. The market is a distributed controller with price as the error signal, converging on the clearing point. No central coordinator needed — exactly the kind of self-balancing system you'd appreciate.</p></div>
+
+  <h2 class="sec" id="s3"><span class="sec-no">Section 03</span>Elasticity — how sensitive is demand?</h2>
+  <p>Curves aren't all equally steep, and the steepness matters enormously. <em class="term">Price elasticity of demand</em> measures how much quantity responds to a price change.</p>
+  <ul class="clean">
+    <li><b>Elastic demand</b> — quantity is very sensitive to price (luxuries, things with substitutes). Raise the price a little and sales collapse. Think branded clothing.</li>
+    <li><b>Inelastic demand</b> — quantity barely moves with price (necessities, addictive goods, things with no substitute). Petrol, salt, life-saving medicine, cigarettes.</li>
+  </ul>
+  <p>This is why governments tax inelastic goods (you'll keep buying petrol regardless), why pharma can charge high prices, and why a company with "pricing power" (inelastic demand for its product) is so valuable to investors — it can raise prices without losing customers. When we value companies later, pricing power is one of the most prized qualities.</p>
+
+  <h2 class="sec" id="s4"><span class="sec-no">Section 04</span>Market structures — competition to monopoly</h2>
+  <p>How much pricing power a firm has depends on its <strong>market structure</strong> — how much competition it faces:</p>
+  <ul class="clean">
+    <li><b>Perfect competition</b> — many tiny sellers of identical products (commodities, agriculture). No one has pricing power; everyone takes the market price. Thin margins.</li>
+    <li><b>Monopolistic competition</b> — many sellers, but differentiated products (restaurants, clothing brands). Some pricing power via branding.</li>
+    <li><b>Oligopoly</b> — a few large players dominate (telecom, airlines, cement). They watch each other closely; pricing is strategic.</li>
+    <li><b>Monopoly</b> — one seller, no substitutes. Maximum pricing power (often regulated, like utilities).</li>
+  </ul>
+  <div class="box key"><div class="tag">★ The investor's translation</div><p>Warren Buffett calls it the "economic moat." A business with <strong>less competition and more pricing power</strong> earns higher, more durable profits. When you analyze a company (M12), one of the first questions is: what's its market structure, and how protected is it from competition? Economics gives you the vocabulary to answer that.</p></div>
+
+  <h2 class="sec" id="s5"><span class="sec-no">Section 05</span>GDP &amp; the business cycle</h2>
+  <p>Now zoom out to macro. <em class="term">GDP (Gross Domestic Product)</em> is the total value of all goods and services an economy produces in a period — the single broadest measure of economic size and health. It's often expressed as a simple sum of who spends:</p>
+  <div class="formula"><span class="eq"><b>GDP</b> = C + I + G + NX</span><span class="lbl">consumption + investment + govt spending + net exports</span></div>
+  <p>When GDP grows, the economy is expanding — more jobs, more profits, rising markets. When it shrinks for two consecutive quarters, that's the technical definition of a <strong>recession</strong>. Economies don't grow in a straight line; they move in a <em class="term">business cycle</em>:</p>
+  <figure>
+    <svg viewBox="0 0 680 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The business cycle wave">
+      <line x1="30" y1="120" x2="660" y2="120" stroke="#2A323D" stroke-width="1" stroke-dasharray="4 4"/>
+      <text x="35" y="113" fill="#5E6B78" font-family="JetBrains Mono,monospace" font-size="9">trend growth</text>
+      <path d="M30,140 Q130,40 230,120 Q300,175 360,150 Q420,128 520,55 Q580,20 620,90" stroke="#D4A24E" stroke-width="2.5" fill="none"/>
+      <g font-family="Inter,sans-serif" font-size="11" fill="#9AA7B4" text-anchor="middle">
+        <circle cx="180" cy="62" r="3" fill="#3FB950"/><text x="180" y="50">peak</text>
+        <circle cx="300" cy="170" r="3" fill="#F0625A"/><text x="300" y="195">trough</text>
+        <circle cx="510" cy="58" r="3" fill="#3FB950"/><text x="510" y="46">peak</text>
+      </g>
+      <text x="110" y="200" fill="#5AA6E0" font-family="JetBrains Mono,monospace" font-size="9" text-anchor="middle">EXPANSION</text>
+      <text x="250" y="200" fill="#F0625A" font-family="JetBrains Mono,monospace" font-size="9" text-anchor="middle">RECESSION</text>
+      <text x="430" y="200" fill="#5AA6E0" font-family="JetBrains Mono,monospace" font-size="9" text-anchor="middle">RECOVERY</text>
+    </svg>
+    <figcaption>The business cycle: expansion → peak → recession → trough → recovery, around a long-run growth trend.</figcaption>
+  </figure>
+  <p>Understanding where the economy sits in this cycle shapes nearly every investment decision — different assets thrive in different phases (a theme we'll return to in portfolio management, M13).</p>
+
+  <h2 class="sec" id="s6"><span class="sec-no">Section 06</span>Inflation &amp; unemployment</h2>
+  <p>You met inflation in M01 — the sustained rise in prices that erodes money's value. Macro adds its uneasy partner: <strong>unemployment</strong>, the share of people who want work but can't find it. These two are the central bank's twin obsessions, because they often pull in opposite directions.</p>
+  <p>The rough historical relationship (the "Phillips curve") suggests that when unemployment is low, the economy runs hot and inflation tends to rise; when unemployment is high, inflation tends to cool. This creates the fundamental policy dilemma: <strong>fight inflation and you risk unemployment; fight unemployment and you risk inflation.</strong> Every central bank decision is a negotiation between these two. (The relationship is messier in reality — "stagflation," high inflation <em>and</em> high unemployment together, broke the simple version in the 1970s — but the tension is real.)</p>
+
+  <h2 class="sec" id="s7"><span class="sec-no">Section 07</span>Monetary vs fiscal policy — the two levers</h2>
+  <p>Governments and central banks have two distinct toolsets to steer the economy. Confusing them is one of the most common mistakes in reading financial news, so get this clear:</p>
+  <ul class="clean">
+    <li><b>Monetary policy</b> — run by the <em>central bank</em> (RBI, Fed). Tools: interest rates and the money supply. To stimulate: cut rates, making borrowing cheap. To cool: raise rates. This is the lever from M01.</li>
+    <li><b>Fiscal policy</b> — run by the <em>government</em>. Tools: spending and taxation. To stimulate: spend more or cut taxes (putting money in people's hands). To cool: spend less or raise taxes.</li>
+  </ul>
+  <div class="formula"><span class="eq"><span style="color:#5AA6E0">MONETARY</span> = central bank · rates &amp; money &nbsp;|&nbsp; <span style="color:#3FB950">FISCAL</span> = govt · spend &amp; tax</span><span class="lbl">the two levers of economic policy</span></div>
+  <p>Both aim to smooth the business cycle — boosting a sluggish economy or restraining an overheating one. They can work together or at cross-purposes. When you hear "the RBI cut the repo rate" (monetary) versus "the Budget raised infrastructure spending" (fiscal), you now know exactly which lever is being pulled and by whom.</p>
+  <div class="box india"><div class="tag">🇮🇳 India lens</div><p>In India, <strong>monetary policy</strong> is set by the RBI's Monetary Policy Committee (the repo rate is the headline tool, aimed at the 4% inflation target). <strong>Fiscal policy</strong> is set by the government, most visibly in the annual <strong>Union Budget</strong> each February — tax changes and spending plans. Markets watch both intensely: an RBI rate decision and Budget day are two of the most market-moving events on the Indian calendar.</p></div>
+
+  <h2 class="sec" id="s8"><span class="sec-no">Section 08</span>Exchange rates &amp; the global picture</h2>
+  <p>No economy is an island. An <em class="term">exchange rate</em> is simply the price of one currency in terms of another (₹/$), and like any price, it's set by supply and demand for the currencies. When more people want to buy Indian goods, assets, or rupees, the rupee strengthens; when capital flows out, it weakens.</p>
+  <p>Why it matters to finance: a weaker rupee makes Indian exports cheaper (good for IT and pharma exporters) but imports — including oil — more expensive (feeding inflation). Currency moves ripple through company earnings, inflation, and central bank decisions. The broader accounting of a country's transactions with the world is the <strong>balance of payments</strong>, but the headline you need is simpler: <strong>exchange rates are prices, driven by the same supply-and-demand forces as everything else, just at a national scale.</strong></p>
+  <div class="box key"><div class="tag">★ Tying it together</div><p>Every macro concept here connects back to markets. Supply &amp; demand sets prices. GDP and the cycle set the backdrop. Inflation and unemployment drive central bank decisions. Those decisions move interest rates — which, via M02, reprice every asset on earth. You now have the macro scaffolding to understand why a single inflation report can move trillions in markets worldwide.</p></div>
+
+  <div class="takeaways"><h3>The eight things to carry forward</h3><ol>
+    <li>Economics splits into <b>micro</b> (firms &amp; prices) and <b>macro</b> (whole economies).</li>
+    <li><b>Supply &amp; demand</b> set prices; shifts in either move the equilibrium.</li>
+    <li><b>Elasticity</b> measures price sensitivity — inelastic demand = pricing power.</li>
+    <li><b>Market structure</b> (competition → monopoly) determines a firm's pricing power and moat.</li>
+    <li><b>GDP</b> measures economic size; economies move in a <b>business cycle</b>.</li>
+    <li><b>Inflation and unemployment</b> usually trade off — the central bank's core dilemma.</li>
+    <li><b>Monetary</b> policy = central bank (rates); <b>fiscal</b> = government (spend &amp; tax).</li>
+    <li><b>Exchange rates</b> are prices set by supply and demand, with economy-wide effects.</li>
+  </ol></div>
+
+  <h3 class="sub">Check yourself</h3>
+  <details class="quiz"><summary><span><span class="q">Q1 ·</span> A drought wrecks the wheat harvest. What happens to wheat's price and quantity?</span></summary><div class="ans">Supply shifts <b>left</b> (less available). The equilibrium moves to a <b>higher price</b> and <b>lower quantity</b>. Because food demand is inelastic, the price spike is sharp — people still need to eat, so they pay more rather than buy much less.</div></details>
+  <details class="quiz"><summary><span><span class="q">Q2 ·</span> The RBI cuts rates and the government raises infrastructure spending. Which is which?</span></summary><div class="ans">The rate cut is <b>monetary policy</b> (central bank, cost of money). The spending increase is <b>fiscal policy</b> (government, spend &amp; tax). Both are stimulative — they're pulling in the same direction to boost growth.</div></details>
+  <details class="quiz"><summary><span><span class="q">Q3 ·</span> Why do investors prize a company with "pricing power"?</span></summary><div class="ans">Pricing power means <b>inelastic demand</b> for its product — usually from a strong brand, monopoly position, or lack of substitutes. It can raise prices without losing customers, protecting profits and margins (an "economic moat"). That makes its earnings higher and more durable.</div></details>
+
+  <h3 class="sub">Glossary</h3>
+  <dl class="gloss">
+    <dt>Microeconomics / Macroeconomics</dt><dd>Study of individual markets/firms / of whole economies.</dd>
+    <dt>Equilibrium</dt><dd>Price and quantity where supply meets demand and the market clears.</dd>
+    <dt>Elasticity</dt><dd>How sensitively quantity demanded responds to a price change.</dd>
+    <dt>Market structure</dt><dd>Degree of competition: perfect, monopolistic, oligopoly, monopoly.</dd>
+    <dt>GDP</dt><dd>Total value of goods and services produced; C + I + G + NX.</dd>
+    <dt>Business cycle</dt><dd>The recurring expansion–peak–recession–trough pattern of an economy.</dd>
+    <dt>Monetary policy</dt><dd>Central-bank control of interest rates and money supply.</dd>
+    <dt>Fiscal policy</dt><dd>Government control of spending and taxation.</dd>
+    <dt>Exchange rate</dt><dd>The price of one currency in terms of another.</dd>
+  </dl>
+</div></section>
+
+<footer class="foot"><div class="wrap">
+  <div class="nextcard"><div class="u">Up next · Module 06</div><h3>Corporate Finance &amp; Capital Decisions</h3>
+  <p>You understand the economy companies live in. Now step inside the boardroom: how firms decide what to invest in, how to fund it, and what to do with profit — using NPV, IRR, and the cost of capital. This is where M02's discounting finally pays off.</p>
+  <div class="call">&gt; <span>say:</span> "give me M06" — or it's next in this batch.</div></div>
+  <div class="endsig">— End of Module 05 · Economics for Finance —</div>
+</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:20px;font-family:var(--mono);font-size:12px;letter-spacing:.04em;"><a href="M04_financial_statement_analysis.html" style="color:var(--gold);text-decoration:none;">&larr; Prev · M04</a><a href="index.html" style="color:var(--ink-mute);text-decoration:none;">&#8962; Home</a><a href="M06_corporate_finance.html" style="color:var(--gold);text-decoration:none;">Next · M06 &rarr;</a></div>
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const upd=()=>{const h=document.documentElement;const sc=h.scrollTop||document.body.scrollTop;const max=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(sc/max*100)+'%';};
+  document.addEventListener('scroll',upd,{passive:true});upd();
+
+  // supply & demand
+  const d=document.getElementById('d'),s=document.getElementById('s');
+  const dVal=document.getElementById('dVal'),sVal=document.getElementById('sVal');
+  const eqP=document.getElementById('eqP'),eqQ=document.getElementById('eqQ'),chart=document.getElementById('sdchart');
+  const W=480,H=320,padL=46,padB=44,padT=18,padR=18;
+  const x0=padL,x1=W-padR,y0=H-padB,y1=padT;
+  const X=q=>x0+(q/100)*(x1-x0), Y=p=>y0-(p/100)*(y0-y1);
+  function draw(){
+    const ds=+d.value, ss=+s.value;
+    dVal.textContent=(ds>=0?'+':'')+ds; sVal.textContent=(ss>=0?'+':'')+ss;
+    // Demand: P = 100 - Q + ds ; Supply: P = Q - ss  (in 0..100 space)
+    // equilibrium: 100 - Q + ds = Q - ss -> Q = (100+ds+ss)/2
+    let Qe=(100+ds+ss)/2; let Pe=Qe-ss;
+    Qe=Math.max(2,Math.min(98,Qe)); Pe=Math.max(2,Math.min(98,Pe));
+    eqP.textContent='₹'+Math.round(Pe); eqQ.textContent=Math.round(Qe);
+    // demand line endpoints across Q=0..100
+    const dP0=100+ds, dP100=ds; // P at Q=0 and Q=100
+    const sP0=-ss, sP100=100-ss;
+    const clamp=(x,y)=>[X(Math.max(0,Math.min(100,x))),Y(Math.max(0,Math.min(100,y)))];
+    chart.innerHTML=`
+      <line x1="${x0}" y1="${y0}" x2="${x1}" y2="${y0}" stroke="#3A434F"/>
+      <line x1="${x0}" y1="${y0}" x2="${x0}" y2="${y1}" stroke="#3A434F"/>
+      <text x="${(x0+x1)/2}" y="${H-10}" fill="#5E6B78" font-family="JetBrains Mono,monospace" font-size="10" text-anchor="middle">Quantity →</text>
+      <text x="14" y="${(y0+y1)/2}" fill="#5E6B78" font-family="JetBrains Mono,monospace" font-size="10" text-anchor="middle" transform="rotate(-90 14 ${(y0+y1)/2})">Price →</text>
+      <line x1="${X(0)}" y1="${Y(Math.min(100,dP0))}" x2="${X(100)}" y2="${Y(Math.max(0,dP100))}" stroke="#5AA6E0" stroke-width="2.4"/>
+      <text x="${X(100)-4}" y="${Y(Math.max(0,dP100))-6}" fill="#5AA6E0" font-family="JetBrains Mono,monospace" font-size="10" text-anchor="end">Demand</text>
+      <line x1="${X(0)}" y1="${Y(Math.max(0,sP0))}" x2="${X(100)}" y2="${Y(Math.min(100,sP100))}" stroke="#D4A24E" stroke-width="2.4"/>
+      <text x="${X(100)-4}" y="${Y(Math.min(100,sP100))+14}" fill="#D4A24E" font-family="JetBrains Mono,monospace" font-size="10" text-anchor="end">Supply</text>
+      <line x1="${X(Qe)}" y1="${y0}" x2="${X(Qe)}" y2="${Y(Pe)}" stroke="#3FB950" stroke-width="1" stroke-dasharray="3 3"/>
+      <line x1="${x0}" y1="${Y(Pe)}" x2="${X(Qe)}" y2="${Y(Pe)}" stroke="#3FB950" stroke-width="1" stroke-dasharray="3 3"/>
+      <circle cx="${X(Qe)}" cy="${Y(Pe)}" r="5" fill="#3FB950"/>`;
+  }
+  [d,s].forEach(el=>el.addEventListener('input',draw)); draw();
+</script>
+</body>
+</html>

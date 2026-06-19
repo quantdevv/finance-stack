@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M16 · Behavioral Finance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--base:#0E1116;--surface:#161B22;--raised:#1C232C;--hair:#2A323D;--hair-soft:#222932;
+    --ink:#E8EFF5;--ink-mute:#9AA7B4;--ink-faint:#5E6B78;--gold:#D4A24E;--gold-soft:#3a3017;
+    --gain:#3FB950;--loss:#F0625A;--blue:#5AA6E0;
+    --display:"Fraunces",Georgia,serif;--body:"Inter",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--base);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.72;-webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(900px 480px at 88% -8%, rgba(212,162,78,0.05), transparent 60%),radial-gradient(700px 420px at -5% 3%, rgba(90,166,224,0.035), transparent 55%);}
+  .wrap{max-width:760px;margin:0 auto;padding:0 26px;}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;background:var(--gold);z-index:99;box-shadow:0 0 10px rgba(212,162,78,0.6);transition:width .1s linear;}
+  .topbar{border-bottom:1px solid var(--hair);background:rgba(14,17,22,0.88);backdrop-filter:blur(8px);position:sticky;top:0;z-index:50;}
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:46px;max-width:980px;font-family:var(--mono);font-size:11px;letter-spacing:0.08em;color:var(--ink-mute);text-transform:uppercase;}
+  .topbar .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--gain);margin-right:8px;box-shadow:0 0 8px var(--gain);}
+  .hero{padding:72px 0 40px;border-bottom:1px solid var(--hair-soft);}
+  .hero .wrap{max-width:820px;}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:13px;margin-bottom:24px;}
+  .kicker::before{content:"";height:1px;width:38px;background:var(--gold);opacity:0.6;}
+  .hero h1{font-family:var(--display);font-weight:600;font-size:clamp(2.3rem,5.5vw,3.5rem);line-height:1.05;letter-spacing:-0.02em;margin-bottom:22px;}
+  .hero h1 em{font-style:italic;color:var(--gold);font-weight:500;}
+  .hero .stand{font-size:1.12rem;color:var(--ink-mute);max-width:60ch;}
+  .metarow{display:flex;flex-wrap:wrap;gap:22px;margin-top:30px;font-family:var(--mono);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-faint);}
+  .metarow b{color:var(--ink-mute);font-weight:500;}
+  .toc{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:24px 26px;margin:44px 0 8px;}
+  .toc h2{font-family:var(--mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:16px;font-weight:500;}
+  .toc ol{list-style:none;counter-reset:t;}
+  .toc li{counter-increment:t;padding:7px 0;border-bottom:1px solid var(--hair-soft);}
+  .toc li:last-child{border-bottom:none;}
+  .toc a{color:var(--ink);text-decoration:none;display:flex;gap:14px;align-items:baseline;transition:color .15s;}
+  .toc a:hover{color:var(--gold);}
+  .toc a::before{content:counter(t,decimal-leading-zero);font-family:var(--mono);font-size:12px;color:var(--gold);min-width:26px;}
+  section.lesson{padding:30px 0;}
+  .lesson .wrap{max-width:720px;}
+  h2.sec{font-family:var(--display);font-weight:600;font-size:1.85rem;letter-spacing:-0.015em;margin:54px 0 8px;line-height:1.15;scroll-margin-top:70px;}
+  .sec-no{font-family:var(--mono);font-size:12px;letter-spacing:0.16em;color:var(--gold);text-transform:uppercase;display:block;margin-bottom:10px;}
+  h3.sub{font-family:var(--display);font-weight:600;font-size:1.28rem;margin:38px 0 6px;letter-spacing:-0.01em;color:var(--ink);}
+  p{margin:16px 0;color:#D5DEE6;}
+  p strong{color:var(--ink);font-weight:600;}
+  em.term{font-style:normal;color:var(--gold);font-weight:500;}
+  ul.clean{margin:18px 0;padding-left:0;list-style:none;}
+  ul.clean li{position:relative;padding-left:26px;margin:11px 0;color:#D5DEE6;}
+  ul.clean li::before{content:"";position:absolute;left:6px;top:12px;width:6px;height:6px;background:var(--gold);border-radius:50%;}
+  ul.clean li b{color:var(--ink);font-weight:600;}
+  .box{border-radius:0 10px 10px 0;padding:18px 22px;margin:26px 0;font-size:0.98rem;background:var(--surface);border:1px solid var(--hair);border-left-width:3px;}
+  .box .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:9px;display:flex;align-items:center;gap:8px;font-weight:500;}
+  .box p{margin:8px 0;color:#CBD5DE;}.box p:first-of-type{margin-top:0;}
+  .box.eng{border-left-color:var(--blue);}.box.eng .tag{color:var(--blue);}
+  .box.ex{border-left-color:var(--gold);}.box.ex .tag{color:var(--gold);}
+  .box.india{border-left-color:var(--gain);}.box.india .tag{color:var(--gain);}
+  .box.key{border-left-color:var(--gold);background:rgba(212,162,78,0.06);}.box.key .tag{color:var(--gold);}
+  .box.warn{border-left-color:var(--loss);background:rgba(240,98,90,0.05);}.box.warn .tag{color:var(--loss);}
+  .box code{font-family:var(--mono);font-size:0.86em;background:rgba(255,255,255,0.05);padding:2px 6px;border-radius:4px;color:var(--gold);}
+  .formula{background:var(--raised);border:1px solid var(--hair);border-radius:10px;padding:20px;margin:26px 0;text-align:center;}
+  .formula .eq{font-family:var(--mono);font-size:1.05rem;color:var(--ink);display:block;}
+  .formula .eq b{color:var(--gold);font-weight:700;}
+  .formula .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-faint);margin-top:12px;display:block;}
+  table.data{width:100%;border-collapse:collapse;margin:24px 0;font-size:0.92rem;}
+  table.data th,table.data td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--hair-soft);}
+  table.data th{font-family:var(--mono);font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);font-weight:500;}
+  table.data td{color:#CBD5DE;}
+  table.data td:first-child{color:var(--ink);font-weight:500;}
+  .play{background:var(--surface);border:1px solid var(--gold-soft);border-radius:14px;padding:24px 24px 20px;margin:32px 0;}
+  .play .ptitle{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+  .ctrl{margin:14px 0;}
+  .ctrl label{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;color:var(--ink-mute);margin-bottom:7px;}
+  .ctrl label b{color:var(--gold);font-weight:700;}
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:4px;border-radius:3px;background:var(--hair);outline:none;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--gold);cursor:pointer;box-shadow:0 0 0 4px rgba(212,162,78,0.15);}
+  input[type=range]::-moz-range-thumb{width:16px;height:16px;border:none;border-radius:50%;background:var(--gold);cursor:pointer;}
+  .readout{display:flex;flex-wrap:wrap;gap:14px;margin:16px 0 6px;}
+  .ro{flex:1 1 30%;min-width:100px;background:var(--raised);border:1px solid var(--hair);border-radius:9px;padding:12px 14px;text-align:center;}
+  .ro .v{font-family:var(--display);font-size:1.35rem;font-weight:600;line-height:1.1;}
+  .ro .v.gn{color:var(--gain);} .ro .v.ls{color:var(--loss);} .ro .v.rt{color:var(--gold);}
+  .ro .k{font-family:var(--mono);font-size:9px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-faint);margin-top:6px;}
+  .biascard{background:var(--raised);border:1px solid var(--hair);border-radius:10px;padding:14px 16px;margin:10px 0;}
+  .biascard b{color:var(--gold);font-family:var(--mono);font-size:12px;letter-spacing:0.04em;}
+  .biascard p{margin:6px 0 0;color:#CBD5DE;font-size:0.94rem;}
+  .takeaways{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:28px;margin:30px 0;}
+  .takeaways h3{font-family:var(--display);font-size:1.3rem;margin-bottom:14px;color:var(--ink);}
+  .takeaways ol{counter-reset:k;list-style:none;}
+  .takeaways li{counter-increment:k;position:relative;padding:11px 0 11px 40px;border-bottom:1px solid var(--hair-soft);color:#D5DEE6;font-size:0.97rem;}
+  .takeaways li:last-child{border-bottom:none;}
+  .takeaways li::before{content:counter(k,decimal-leading-zero);position:absolute;left:0;top:11px;font-family:var(--mono);font-size:12px;color:var(--gold);}
+  .gloss{margin:24px 0;}
+  .gloss dt{font-family:var(--mono);font-size:13px;color:var(--gold);font-weight:700;margin-top:18px;}
+  .gloss dd{margin:5px 0 0;color:#CBD5DE;font-size:0.96rem;}
+  .quiz{margin:18px 0;border:1px solid var(--hair);border-radius:10px;overflow:hidden;background:var(--surface);}
+  .quiz summary{padding:15px 20px;cursor:pointer;font-weight:500;color:var(--ink);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;}
+  .quiz summary::-webkit-details-marker{display:none;}
+  .quiz summary .q{font-family:var(--mono);font-size:11px;color:var(--gold);}
+  .quiz summary::after{content:"+";font-family:var(--mono);color:var(--ink-faint);font-size:18px;}
+  .quiz[open] summary::after{content:"–";}
+  .quiz .ans{padding:0 20px 17px;color:#CBD5DE;font-size:0.95rem;border-top:1px solid var(--hair-soft);padding-top:14px;}
+  .foot{border-top:1px solid var(--hair);margin-top:60px;padding:46px 0 80px;}
+  .nextcard{background:var(--surface);border:1px solid var(--hair);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:22px 24px;}
+  .nextcard .u{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:10px;}
+  .nextcard h3{font-family:var(--display);font-size:1.4rem;color:var(--ink);margin-bottom:8px;}
+  .nextcard p{color:var(--ink-mute);font-size:0.96rem;margin:0;}
+  .nextcard .call{margin-top:16px;font-family:var(--mono);font-size:12.5px;color:var(--ink);}
+  .nextcard .call span{color:var(--gold);}
+  .partdone{background:rgba(63,185,80,0.07);border:1px solid rgba(63,185,80,0.3);border-radius:10px;padding:16px 20px;margin:22px 0;font-family:var(--mono);font-size:12px;color:var(--gain);letter-spacing:0.04em;}
+  .endsig{font-family:var(--mono);font-size:10.5px;letter-spacing:0.1em;color:var(--ink-faint);text-transform:uppercase;text-align:center;margin-top:40px;}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}#bar{transition:none;}}
+  @media (max-width:560px){body{font-size:16px;}h2.sec{font-size:1.55rem;}.formula .eq{font-size:0.92rem;}}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+<div class="topbar"><div class="wrap">
+  <div><a href="index.html" style="color:var(--gold);text-decoration:none;margin-right:14px;">&larr; Home</a><span class="dot"></span>MODULE 16 / 24</div>
+  <div>PART IV · ANALYSIS, INVESTING &amp; STRATEGY</div>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">M16 · The Mind In The Market</div>
+  <h1>Behavioral finance —<br>your own worst <em>enemy</em>.</h1>
+  <p class="stand">Every model so far assumed a cool, rational investor. You are not one — nobody is. This closing module of Part IV is about the predictable ways human psychology distorts our financial decisions, fuels bubbles and crashes, and quietly sabotages even people who know all the theory.</p>
+  <div class="metarow">
+    <span><b>Depth</b> ◐◐◐○ Deep</span>
+    <span><b>Read</b> ~29 min</span>
+    <span><b>Builds on</b> M12–M15</span>
+  </div>
+</div></header>
+
+<div class="wrap"><nav class="toc">
+  <h2>What we'll cover</h2>
+  <ol>
+    <li><a href="#s1">The rational-actor myth</a></li>
+    <li><a href="#s2">Efficient markets vs behavioral reality</a></li>
+    <li><a href="#s3">Loss aversion &amp; prospect theory</a></li>
+    <li><a href="#s4">The big cognitive biases</a></li>
+    <li><a href="#s5">Mental accounting &amp; framing</a></li>
+    <li><a href="#s6">Herding, bubbles &amp; manias</a></li>
+    <li><a href="#s7">How biases shape markets</a></li>
+    <li><a href="#s8">Debiasing yourself</a></li>
+  </ol>
+</nav></div>
+
+<section class="lesson"><div class="wrap">
+
+  <h2 class="sec" id="s1"><span class="sec-no">Section 01</span>The rational-actor myth</h2>
+  <p>Classical finance is built on a fictional character: <em class="term">homo economicus</em>, a perfectly rational agent who weighs all information, computes probabilities flawlessly, and always maximises expected utility. The efficient frontier (M13), CAPM, option pricing — all assume this person exists. <strong>They don't.</strong> Real humans run on mental shortcuts (<em class="term">heuristics</em>) that work well in daily life but misfire systematically when facing money, probability, and uncertainty.</p>
+  <div class="box key">
+    <div class="tag">★ Why this is the keystone module</div>
+    <p>Behavioral finance, pioneered by psychologists Daniel Kahneman and Amos Tversky (two Nobel Prizes between the field's founders), showed our errors aren't random — they're <strong>systematic and predictable</strong>. That's the crucial word: predictable errors can be studied, anticipated, and defended against. This module turns "people are irrational" from a shrug into a usable map of exactly <em>how</em>.</p>
+  </div>
+
+  <h2 class="sec" id="s2"><span class="sec-no">Section 02</span>Efficient markets vs behavioral reality</h2>
+  <p>The <em class="term">Efficient Market Hypothesis (EMH)</em> claims prices already reflect all available information, so you can't consistently beat the market — any mispricing is instantly arbitraged away by rational traders. There's deep truth here: markets are <em>mostly</em> efficient, which is why beating them is so hard and why index funds (M07, M13) work so well.</p>
+  <p>But behavioral finance counters that real markets are populated by emotional humans, so prices can stay irrational for long stretches — manias, panics, bubbles. The honest synthesis: <strong>markets are efficient enough that you shouldn't assume you can easily beat them, but human enough that collective psychology genuinely moves prices.</strong> Both truths coexist, and holding them together is wisdom, not contradiction.</p>
+
+  <h2 class="sec" id="s3"><span class="sec-no">Section 03</span>Loss aversion &amp; prospect theory</h2>
+  <p>The single most important finding: <em class="term">loss aversion</em>. Losses hurt about <strong>twice as much</strong> as equivalent gains feel good. Losing ₹10,000 stings far more than gaining ₹10,000 pleases. Kahneman &amp; Tversky's <em class="term">prospect theory</em> captures this with an asymmetric value function — steeper for losses than for gains. See and feel the asymmetry:</p>
+
+  <div class="play" id="play">
+    <div class="ptitle">▶ Interactive · Prospect theory — feel loss aversion</div>
+    <div class="ctrl"><label>Amount at stake <b>₹<span id="amtV">10,000</span></b></label>
+      <input type="range" id="amt" min="1000" max="50000" step="1000" value="10000"></div>
+    <svg id="curve" viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg"></svg>
+    <div class="readout">
+      <div class="ro"><div class="v gn" id="joy">+44</div><div class="k">Joy of gaining it</div></div>
+      <div class="ro"><div class="v ls" id="pain">−99</div><div class="k">Pain of losing it</div></div>
+      <div class="ro"><div class="v rt" id="ratio">2.25×</div><div class="k">Loss feels this much worse</div></div>
+    </div>
+    <p style="font-family:var(--mono);font-size:11px;color:var(--ink-faint);text-align:center;margin:8px 0 0;">The curve bends sharper below zero — that steeper drop IS loss aversion (psychological "value" units, illustrative).</p>
+  </div>
+
+  <div class="box ex">
+    <div class="tag">▸ What loss aversion makes us do</div>
+    <p>This one bias explains a parade of investing mistakes: <strong>holding losers too long</strong> (selling means admitting a loss, which hurts), <strong>selling winners too early</strong> (locking in a gain feels safe — the "disposition effect"), panic-selling at market bottoms, and avoiding sensible risk. The rebalancing rule (M13) and the stop-loss (M14/M15) exist precisely to override this hardwired flinch with a mechanical rule.</p>
+  </div>
+
+  <h2 class="sec" id="s4"><span class="sec-no">Section 04</span>The big cognitive biases</h2>
+  <p>Loss aversion has company. The repeat offenders in financial decisions:</p>
+  <div class="biascard"><b>ANCHORING</b><p>Fixating on an irrelevant reference number — like refusing to sell below your purchase price, even though the market doesn't know or care what you paid.</p></div>
+  <div class="biascard"><b>CONFIRMATION BIAS</b><p>Seeking information that supports what you already believe and dismissing what contradicts it — fatal for an investment thesis (M12).</p></div>
+  <div class="biascard"><b>OVERCONFIDENCE</b><p>Overestimating our own knowledge and skill — leading to overtrading, under-diversifying, and the illusion we can beat markets and time them.</p></div>
+  <div class="biascard"><b>RECENCY &amp; AVAILABILITY</b><p>Overweighting recent or vivid events — assuming a rising market will keep rising, or fearing a crash right after one happened.</p></div>
+  <div class="biascard"><b>HINDSIGHT BIAS</b><p>"I knew it all along" — after the fact, believing an outcome was obvious, which breeds false confidence in predicting the next one.</p></div>
+
+  <h2 class="sec" id="s5"><span class="sec-no">Section 05</span>Mental accounting &amp; framing</h2>
+  <p><em class="term">Mental accounting</em> is treating money differently based on arbitrary labels — splurging a tax refund or bonus while carefully guarding salary, though rupees are identical. <em class="term">Framing</em> is being swayed by how a choice is worded: "90% survival rate" feels better than "10% death rate" though they're the same fact.</p>
+  <div class="box eng">
+    <div class="tag">⌘ Engineer's note</div>
+    <p>These biases violate a property a rational system should have: <strong>invariance</strong> — the same decision should result regardless of irrelevant relabeling or rewording of identical options. Humans fail invariance constantly. Recognising it is a debugging skill: when you notice your decision flips based purely on framing, you've caught a bug in your own reasoning. The fix is to re-state every choice in neutral, absolute terms before deciding.</p>
+  </div>
+
+  <h2 class="sec" id="s6"><span class="sec-no">Section 06</span>Herding, bubbles &amp; manias</h2>
+  <p>Individually irrational, collectively catastrophic. <em class="term">Herding</em> — following the crowd — is deeply human (there's safety in numbers, and FOMO is real). In markets it produces <strong>bubbles</strong>: prices detach from any sane value as everyone buys because everyone else is, until belief breaks and the crash comes.</p>
+  <p>The pattern is ancient and rhyming: Dutch tulip mania (1630s), the dot-com bubble (2000), US housing (2008), and countless crypto and meme-stock frenzies. Each felt different to those inside it ("this time it's new"), and each followed the same arc of greed → euphoria → denial → panic. Knowing the shape of a bubble doesn't make you immune — but it gives you a fighting chance to step back when everyone around you has lost their minds.</p>
+  <div class="box india">
+    <div class="tag">🇮🇳 India lens</div>
+    <p>Indian markets have their own behavioral signatures: the lure of "hot tips" and Telegram pump groups, IPO frenzies, the small-cap manias that periodically inflate and collapse, and the post-2020 retail-trading and F&amp;O boom (M15) driven heavily by recency bias and overconfidence after a rising market. SEBI's investor-education push exists largely to fight these very biases. The disciplined SIP investor (M02) quietly outperforms the excited tip-chaser, year after year.</p>
+  </div>
+
+  <h2 class="sec" id="s7"><span class="sec-no">Section 07</span>How biases shape markets</h2>
+  <p>Here's the payoff that ties back to M12. If investors are systematically biased, prices can be systematically wrong — which means the disciplined, unemotional investor has an <strong>edge</strong>. Many documented market "anomalies" (value stocks outperforming, momentum, post-earnings drift) are arguably the footprints of crowd psychology. Behavioral finance is thus not just a catalogue of mistakes — it's a partial map of where opportunity hides.</p>
+  <div class="box key">
+    <div class="tag">★ Be the calm one</div>
+    <p>Warren Buffett's "be fearful when others are greedy, and greedy when others are fearful" is pure applied behavioral finance. The biases that hurt the crowd <strong>create the mispricings the disciplined investor exploits.</strong> You don't beat the market by being smarter than everyone — that's nearly impossible. You beat it (when you can) by being <em>calmer</em> than everyone: doing the boring, rule-based, unemotional thing while others panic or chase. Temperament beats intellect.</p>
+  </div>
+
+  <h2 class="sec" id="s8"><span class="sec-no">Section 08</span>Debiasing yourself</h2>
+  <p>You can't delete these biases — they're factory-installed. But you can build systems that blunt them:</p>
+  <ul class="clean">
+    <li><b>Use rules, not feelings.</b> Automatic SIPs (M02), pre-set rebalancing (M13), and stop-losses (M14) take the emotional decision out of your hands.</li>
+    <li><b>Write down your thesis</b> including what would prove you wrong (M12) — pre-committing fights confirmation bias and hindsight.</li>
+    <li><b>Slow down on big decisions.</b> Kahneman's "System 2" — deliberate, effortful thinking — overrides the fast, biased "System 1" gut reaction if you give it time.</li>
+    <li><b>Keep a decision journal.</b> Record why you bought; review later to see your real track record, not your remembered one.</li>
+    <li><b>Default to low-cost index investing</b> if you doubt your edge — which most people honestly should. It sidesteps a whole category of self-inflicted wounds.</li>
+  </ul>
+  <div class="box warn">
+    <div class="tag">⚠ The bias about biases</div>
+    <p>The cruelest twist: knowing about biases doesn't make you immune — and may make it worse, because you'll spot them easily in <em>others</em> while staying blind to them in <em>yourself</em> (the "bias blind spot"). True debiasing comes not from knowledge alone but from <strong>humble systems</strong> that assume you'll be irrational and constrain you in advance. Build the guardrails while you're calm, because you won't be calm when it counts.</p>
+  </div>
+
+  <div class="partdone">✓ PART IV COMPLETE — Analysis, Investing &amp; Strategy (M12–M16). You can now analyse, build, protect, trade, and understand the psychology behind it all. Next: Part V — Institutions &amp; the Professional World.</div>
+
+  <div class="takeaways">
+    <h3>The eight things to carry forward</h3>
+    <ol>
+      <li>The <b>rational actor</b> of classical finance is a fiction; real humans use flawed heuristics.</li>
+      <li>Markets are <b>mostly efficient but humanly emotional</b> — both truths hold at once.</li>
+      <li><b>Loss aversion</b>: losses hurt ~2× more than equal gains please — the master bias.</li>
+      <li>Watch for <b>anchoring, confirmation bias, overconfidence, recency, hindsight.</b></li>
+      <li><b>Mental accounting &amp; framing</b> make identical choices feel different — violations of invariance.</li>
+      <li><b>Herding</b> produces bubbles and crashes that rhyme across history.</li>
+      <li>Systematic biases create <b>mispricings</b> the disciplined investor can exploit.</li>
+      <li>Debias with <b>rules and systems</b>, not willpower — temperament beats intellect.</li>
+    </ol>
+  </div>
+
+  <h3 class="sub">Check yourself</h3>
+  <details class="quiz"><summary><span><span class="q">Q1 ·</span> Why do investors tend to hold losing stocks too long and sell winners too early?</span></summary>
+    <div class="ans">Loss aversion (the disposition effect). Selling a loser forces you to <em>realise</em> a painful loss, so you avoid it and hope it recovers; selling a winner locks in a pleasant gain, so you grab it early. Both are emotionally driven and usually wrong — you should judge each holding on its future prospects, not your purchase price (anchoring).</div></details>
+  <details class="quiz"><summary><span><span class="q">Q2 ·</span> If markets are "mostly efficient," why do bubbles still happen?</span></summary>
+    <div class="ans">Because efficiency relies on rational arbitrageurs correcting mispricings, but when human emotion (herding, greed, FOMO) grips the whole crowd, prices can detach from value for long stretches — and betting against a bubble can bankrupt you before it pops. Efficiency is a strong tendency, not an ironclad law immune to mass psychology.</div></details>
+  <details class="quiz"><summary><span><span class="q">Q3 ·</span> Why is knowing about biases not enough to overcome them?</span></summary>
+    <div class="ans">Because of the bias blind spot — we detect biases in others while remaining blind to them in ourselves, especially under stress and emotion. Real protection comes from <b>systems built in advance</b> (automated SIPs, rules-based rebalancing, written theses, stop-losses) that constrain your future irrational self, rather than relying on in-the-moment willpower.</div></details>
+
+  <h3 class="sub">Glossary — terms to know cold</h3>
+  <dl class="gloss">
+    <dt>Behavioral finance</dt><dd>The study of how psychology affects financial decisions and markets.</dd>
+    <dt>Heuristic</dt><dd>A mental shortcut that's usually useful but can misfire systematically.</dd>
+    <dt>Efficient Market Hypothesis</dt><dd>The theory that prices already reflect all available information.</dd>
+    <dt>Loss aversion</dt><dd>The tendency to feel losses about twice as strongly as equivalent gains.</dd>
+    <dt>Prospect theory</dt><dd>Kahneman &amp; Tversky's model of decisions under risk, with an asymmetric value function.</dd>
+    <dt>Disposition effect</dt><dd>Selling winners too early and holding losers too long.</dd>
+    <dt>Anchoring</dt><dd>Over-relying on an initial or irrelevant reference number.</dd>
+    <dt>Confirmation bias</dt><dd>Favouring information that confirms existing beliefs.</dd>
+    <dt>Herding</dt><dd>Following the crowd's behaviour, fueling bubbles and panics.</dd>
+    <dt>Mental accounting</dt><dd>Treating money differently based on arbitrary mental labels.</dd>
+  </dl>
+
+</div></section>
+
+<footer class="foot"><div class="wrap">
+  <div class="nextcard">
+    <div class="u">Up next · Module 17 — Part V begins</div>
+    <h3>Banking — Commercial, Investment &amp; Central</h3>
+    <p>Part V steps into the institutions. How banks actually work — taking deposits and creating credit, what investment banks do, and how central banks (the RBI) steer the entire system through interest rates and the money supply. The machinery behind everything you've learned.</p>
+    <div class="call">&gt; <span>say:</span> "next" (or name any module) to continue.</div>
+  </div>
+  <div class="endsig">— End of Module 16 · Behavioral Finance · End of Part IV —</div>
+</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:20px;font-family:var(--mono);font-size:12px;letter-spacing:.04em;"><a href="M15_trading_technicals.html" style="color:var(--gold);text-decoration:none;">&larr; Prev · M15</a><a href="index.html" style="color:var(--ink-mute);text-decoration:none;">&#8962; Home</a><a href="M17_banking.html" style="color:var(--gold);text-decoration:none;">Next · M17 &rarr;</a></div>
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const upd=()=>{const h=document.documentElement;const sc=h.scrollTop||document.body.scrollTop;
+    const max=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(sc/max*100)+'%';};
+  document.addEventListener('scroll',upd,{passive:true});upd();
+
+  const AMT=document.getElementById('amt'),amtV=document.getElementById('amtV');
+  const joy=document.getElementById('joy'),pain=document.getElementById('pain'),ratio=document.getElementById('ratio');
+  const curve=document.getElementById('curve');
+  const inr=v=>v.toLocaleString('en-IN');
+  // prospect theory: v(x)=x^a for gains; -L*(|x|)^a for losses
+  const a=0.88, L=2.25;
+  const scale=x=>x/10000; // normalize to "units" so numbers are readable
+  function val(x){const z=scale(Math.abs(x)); return x>=0 ? Math.pow(z,a)*50 : -L*Math.pow(z,a)*50;}
+  function draw(){
+    const amt=+AMT.value; amtV.textContent=inr(amt);
+    const g=val(amt), l=val(-amt);
+    joy.textContent='+'+g.toFixed(0); pain.textContent=l.toFixed(0); ratio.textContent=(Math.abs(l)/g).toFixed(2)+'×';
+    const W=600,H=280,padL=20,padR=20,padT=14,padB=20;
+    const plotW=W-padL-padR, plotH=H-padT-padB;
+    const xMax=50000;
+    const X=x=>padL+plotW/2+(x/xMax)*(plotW/2);
+    const vMax=val(xMax), vMin=val(-xMax);
+    const Y=v=>padT+(1-(v-vMin)/(vMax-vMin))*plotH;
+    let d='';
+    for(let i=0;i<=100;i++){const x=-xMax+(2*xMax)*i/100;const xx=X(x),yy=Y(val(x));d+=(i?'L':'M')+xx.toFixed(1)+' '+yy.toFixed(1)+' ';}
+    const gx=X(amt),gy=Y(g),lx=X(-amt),ly=Y(l),ox=X(0),oy=Y(0);
+    curve.innerHTML=
+      `<line x1="${padL}" y1="${oy.toFixed(1)}" x2="${padL+plotW}" y2="${oy.toFixed(1)}" stroke="#2A323D"/>
+       <line x1="${ox.toFixed(1)}" y1="${padT}" x2="${ox.toFixed(1)}" y2="${padT+plotH}" stroke="#2A323D"/>
+       <text x="${(padL+plotW-4)}" y="${(oy-6).toFixed(1)}" text-anchor="end" fill="#5E6B78" font-family="JetBrains Mono,monospace" font-size="9">gains →</text>
+       <text x="${(padL+4)}" y="${(oy-6).toFixed(1)}" fill="#5E6B78" font-family="JetBrains Mono,monospace" font-size="9">← losses</text>
+       <path d="${d}" fill="none" stroke="#D4A24E" stroke-width="2.4"/>
+       <line x1="${gx.toFixed(1)}" y1="${oy.toFixed(1)}" x2="${gx.toFixed(1)}" y2="${gy.toFixed(1)}" stroke="#3FB950" stroke-dasharray="3 3"/>
+       <circle cx="${gx.toFixed(1)}" cy="${gy.toFixed(1)}" r="5" fill="#3FB950"/>
+       <line x1="${lx.toFixed(1)}" y1="${oy.toFixed(1)}" x2="${lx.toFixed(1)}" y2="${ly.toFixed(1)}" stroke="#F0625A" stroke-dasharray="3 3"/>
+       <circle cx="${lx.toFixed(1)}" cy="${ly.toFixed(1)}" r="5" fill="#F0625A"/>`;
+  }
+  AMT.addEventListener('input',draw); draw();
+</script>
+</body>
+</html>

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M06 · Corporate Finance &amp; Capital Decisions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--base:#0E1116;--surface:#161B22;--raised:#1C232C;--hair:#2A323D;--hair-soft:#222932;
+    --ink:#E8EFF5;--ink-mute:#9AA7B4;--ink-faint:#5E6B78;--gold:#D4A24E;--gold-soft:#3a3017;
+    --gain:#3FB950;--loss:#F0625A;--blue:#5AA6E0;
+    --display:"Fraunces",Georgia,serif;--body:"Inter",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--base);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.72;-webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(900px 480px at 88% -8%,rgba(212,162,78,0.05),transparent 60%),radial-gradient(700px 420px at -5% 3%,rgba(90,166,224,0.035),transparent 55%);}
+  .wrap{max-width:760px;margin:0 auto;padding:0 26px;}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;background:var(--gold);z-index:99;box-shadow:0 0 10px rgba(212,162,78,0.6);transition:width .1s linear;}
+  .topbar{border-bottom:1px solid var(--hair);background:rgba(14,17,22,0.88);backdrop-filter:blur(8px);position:sticky;top:0;z-index:50;}
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:46px;max-width:980px;font-family:var(--mono);font-size:11px;letter-spacing:0.08em;color:var(--ink-mute);text-transform:uppercase;}
+  .topbar .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--gain);margin-right:8px;box-shadow:0 0 8px var(--gain);}
+  .hero{padding:72px 0 40px;border-bottom:1px solid var(--hair-soft);}.hero .wrap{max-width:820px;}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:13px;margin-bottom:24px;}
+  .kicker::before{content:"";height:1px;width:38px;background:var(--gold);opacity:0.6;}
+  .hero h1{font-family:var(--display);font-weight:600;font-size:clamp(2.3rem,5.5vw,3.5rem);line-height:1.05;letter-spacing:-0.02em;margin-bottom:22px;}
+  .hero h1 em{font-style:italic;color:var(--gold);font-weight:500;}
+  .hero .stand{font-size:1.12rem;color:var(--ink-mute);max-width:60ch;}
+  .metarow{display:flex;flex-wrap:wrap;gap:22px;margin-top:30px;font-family:var(--mono);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-faint);}
+  .metarow b{color:var(--ink-mute);font-weight:500;}
+  .toc{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:24px 26px;margin:44px 0 8px;}
+  .toc h2{font-family:var(--mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:16px;font-weight:500;}
+  .toc ol{list-style:none;counter-reset:t;}
+  .toc li{counter-increment:t;padding:7px 0;border-bottom:1px solid var(--hair-soft);}.toc li:last-child{border-bottom:none;}
+  .toc a{color:var(--ink);text-decoration:none;display:flex;gap:14px;align-items:baseline;transition:color .15s;}.toc a:hover{color:var(--gold);}
+  .toc a::before{content:counter(t,decimal-leading-zero);font-family:var(--mono);font-size:12px;color:var(--gold);min-width:26px;}
+  section.lesson{padding:30px 0;}.lesson .wrap{max-width:720px;}
+  h2.sec{font-family:var(--display);font-weight:600;font-size:1.85rem;letter-spacing:-0.015em;margin:54px 0 8px;line-height:1.15;scroll-margin-top:70px;}
+  .sec-no{font-family:var(--mono);font-size:12px;letter-spacing:0.16em;color:var(--gold);text-transform:uppercase;display:block;margin-bottom:10px;}
+  h3.sub{font-family:var(--display);font-weight:600;font-size:1.28rem;margin:38px 0 6px;letter-spacing:-0.01em;color:var(--ink);}
+  p{margin:16px 0;color:#D5DEE6;}p strong{color:var(--ink);font-weight:600;}
+  em.term{font-style:normal;color:var(--gold);font-weight:500;}
+  ul.clean{margin:18px 0;padding-left:0;list-style:none;}
+  ul.clean li{position:relative;padding-left:26px;margin:11px 0;color:#D5DEE6;}
+  ul.clean li::before{content:"";position:absolute;left:6px;top:12px;width:6px;height:6px;background:var(--gold);border-radius:50%;}
+  ul.clean li b{color:var(--ink);font-weight:600;}
+  .box{border-radius:0 10px 10px 0;padding:18px 22px;margin:26px 0;font-size:0.98rem;background:var(--surface);border:1px solid var(--hair);border-left-width:3px;}
+  .box .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:9px;display:flex;align-items:center;gap:8px;font-weight:500;}
+  .box p{margin:8px 0;color:#CBD5DE;}.box p:first-of-type{margin-top:0;}
+  .box.eng{border-left-color:var(--blue);}.box.eng .tag{color:var(--blue);}
+  .box.ex{border-left-color:var(--gold);}.box.ex .tag{color:var(--gold);}
+  .box.india{border-left-color:var(--gain);}.box.india .tag{color:var(--gain);}
+  .box.key{border-left-color:var(--gold);background:rgba(212,162,78,0.06);}.box.key .tag{color:var(--gold);}
+  .box.warn{border-left-color:var(--loss);}.box.warn .tag{color:var(--loss);}
+  .box code{font-family:var(--mono);font-size:0.86em;background:rgba(255,255,255,0.05);padding:2px 6px;border-radius:4px;color:var(--gold);}
+  .formula{background:var(--raised);border:1px solid var(--hair);border-radius:10px;padding:22px 20px;margin:26px 0;text-align:center;}
+  .formula .eq{font-family:var(--mono);font-size:1.05rem;color:var(--ink);letter-spacing:0.01em;display:block;}
+  .formula .eq b{color:var(--gold);font-weight:700;}
+  .formula .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-faint);margin-top:12px;display:block;}
+  .play{background:var(--surface);border:1px solid var(--gold-soft);border-radius:14px;padding:24px;margin:32px 0;}
+  .play .ptitle{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:18px;}
+  .ctrl{margin:14px 0;}
+  .ctrl label{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;color:var(--ink-mute);margin-bottom:7px;}
+  .ctrl label b{color:var(--gold);font-weight:700;}
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:4px;border-radius:3px;background:var(--hair);outline:none;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--gold);cursor:pointer;box-shadow:0 0 0 4px rgba(212,162,78,0.15);}
+  input[type=range]::-moz-range-thumb{width:16px;height:16px;border:none;border-radius:50%;background:var(--gold);cursor:pointer;}
+  .cfgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin:8px 0 4px;}
+  .cfgrid .cfc{background:var(--raised);border:1px solid var(--hair);border-radius:7px;padding:8px 4px;text-align:center;}
+  .cfgrid .cfc .y{font-family:var(--mono);font-size:8.5px;color:var(--ink-faint);text-transform:uppercase;}
+  .cfgrid .cfc input{width:100%;background:transparent;border:none;color:var(--ink);font-family:var(--mono);font-size:12px;text-align:center;margin-top:4px;outline:none;}
+  .cfgrid .cfc.init{border-color:var(--loss);} .cfgrid .cfc.init input{color:var(--loss);}
+  .verdict{display:flex;gap:14px;justify-content:center;margin-top:18px;flex-wrap:wrap;}
+  .verdict .ro{background:var(--raised);border:1px solid var(--hair);border-radius:9px;padding:13px 20px;text-align:center;min-width:130px;}
+  .verdict .ro .v{font-family:var(--display);font-size:1.5rem;font-weight:700;}
+  .verdict .ro .k{font-family:var(--mono);font-size:9px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-faint);margin-top:5px;}
+  .accept{text-align:center;font-family:var(--mono);font-size:12.5px;margin-top:14px;padding:8px;border-radius:8px;}
+  .takeaways{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:28px;margin:30px 0;}
+  .takeaways h3{font-family:var(--display);font-size:1.3rem;margin-bottom:14px;color:var(--ink);}
+  .takeaways ol{counter-reset:k;list-style:none;}
+  .takeaways li{counter-increment:k;position:relative;padding:11px 0 11px 40px;border-bottom:1px solid var(--hair-soft);color:#D5DEE6;font-size:0.97rem;}
+  .takeaways li:last-child{border-bottom:none;}
+  .takeaways li::before{content:counter(k,decimal-leading-zero);position:absolute;left:0;top:11px;font-family:var(--mono);font-size:12px;color:var(--gold);}
+  .gloss{margin:24px 0;}.gloss dt{font-family:var(--mono);font-size:13px;color:var(--gold);font-weight:700;margin-top:18px;}
+  .gloss dd{margin:5px 0 0;color:#CBD5DE;font-size:0.96rem;}
+  .quiz{margin:18px 0;border:1px solid var(--hair);border-radius:10px;overflow:hidden;background:var(--surface);}
+  .quiz summary{padding:15px 20px;cursor:pointer;font-weight:500;color:var(--ink);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;}
+  .quiz summary::-webkit-details-marker{display:none;}
+  .quiz summary .q{font-family:var(--mono);font-size:11px;color:var(--gold);}
+  .quiz summary::after{content:"+";font-family:var(--mono);color:var(--ink-faint);font-size:18px;}.quiz[open] summary::after{content:"–";}
+  .quiz .ans{padding:0 20px 17px;color:#CBD5DE;font-size:0.95rem;border-top:1px solid var(--hair-soft);padding-top:14px;}
+  .foot{border-top:1px solid var(--hair);margin-top:60px;padding:46px 0 80px;}
+  .nextcard{background:var(--surface);border:1px solid var(--hair);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:22px 24px;}
+  .nextcard .u{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:10px;}
+  .nextcard h3{font-family:var(--display);font-size:1.4rem;color:var(--ink);margin-bottom:8px;}
+  .nextcard p{color:var(--ink-mute);font-size:0.96rem;margin:0;}
+  .nextcard .call{margin-top:16px;font-family:var(--mono);font-size:12.5px;color:var(--ink);}.nextcard .call span{color:var(--gold);}
+  .endsig{font-family:var(--mono);font-size:10.5px;letter-spacing:0.1em;color:var(--ink-faint);text-transform:uppercase;text-align:center;margin-top:40px;}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}#bar{transition:none;}}
+  @media (max-width:560px){body{font-size:16px;}h2.sec{font-size:1.55rem;}.formula .eq{font-size:0.92rem;}.cfgrid{grid-template-columns:repeat(3,1fr);}}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+<div class="topbar"><div class="wrap"><div><a href="index.html" style="color:var(--gold);text-decoration:none;margin-right:14px;">&larr; Home</a><span class="dot"></span>MODULE 06 / 24</div><div>PART II · COMMERCE &amp; CORPORATE</div></div></div>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">M06 · Inside the Boardroom</div>
+  <h1>Corporate finance &amp; <em>capital decisions</em>.</h1>
+  <p class="stand">Every company faces three money questions: what should we invest in, how should we pay for it, and what do we do with the profit? This module is the discipline of answering them well — and it's where the discounting you learned in M02 finally earns its keep.</p>
+  <div class="metarow"><span><b>Depth</b> ◐◐◐◐ Advanced</span><span><b>Read</b> ~30 min</span><span><b>Builds on</b> M02, M04</span></div>
+</div></header>
+
+<div class="wrap"><nav class="toc"><h2>What we'll cover</h2><ol>
+  <li><a href="#s1">The three questions of corporate finance</a></li>
+  <li><a href="#s2">Capital budgeting: NPV &amp; IRR (interactive)</a></li>
+  <li><a href="#s3">The cost of capital &amp; WACC</a></li>
+  <li><a href="#s4">Capital structure: debt vs equity</a></li>
+  <li><a href="#s5">The double edge of leverage</a></li>
+  <li><a href="#s6">Dividend policy: pay or reinvest?</a></li>
+  <li><a href="#s7">Working capital — the daily plumbing</a></li>
+  <li><a href="#s8">Mergers &amp; acquisitions (a first look)</a></li>
+</ol></nav></div>
+
+<section class="lesson"><div class="wrap">
+
+  <h2 class="sec" id="s1"><span class="sec-no">Section 01</span>The three questions of corporate finance</h2>
+  <p>Strip a CFO's entire job down and it's three decisions, repeated forever:</p>
+  <ul class="clean">
+    <li><b>The investment decision</b> — which projects, assets, or ventures should we put money into? (Capital budgeting)</li>
+    <li><b>The financing decision</b> — should we fund them with debt, equity, or retained profits? (Capital structure)</li>
+    <li><b>The distribution decision</b> — what do we do with profits: reinvest them or return them to shareholders? (Dividend policy)</li>
+  </ul>
+  <p>Every one of these has the same north star: <strong>maximize the value of the firm</strong> — which, from M02, means maximize the present value of its future cash flows. Corporate finance is just the rigorous application of "does this create value?" to each decision. Let's take them in order.</p>
+
+  <h2 class="sec" id="s2"><span class="sec-no">Section 02</span>Capital budgeting: NPV &amp; IRR</h2>
+  <p>A company has limited money and many possible projects — a new factory, a product line, an acquisition. <em class="term">Capital budgeting</em> is how it decides which are worth doing. And the master tool is one you already met: <strong>Net Present Value (NPV)</strong>.</p>
+  <p>The logic is exactly M02: a project costs cash now and (hopefully) returns cash over future years. Discount every future cash flow back to today, sum them, subtract the upfront cost. If what comes back — in today's money — exceeds what you put in, the project creates value.</p>
+  <div class="formula"><span class="eq"><b>NPV</b> = Σ [ CF<sub>t</sub> ÷ (1 + r)<sup>t</sup> ] − Initial Investment</span><span class="lbl">accept if NPV &gt; 0</span></div>
+  <p>Alongside NPV sits the <em class="term">Internal Rate of Return (IRR)</em> — the discount rate at which NPV equals exactly zero. Think of it as the project's built-in annual return. The rule: <strong>accept the project if its IRR exceeds your cost of capital</strong> (the return you require, from Section 03). Build a project below and watch both verdicts update live:</p>
+
+  <div class="play" id="play">
+    <div class="ptitle">▶ Interactive · Project evaluator — NPV &amp; IRR in real time</div>
+    <p style="font-size:0.85rem;color:var(--ink-mute);margin:0 0 8px;">Year 0 is your upfront cost (negative). Years 1–5 are the cash the project returns. Edit any number.</p>
+    <div class="cfgrid">
+      <div class="cfc init"><div class="y">Year 0</div><input id="cf0" type="number" value="-100000"></div>
+      <div class="cfc"><div class="y">Year 1</div><input id="cf1" type="number" value="30000"></div>
+      <div class="cfc"><div class="y">Year 2</div><input id="cf2" type="number" value="30000"></div>
+      <div class="cfc"><div class="y">Year 3</div><input id="cf3" type="number" value="30000"></div>
+      <div class="cfc"><div class="y">Year 4</div><input id="cf4" type="number" value="30000"></div>
+      <div class="cfc"><div class="y">Year 5</div><input id="cf5" type="number" value="30000"></div>
+    </div>
+    <div class="ctrl"><label>Cost of capital (discount rate) <b><span id="rVal">10%</span></b></label><input type="range" id="r" min="1" max="25" step="0.5" value="10"></div>
+    <div class="verdict">
+      <div class="ro"><div class="v" id="npvOut">—</div><div class="k">Net Present Value</div></div>
+      <div class="ro"><div class="v" id="irrOut">—</div><div class="k">Internal Rate of Return</div></div>
+    </div>
+    <div class="accept" id="accept">—</div>
+  </div>
+  <div class="box warn"><div class="tag">⚠ NPV beats IRR when they disagree</div><p>IRR is intuitive (a single % return) but has traps: it can give misleading or multiple answers with unusual cash-flow patterns, and it doesn't account for project <em>size</em>. When NPV and IRR conflict, professionals trust <strong>NPV</strong> — it directly measures rupees of value created. IRR is the friendly summary; NPV is the truth.</p></div>
+  <p>A cruder third method, <strong>payback period</strong> (how many years to recoup the cost), is sometimes used as a quick filter — but it ignores the time value of money and everything beyond the payback point, so it's a rough screen, not a decision rule.</p>
+
+  <h2 class="sec" id="s3"><span class="sec-no">Section 03</span>The cost of capital &amp; WACC</h2>
+  <p>Everything above hinges on the discount rate <code>r</code> — but where does a company get it? It's the company's <em class="term">cost of capital</em>: the return its investors require for providing money. Since a firm funds itself with a mix of debt and equity, its overall rate is a blend — the <em class="term">Weighted Average Cost of Capital (WACC)</em>.</p>
+  <div class="formula"><span class="eq"><b>WACC</b> = (E/V)·R<sub>e</sub> + (D/V)·R<sub>d</sub>·(1−T)</span><span class="lbl">blended cost of equity and after-tax debt</span></div>
+  <p>In words: take the cost of equity (what shareholders demand) and the cost of debt (the interest rate on borrowing), weight each by its share of total funding, and blend. Two things to notice, both important:</p>
+  <ul class="clean">
+    <li><b>Debt is cheaper than equity.</b> Lenders take less risk than owners (they get paid first), so they demand a lower return. Equity is the most expensive money a company can raise.</li>
+    <li><b>Debt gets a tax shield.</b> Interest is tax-deductible — that's the <code>(1−T)</code> term. So debt is even cheaper after tax. This is a core reason companies borrow at all.</li>
+  </ul>
+  <div class="box eng"><div class="tag">⌘ Engineer's note</div><p>WACC is the project's <strong>hurdle rate</strong> — the minimum return that clears the bar. Any project returning more than WACC creates value; anything less destroys it. It's a threshold check: <code>if (project_return &gt; WACC) ship();</code>. The whole NPV machine is just this comparison, done precisely across time.</p></div>
+
+  <h2 class="sec" id="s4"><span class="sec-no">Section 04</span>Capital structure: debt vs equity</h2>
+  <p>If debt is cheaper, why don't companies fund everything with debt? This is the <em class="term">capital structure</em> question — the mix of debt and equity — and it's one of the deepest in finance. The answer is a trade-off:</p>
+  <ul class="clean">
+    <li><b>More debt lowers WACC</b> (cheaper, tax-advantaged money) <em>and</em> amplifies returns to shareholders — up to a point.</li>
+    <li><b>More debt raises risk.</b> Interest must be paid no matter what; miss it and you face bankruptcy. Beyond some level, the danger of financial distress outweighs the cheapness.</li>
+  </ul>
+  <p>There's a famous theoretical result — the <strong>Modigliani–Miller theorem</strong> — that in a perfect world (no taxes, no bankruptcy costs) capital structure wouldn't matter at all. Its real value is in showing <em>why</em> it matters in the real world: precisely because of taxes (which favour debt) and distress costs (which punish too much of it). The optimal structure balances the tax benefit of debt against the rising risk of bankruptcy. There's no universal answer — a stable utility can carry lots of debt; a volatile startup should carry almost none.</p>
+
+  <h2 class="sec" id="s5"><span class="sec-no">Section 05</span>The double edge of leverage</h2>
+  <p><em class="term">Leverage</em> — using borrowed money — is the amplifier of corporate finance. You saw a glimpse in M04's DuPont tool. Here's the intuition made concrete:</p>
+  <div class="box ex"><div class="tag">▸ Worked example — leverage cuts both ways</div><p>You buy a ₹1 crore asset. <b>Case A (no debt):</b> all your money. If it rises 10%, you make ₹10 lakh on ₹1 cr — a 10% return.</p><p><b>Case B (50% debt):</b> you put in ₹50 lakh, borrow ₹50 lakh. If it rises 10% (₹10 lakh gain), your return on <em>your</em> ₹50 lakh is <strong>~20%</strong> (minus interest). Leverage doubled your gain.</p><p>But if the asset <em>falls</em> 10%, Case A loses 10% while Case B loses <strong>~20%</strong> of your capital — and you still owe the full loan. Leverage magnifies gains <em>and</em> losses symmetrically. It's the single most important risk concept in all of finance.</p></div>
+  <div class="box key"><div class="tag">★ Why this echoes everywhere</div><p>Leverage is the thread connecting corporate finance, banking (M17), trading (M15), and every financial crisis you'll study. Companies, banks, traders, and homeowners all use it to amplify returns — and excessive, hidden leverage is what turns a downturn into a catastrophe. When you understand leverage deeply, you understand the engine behind most financial blow-ups.</p></div>
+
+  <h2 class="sec" id="s6"><span class="sec-no">Section 06</span>Dividend policy: pay or reinvest?</h2>
+  <p>When a company earns a profit, it faces the distribution decision: <strong>return cash to shareholders, or keep it to reinvest?</strong> Two ways to return it:</p>
+  <ul class="clean">
+    <li><b>Dividends</b> — direct cash payments to shareholders, usually regular. Signal stability and maturity.</li>
+    <li><b>Share buybacks</b> — the company buys back its own shares, raising the value of the rest. A more flexible, often tax-efficient alternative.</li>
+  </ul>
+  <p>The deciding logic: a company should <strong>reinvest profits only if it can earn more than its cost of capital</strong> on them (i.e. find positive-NPV projects). If it can — a young, growing firm — shareholders are better off having it reinvest. If it can't — a mature firm with few good projects — it should return the cash and let shareholders deploy it elsewhere. A growth company that pays no dividend (reinvesting everything) and a mature company that pays a fat one can <em>both</em> be acting correctly.</p>
+  <div class="box india"><div class="tag">🇮🇳 India lens</div><p>You'll see this split clearly on Indian exchanges: fast-growing firms (many newer tech and consumer names) reinvest aggressively and pay little; mature cash-cows (large IT services firms, FMCG, PSUs) pay steady dividends and do buybacks. Neither is "better" — it reflects where each sits in its growth cycle. India taxes dividends in the investor's hands, which influences the dividend-vs-buyback choice.</p></div>
+
+  <h2 class="sec" id="s7"><span class="sec-no">Section 07</span>Working capital — the daily plumbing</h2>
+  <p>The big decisions get headlines, but companies die from a humbler problem: running out of cash to operate day-to-day. <em class="term">Working capital</em> management is the unglamorous art of keeping the lights on — managing the short-term assets and liabilities from M03.</p>
+  <p>The key idea is the <strong>cash conversion cycle</strong>: a company pays for inventory and labour <em>before</em> it collects from customers, creating a cash gap it must fund. Good working-capital management shrinks that gap — collect from customers faster, manage inventory tighter, pay suppliers on sensible terms. Get it wrong and even a profitable, growing company can choke (the "growing broke" trap, straight out of M03's profit-isn't-cash lesson).</p>
+
+  <h2 class="sec" id="s8"><span class="sec-no">Section 08</span>Mergers &amp; acquisitions (a first look)</h2>
+  <p>Sometimes the best "investment" a company can make is buying another company. <em class="term">M&amp;A</em> is corporate finance at its most dramatic, and it's evaluated the same way as any project: does the deal create value? The logic is <strong>synergy</strong> — the idea that the combined firm is worth more than the two apart (through cost savings, new markets, or market power). The hard truth, well-documented, is that <strong>many acquisitions destroy value</strong> — buyers overpay, synergies don't materialize, integration fails. The discipline you've learned (NPV, cost of capital, honest cash-flow forecasting) is exactly what separates a smart acquisition from an ego-driven one. We'll see the investment-banking side of M&amp;A in M17.</p>
+  <div class="box key"><div class="tag">★ The unifying thread</div><p>Every section here reduces to one test: <strong>does this decision earn more than the cost of capital?</strong> Invest if the project's return beats WACC. Borrow if the tax-advantaged cheapness outweighs the added risk. Reinvest profits only if you can beat your cost of capital; otherwise pay them out. Acquire only if synergies justify the price. Corporate finance is value creation, measured one decision at a time — and it all rests on M02.</p></div>
+
+  <div class="takeaways"><h3>The eight things to carry forward</h3><ol>
+    <li>Corporate finance answers three questions: <b>invest, finance, distribute.</b></li>
+    <li><b>Capital budgeting</b> uses NPV (accept if &gt; 0) and IRR (accept if &gt; cost of capital).</li>
+    <li>When NPV and IRR conflict, <b>trust NPV</b> — it measures real value created.</li>
+    <li>The discount rate is the <b>WACC</b> — the blended cost of debt and equity.</li>
+    <li><b>Debt is cheaper</b> (lower risk + tax shield) but adds bankruptcy risk.</li>
+    <li><b>Capital structure</b> balances debt's cheapness against distress risk.</li>
+    <li><b>Leverage</b> amplifies gains and losses symmetrically — the core risk concept.</li>
+    <li><b>Reinvest only if you can beat your cost of capital;</b> otherwise return cash.</li>
+  </ol></div>
+
+  <h3 class="sub">Check yourself</h3>
+  <details class="quiz"><summary><span><span class="q">Q1 ·</span> A project has an IRR of 9% and the company's WACC is 12%. Do it?</span></summary><div class="ans"><b>No.</b> The project returns 9% but the company's investors require 12% to fund it. It earns less than the cost of capital, so its NPV is negative — it destroys value. Reject it.</div></details>
+  <details class="quiz"><summary><span><span class="q">Q2 ·</span> Why is equity more expensive than debt for a company?</span></summary><div class="ans">Because equity holders take <b>more risk</b> — they're paid last (after lenders, employees, suppliers) and have no guaranteed return. To compensate, they demand a higher return. Plus, debt interest is tax-deductible while dividends aren't, making debt cheaper still on an after-tax basis.</div></details>
+  <details class="quiz"><summary><span><span class="q">Q3 ·</span> A profitable young company pays zero dividends. Is that bad for shareholders?</span></summary><div class="ans">Not necessarily — likely the opposite. If it can reinvest profits at a return <b>above its cost of capital</b> (positive-NPV growth), shareholders are better off letting it compound internally than taking cash. Paying dividends would only make sense once it runs out of high-return projects.</div></details>
+
+  <h3 class="sub">Glossary</h3>
+  <dl class="gloss">
+    <dt>Capital budgeting</dt><dd>Deciding which long-term projects to invest in.</dd>
+    <dt>NPV / IRR</dt><dd>Net present value (rupees of value created) / the rate where NPV = 0.</dd>
+    <dt>Cost of capital / WACC</dt><dd>The return investors require; the blended cost of debt and equity.</dd>
+    <dt>Hurdle rate</dt><dd>The minimum return a project must clear (usually the WACC).</dd>
+    <dt>Capital structure</dt><dd>The mix of debt and equity a firm uses to fund itself.</dd>
+    <dt>Leverage</dt><dd>Use of borrowed money; amplifies both gains and losses.</dd>
+    <dt>Tax shield</dt><dd>The tax saving from debt, since interest is tax-deductible.</dd>
+    <dt>Dividend policy</dt><dd>How a firm splits profit between payouts and reinvestment.</dd>
+    <dt>Working capital</dt><dd>Short-term assets minus liabilities; funds day-to-day operations.</dd>
+    <dt>Synergy</dt><dd>The idea that a merged firm is worth more than its parts.</dd>
+  </dl>
+</div></section>
+
+<footer class="foot"><div class="wrap">
+  <div class="nextcard"><div class="u">Up next · Module 07</div><h3>Financial Markets, Institutions &amp; Participants</h3>
+  <p>We've covered the company from the inside. Now step out onto the trading floor: where securities are issued and traded, who all the players are, and how a trade travels from your screen to settlement. The gateway to Part III — Markets.</p>
+  <div class="call">&gt; <span>say:</span> "give me M07" — the last one in this batch.</div></div>
+  <div class="endsig">— End of Module 06 · Corporate Finance &amp; Capital Decisions —</div>
+</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:20px;font-family:var(--mono);font-size:12px;letter-spacing:.04em;"><a href="M05_economics_for_finance.html" style="color:var(--gold);text-decoration:none;">&larr; Prev · M05</a><a href="index.html" style="color:var(--ink-mute);text-decoration:none;">&#8962; Home</a><a href="M07_financial_markets.html" style="color:var(--gold);text-decoration:none;">Next · M07 &rarr;</a></div>
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const upd=()=>{const h=document.documentElement;const sc=h.scrollTop||document.body.scrollTop;const max=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(sc/max*100)+'%';};
+  document.addEventListener('scroll',upd,{passive:true});upd();
+
+  const ids=['cf0','cf1','cf2','cf3','cf4','cf5'].map(i=>document.getElementById(i));
+  const r=document.getElementById('r'),rVal=document.getElementById('rVal');
+  const npvOut=document.getElementById('npvOut'),irrOut=document.getElementById('irrOut'),accept=document.getElementById('accept');
+  const fmt=v=>(v<0?'-₹':'₹')+Math.abs(Math.round(v)).toLocaleString('en-IN');
+  function npv(rate,cf){return cf.reduce((s,c,t)=>s+c/Math.pow(1+rate,t),0);}
+  function irr(cf){
+    let lo=-0.9,hi=5;
+    if(npv(lo,cf)*npv(hi,cf)>0)return null;
+    for(let i=0;i<100;i++){const mid=(lo+hi)/2;const v=npv(mid,cf);if(Math.abs(v)<1)return mid;if(npv(lo,cf)*v<0)hi=mid;else lo=mid;}
+    return (lo+hi)/2;
+  }
+  function draw(){
+    const cf=ids.map(el=>+el.value||0);
+    const rate=+r.value/100; rVal.textContent=(+r.value)+'%';
+    const nv=npv(rate,cf); const ir=irr(cf);
+    npvOut.textContent=fmt(nv); npvOut.style.color=nv>=0?'#3FB950':'#F0625A';
+    if(ir===null){irrOut.textContent='n/a';irrOut.style.color='#9AA7B4';}
+    else{irrOut.textContent=(ir*100).toFixed(1)+'%';irrOut.style.color=ir*100>=+r.value?'#3FB950':'#F0625A';}
+    if(nv>=0){accept.style.background='rgba(63,185,80,0.1)';accept.style.color='#3FB950';accept.textContent='✓ ACCEPT — positive NPV, this project creates value';}
+    else{accept.style.background='rgba(240,98,90,0.1)';accept.style.color='#F0625A';accept.textContent='✗ REJECT — negative NPV, this destroys value at your cost of capital';}
+  }
+  ids.forEach(el=>el.addEventListener('input',draw)); r.addEventListener('input',draw); draw();
+</script>
+</body>
+</html>

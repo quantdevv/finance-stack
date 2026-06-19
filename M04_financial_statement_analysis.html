@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M04 · Reading &amp; Analyzing Financial Statements</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--base:#0E1116;--surface:#161B22;--raised:#1C232C;--hair:#2A323D;--hair-soft:#222932;
+    --ink:#E8EFF5;--ink-mute:#9AA7B4;--ink-faint:#5E6B78;--gold:#D4A24E;--gold-soft:#3a3017;
+    --gain:#3FB950;--loss:#F0625A;--blue:#5AA6E0;
+    --display:"Fraunces",Georgia,serif;--body:"Inter",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--base);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.72;-webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(900px 480px at 88% -8%,rgba(212,162,78,0.05),transparent 60%),radial-gradient(700px 420px at -5% 3%,rgba(90,166,224,0.035),transparent 55%);}
+  .wrap{max-width:760px;margin:0 auto;padding:0 26px;}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;background:var(--gold);z-index:99;box-shadow:0 0 10px rgba(212,162,78,0.6);transition:width .1s linear;}
+  .topbar{border-bottom:1px solid var(--hair);background:rgba(14,17,22,0.88);backdrop-filter:blur(8px);position:sticky;top:0;z-index:50;}
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:46px;max-width:980px;font-family:var(--mono);font-size:11px;letter-spacing:0.08em;color:var(--ink-mute);text-transform:uppercase;}
+  .topbar .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--gain);margin-right:8px;box-shadow:0 0 8px var(--gain);}
+  .hero{padding:72px 0 40px;border-bottom:1px solid var(--hair-soft);}.hero .wrap{max-width:820px;}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:13px;margin-bottom:24px;}
+  .kicker::before{content:"";height:1px;width:38px;background:var(--gold);opacity:0.6;}
+  .hero h1{font-family:var(--display);font-weight:600;font-size:clamp(2.3rem,5.5vw,3.5rem);line-height:1.05;letter-spacing:-0.02em;margin-bottom:22px;}
+  .hero h1 em{font-style:italic;color:var(--gold);font-weight:500;}
+  .hero .stand{font-size:1.12rem;color:var(--ink-mute);max-width:60ch;}
+  .metarow{display:flex;flex-wrap:wrap;gap:22px;margin-top:30px;font-family:var(--mono);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-faint);}
+  .metarow b{color:var(--ink-mute);font-weight:500;}
+  .toc{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:24px 26px;margin:44px 0 8px;}
+  .toc h2{font-family:var(--mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:16px;font-weight:500;}
+  .toc ol{list-style:none;counter-reset:t;}
+  .toc li{counter-increment:t;padding:7px 0;border-bottom:1px solid var(--hair-soft);}.toc li:last-child{border-bottom:none;}
+  .toc a{color:var(--ink);text-decoration:none;display:flex;gap:14px;align-items:baseline;transition:color .15s;}.toc a:hover{color:var(--gold);}
+  .toc a::before{content:counter(t,decimal-leading-zero);font-family:var(--mono);font-size:12px;color:var(--gold);min-width:26px;}
+  section.lesson{padding:30px 0;}.lesson .wrap{max-width:720px;}
+  h2.sec{font-family:var(--display);font-weight:600;font-size:1.85rem;letter-spacing:-0.015em;margin:54px 0 8px;line-height:1.15;scroll-margin-top:70px;}
+  .sec-no{font-family:var(--mono);font-size:12px;letter-spacing:0.16em;color:var(--gold);text-transform:uppercase;display:block;margin-bottom:10px;}
+  h3.sub{font-family:var(--display);font-weight:600;font-size:1.28rem;margin:38px 0 6px;letter-spacing:-0.01em;color:var(--ink);}
+  p{margin:16px 0;color:#D5DEE6;}p strong{color:var(--ink);font-weight:600;}
+  em.term{font-style:normal;color:var(--gold);font-weight:500;}
+  ul.clean{margin:18px 0;padding-left:0;list-style:none;}
+  ul.clean li{position:relative;padding-left:26px;margin:11px 0;color:#D5DEE6;}
+  ul.clean li::before{content:"";position:absolute;left:6px;top:12px;width:6px;height:6px;background:var(--gold);border-radius:50%;}
+  ul.clean li b{color:var(--ink);font-weight:600;}
+  .box{border-radius:0 10px 10px 0;padding:18px 22px;margin:26px 0;font-size:0.98rem;background:var(--surface);border:1px solid var(--hair);border-left-width:3px;}
+  .box .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:9px;display:flex;align-items:center;gap:8px;font-weight:500;}
+  .box p{margin:8px 0;color:#CBD5DE;}.box p:first-of-type{margin-top:0;}
+  .box.eng{border-left-color:var(--blue);}.box.eng .tag{color:var(--blue);}
+  .box.ex{border-left-color:var(--gold);}.box.ex .tag{color:var(--gold);}
+  .box.india{border-left-color:var(--gain);}.box.india .tag{color:var(--gain);}
+  .box.key{border-left-color:var(--gold);background:rgba(212,162,78,0.06);}.box.key .tag{color:var(--gold);}
+  .box.warn{border-left-color:var(--loss);}.box.warn .tag{color:var(--loss);}
+  .box code{font-family:var(--mono);font-size:0.86em;background:rgba(255,255,255,0.05);padding:2px 6px;border-radius:4px;color:var(--gold);}
+  .formula{background:var(--raised);border:1px solid var(--hair);border-radius:10px;padding:22px 20px;margin:26px 0;text-align:center;}
+  .formula .eq{font-family:var(--mono);font-size:1.08rem;color:var(--ink);letter-spacing:0.01em;display:block;}
+  .formula .eq b{color:var(--gold);font-weight:700;}
+  .formula .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-faint);margin-top:12px;display:block;}
+  /* ratio table */
+  .rtable{margin:24px 0;border:1px solid var(--hair);border-radius:10px;overflow:hidden;}
+  .rrow{display:grid;grid-template-columns:1.3fr 1.7fr 1fr;gap:0;border-bottom:1px solid var(--hair-soft);}
+  .rrow:last-child{border-bottom:none;}
+  .rrow>div{padding:12px 14px;font-size:0.9rem;}
+  .rrow .rn{font-weight:600;color:var(--ink);} .rrow .rf{font-family:var(--mono);font-size:0.78rem;color:var(--ink-mute);}
+  .rrow .rw{color:var(--gold);font-size:0.82rem;}
+  .rhead{background:var(--raised);} .rhead>div{font-family:var(--mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-faint);}
+  .play{background:var(--surface);border:1px solid var(--gold-soft);border-radius:14px;padding:24px;margin:32px 0;}
+  .play .ptitle{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:18px;}
+  .ctrl{margin:14px 0;}
+  .ctrl label{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;color:var(--ink-mute);margin-bottom:7px;}
+  .ctrl label b{color:var(--gold);font-weight:700;}
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:4px;border-radius:3px;background:var(--hair);outline:none;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--gold);cursor:pointer;box-shadow:0 0 0 4px rgba(212,162,78,0.15);}
+  input[type=range]::-moz-range-thumb{width:16px;height:16px;border:none;border-radius:50%;background:var(--gold);cursor:pointer;}
+  .dupont{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin:20px 0 4px;}
+  .dchip{background:var(--raised);border:1px solid var(--hair);border-radius:9px;padding:11px 14px;text-align:center;min-width:92px;}
+  .dchip .dv{font-family:var(--display);font-size:1.25rem;font-weight:600;color:var(--ink);}
+  .dchip .dk{font-family:var(--mono);font-size:9px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-faint);margin-top:4px;}
+  .dop{font-family:var(--display);font-size:1.3rem;color:var(--ink-faint);}
+  .droe{background:rgba(212,162,78,0.08);border:1px solid var(--gold-soft);border-radius:9px;padding:11px 16px;text-align:center;min-width:100px;}
+  .droe .dv{font-family:var(--display);font-size:1.5rem;font-weight:700;color:var(--gold);}
+  .droe .dk{font-family:var(--mono);font-size:9px;letter-spacing:0.06em;text-transform:uppercase;color:var(--gold);margin-top:4px;}
+  .leverwarn{text-align:center;font-family:var(--mono);font-size:11px;margin-top:12px;color:var(--ink-faint);}
+  .takeaways{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:28px;margin:30px 0;}
+  .takeaways h3{font-family:var(--display);font-size:1.3rem;margin-bottom:14px;color:var(--ink);}
+  .takeaways ol{counter-reset:k;list-style:none;}
+  .takeaways li{counter-increment:k;position:relative;padding:11px 0 11px 40px;border-bottom:1px solid var(--hair-soft);color:#D5DEE6;font-size:0.97rem;}
+  .takeaways li:last-child{border-bottom:none;}
+  .takeaways li::before{content:counter(k,decimal-leading-zero);position:absolute;left:0;top:11px;font-family:var(--mono);font-size:12px;color:var(--gold);}
+  .gloss{margin:24px 0;}.gloss dt{font-family:var(--mono);font-size:13px;color:var(--gold);font-weight:700;margin-top:18px;}
+  .gloss dd{margin:5px 0 0;color:#CBD5DE;font-size:0.96rem;}
+  .quiz{margin:18px 0;border:1px solid var(--hair);border-radius:10px;overflow:hidden;background:var(--surface);}
+  .quiz summary{padding:15px 20px;cursor:pointer;font-weight:500;color:var(--ink);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;}
+  .quiz summary::-webkit-details-marker{display:none;}
+  .quiz summary .q{font-family:var(--mono);font-size:11px;color:var(--gold);}
+  .quiz summary::after{content:"+";font-family:var(--mono);color:var(--ink-faint);font-size:18px;}.quiz[open] summary::after{content:"–";}
+  .quiz .ans{padding:0 20px 17px;color:#CBD5DE;font-size:0.95rem;border-top:1px solid var(--hair-soft);padding-top:14px;}
+  .foot{border-top:1px solid var(--hair);margin-top:60px;padding:46px 0 80px;}
+  .nextcard{background:var(--surface);border:1px solid var(--hair);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:22px 24px;}
+  .nextcard .u{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:10px;}
+  .nextcard h3{font-family:var(--display);font-size:1.4rem;color:var(--ink);margin-bottom:8px;}
+  .nextcard p{color:var(--ink-mute);font-size:0.96rem;margin:0;}
+  .nextcard .call{margin-top:16px;font-family:var(--mono);font-size:12.5px;color:var(--ink);}.nextcard .call span{color:var(--gold);}
+  .endsig{font-family:var(--mono);font-size:10.5px;letter-spacing:0.1em;color:var(--ink-faint);text-transform:uppercase;text-align:center;margin-top:40px;}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}#bar{transition:none;}}
+  @media (max-width:560px){body{font-size:16px;}h2.sec{font-size:1.55rem;}.rrow{grid-template-columns:1fr;}.rrow .rf,.rrow .rw{padding-top:0;}}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+<div class="topbar"><div class="wrap"><div><a href="index.html" style="color:var(--gold);text-decoration:none;margin-right:14px;">&larr; Home</a><span class="dot"></span>MODULE 04 / 24</div><div>PART I · FOUNDATIONS</div></div></div>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">M04 · From Numbers to Judgment</div>
+  <h1>Reading &amp; analyzing <em>financial statements</em>.</h1>
+  <p class="stand">Anyone can read a balance sheet. The skill is interrogating it — turning raw figures into verdicts about health, efficiency, and danger. This module is the toolkit professional analysts use to size up any company in minutes.</p>
+  <div class="metarow"><span><b>Depth</b> ◐◐◐○ Core</span><span><b>Read</b> ~28 min</span><span><b>Builds on</b> M03</span></div>
+</div></header>
+
+<div class="wrap"><nav class="toc"><h2>What we'll cover</h2><ol>
+  <li><a href="#s1">Why ratios — comparison is everything</a></li>
+  <li><a href="#s2">Liquidity — can it pay its bills?</a></li>
+  <li><a href="#s3">Solvency &amp; leverage — is the debt safe?</a></li>
+  <li><a href="#s4">Profitability — how good is the business?</a></li>
+  <li><a href="#s5">Efficiency — how hard do assets work?</a></li>
+  <li><a href="#s6">DuPont — taking ROE apart (interactive)</a></li>
+  <li><a href="#s7">Common-size &amp; trend analysis</a></li>
+  <li><a href="#s8">Quality of earnings &amp; red flags</a></li>
+</ol></nav></div>
+
+<section class="lesson"><div class="wrap">
+
+  <h2 class="sec" id="s1"><span class="sec-no">Section 01</span>Why ratios — comparison is everything</h2>
+  <p>"Net profit was ₹500 crore." Good or bad? You can't tell. A ₹500 cr profit is spectacular for a small firm and alarming for a giant. Raw numbers are meaningless in isolation — they only acquire meaning through <strong>comparison</strong>. That's what financial ratios do: they put one number over another to create a standardized, comparable measure.</p>
+  <p>Ratios let you compare a company against three things: <strong>itself over time</strong> (is it improving?), <strong>its competitors</strong> (is it winning?), and <strong>its industry norms</strong> (is it typical?). We group them into four families, each answering a core question about the business.</p>
+  <div class="box eng"><div class="tag">⌘ Engineer's note</div><p>Think of ratios as <strong>normalized metrics</strong> — like measuring requests-per-second instead of raw request counts, so you can compare a small service to a huge one. A single ratio is a data point; the signal is in the <em>trend</em> and the <em>peer comparison</em>. Never read one ratio in isolation, exactly as you'd never judge a system on one metric at one timestamp.</p></div>
+
+  <h2 class="sec" id="s2"><span class="sec-no">Section 02</span>Liquidity — can it pay its bills?</h2>
+  <p><em class="term">Liquidity ratios</em> ask the most immediate survival question: does the company have enough short-term assets to cover its short-term obligations? A profitable company that can't pay next month's bills is in serious trouble (remember M03: profit ≠ cash).</p>
+  <div class="rtable">
+    <div class="rrow rhead"><div>Ratio</div><div>Formula</div><div>Tells you</div></div>
+    <div class="rrow"><div class="rn">Current ratio</div><div class="rf">Current Assets / Current Liabilities</div><div class="rw">Short-term cushion</div></div>
+    <div class="rrow"><div class="rn">Quick ratio</div><div class="rf">(Current Assets − Inventory) / Curr. Liab.</div><div class="rw">Cushion, excl. hard-to-sell stock</div></div>
+  </div>
+  <p>A current ratio above 1 means current assets exceed current liabilities — generally healthy. The <strong>quick ratio</strong> (or "acid test") is stricter: it strips out inventory, because inventory can be hard to convert to cash fast. If a retailer's current ratio looks fine but its quick ratio is weak, it's leaning heavily on unsold stock — a yellow flag.</p>
+
+  <h2 class="sec" id="s3"><span class="sec-no">Section 03</span>Solvency &amp; leverage — is the debt safe?</h2>
+  <p>Liquidity is about the next year; <em class="term">solvency</em> is about the long haul — can the company survive its total debt load? Debt is a double-edged sword (we'll see why in M06): it amplifies returns but can sink a company if it can't service it.</p>
+  <div class="rtable">
+    <div class="rrow rhead"><div>Ratio</div><div>Formula</div><div>Tells you</div></div>
+    <div class="rrow"><div class="rn">Debt-to-equity</div><div class="rf">Total Debt / Total Equity</div><div class="rw">How leveraged it is</div></div>
+    <div class="rrow"><div class="rn">Interest coverage</div><div class="rf">EBIT / Interest Expense</div><div class="rw">Can it afford its interest?</div></div>
+  </div>
+  <p><strong>Debt-to-equity</strong> shows how much the company is funded by borrowing versus owners' money. A D/E of 2 means twice as much debt as equity — aggressive. <strong>Interest coverage</strong> is arguably more important: it shows how many times over the company's operating profit (EBIT) can cover its interest bill. A coverage of 1.5× is precarious; 8× is comfortable. When coverage drops near 1, the company is one bad quarter from not paying its lenders.</p>
+
+  <h2 class="sec" id="s4"><span class="sec-no">Section 04</span>Profitability — how good is the business?</h2>
+  <p><em class="term">Profitability ratios</em> measure how effectively the company turns revenue and resources into profit. The margins come straight off the income statement waterfall from M03:</p>
+  <div class="rtable">
+    <div class="rrow rhead"><div>Ratio</div><div>Formula</div><div>Tells you</div></div>
+    <div class="rrow"><div class="rn">Gross margin</div><div class="rf">Gross Profit / Revenue</div><div class="rw">Product profitability</div></div>
+    <div class="rrow"><div class="rn">Operating margin</div><div class="rf">EBIT / Revenue</div><div class="rw">Core business profitability</div></div>
+    <div class="rrow"><div class="rn">Net margin</div><div class="rf">Net Income / Revenue</div><div class="rw">Bottom-line profitability</div></div>
+    <div class="rrow"><div class="rn">Return on Equity (ROE)</div><div class="rf">Net Income / Equity</div><div class="rw">Return on owners' money</div></div>
+    <div class="rrow"><div class="rn">Return on Assets (ROA)</div><div class="rf">Net Income / Total Assets</div><div class="rw">Return on everything deployed</div></div>
+  </div>
+  <p><strong>ROE</strong> is the headline number for shareholders — for every rupee owners put in, how many paise of profit does the company generate? <strong>ROA</strong> measures profit against <em>all</em> capital (debt + equity). The gap between them is created by leverage — which the next section makes beautifully concrete.</p>
+
+  <h2 class="sec" id="s5"><span class="sec-no">Section 05</span>Efficiency — how hard do assets work?</h2>
+  <p><em class="term">Efficiency (activity) ratios</em> measure how productively the company uses its assets to generate sales. The flagship is <strong>asset turnover = Revenue / Total Assets</strong> — how many rupees of sales each rupee of assets produces. A supermarket runs high turnover on thin margins; a luxury brand runs low turnover on fat margins. Neither is "better" — they're different strategies, and efficiency ratios reveal which game a company is playing. Related measures include inventory turnover (how fast stock sells) and receivables days (how fast customers pay).</p>
+
+  <h2 class="sec" id="s6"><span class="sec-no">Section 06</span>DuPont — taking ROE apart</h2>
+  <p>Here's the most elegant tool in statement analysis. ROE is the number everyone cares about, but on its own it hides <em>how</em> a company earns its return. The <em class="term">DuPont decomposition</em> splits ROE into three drivers — profitability, efficiency, and leverage — that multiply together:</p>
+  <div class="formula"><span class="eq"><b>ROE</b> = Net Margin × Asset Turnover × Equity Multiplier</span><span class="lbl">profitability × efficiency × leverage</span></div>
+  <p>(The equity multiplier = Assets / Equity — a leverage measure. More debt → higher multiplier → higher ROE.) This is powerful because two companies can have the <em>same</em> ROE for completely different reasons — one through fat margins, another through heavy borrowing. DuPont exposes the difference. Drag the sliders and watch:</p>
+
+  <div class="play" id="play">
+    <div class="ptitle">▶ Interactive · DuPont — see what really drives return on equity</div>
+    <div class="ctrl"><label>Net profit margin <b><span id="mVal">10%</span></b></label><input type="range" id="m" min="1" max="30" step="0.5" value="10"></div>
+    <div class="ctrl"><label>Asset turnover <b><span id="tVal">1.0×</span></b></label><input type="range" id="t" min="0.2" max="3" step="0.1" value="1.0"></div>
+    <div class="ctrl"><label>Equity multiplier (leverage) <b><span id="lVal">2.0×</span></b></label><input type="range" id="l" min="1" max="5" step="0.1" value="2.0"></div>
+    <div class="dupont">
+      <div class="dchip"><div class="dv" id="d1">10%</div><div class="dk">margin</div></div>
+      <div class="dop">×</div>
+      <div class="dchip"><div class="dv" id="d2">1.0×</div><div class="dk">turnover</div></div>
+      <div class="dop">×</div>
+      <div class="dchip"><div class="dv" id="d3">2.0×</div><div class="dk">leverage</div></div>
+      <div class="dop">=</div>
+      <div class="droe"><div class="dv" id="droe">20%</div><div class="dk">ROE</div></div>
+    </div>
+    <div class="leverwarn" id="warn">Tip: crank leverage to see ROE rise — but that's borrowed return, and it cuts both ways.</div>
+  </div>
+  <div class="box warn"><div class="tag">⚠ The leverage illusion</div><p>Notice you can pump ROE up to dazzling levels just by sliding <strong>leverage</strong>. A company can look like a star performer purely because it borrowed heavily — not because its business is good. This is why analysts never trust ROE alone: a high ROE built on debt is fragile and risky. DuPont is precisely how you catch it.</p></div>
+
+  <h2 class="sec" id="s7"><span class="sec-no">Section 07</span>Common-size &amp; trend analysis</h2>
+  <p>Two more techniques round out the toolkit. <strong>Common-size statements</strong> express every line as a percentage — income statement items as a % of revenue, balance sheet items as a % of total assets. This strips out size, so you can compare a ₹100 cr firm with a ₹10,000 cr firm directly, and instantly see, say, that one spends 40% of revenue on COGS while the other spends 60%.</p>
+  <p><strong>Trend (horizontal) analysis</strong> looks at the same line over several years to spot direction: are margins expanding or eroding? Is debt creeping up? A single year is a snapshot; the trend is the story. Together, common-size and trend analysis turn a static report into a moving picture.</p>
+
+  <h2 class="sec" id="s8"><span class="sec-no">Section 08</span>Quality of earnings &amp; red flags</h2>
+  <p>Finally, the detective work. Numbers can be technically accurate yet paint a misleading picture. <em class="term">Quality of earnings</em> analysis asks: are these profits real, sustainable, and backed by cash? The single best test ties back to M03 — <strong>compare net income to operating cash flow.</strong> Over time they should track each other. When profits rise but cash doesn't, be suspicious.</p>
+  <ul class="clean">
+    <li><b>Profit up, operating cash flow down</b> — the classic warning. Earnings may be propped up by accounting, not real business.</li>
+    <li><b>Receivables growing faster than revenue</b> — the company may be booking sales it hasn't collected (or stuffing the channel).</li>
+    <li><b>One-off gains dressed as recurring</b> — selling a building isn't the same as selling product; watch for profit that won't repeat.</li>
+    <li><b>Rising debt funding dividends</b> — paying shareholders with borrowed money is unsustainable.</li>
+    <li><b>Frequent "adjustments" and restatements</b> — if a company constantly redefines its own numbers, trust them less.</li>
+  </ul>
+  <div class="box india"><div class="tag">🇮🇳 India lens</div><p>Several high-profile Indian collapses — Satyam (2009, fabricated cash), and more recent NBFC/bank stress cases — were visible in advance to anyone watching the gap between reported profit and real cash, or rising receivables and inter-company loans. You can pull any listed company's results from the <strong>BSE/NSE</strong> websites or its annual report and run exactly these checks. SEBI mandates the disclosures; the skill is reading them critically.</p></div>
+  <div class="box key"><div class="tag">★ The analyst's mindset</div><p>Statement analysis isn't about computing ratios — software does that. It's about asking <strong>"what story do these numbers tell, and is it true?"</strong> Ratios are the questions; cash flow and trends are the cross-examination. You're now equipped to look at any company and form a defensible first opinion — which is exactly what equity research (M12) builds on.</p></div>
+
+  <div class="takeaways"><h3>The eight things to carry forward</h3><ol>
+    <li>Raw numbers are meaningless; <b>ratios create comparison</b> across time, peers, and industry.</li>
+    <li><b>Liquidity</b> (current, quick) — can it pay short-term bills?</li>
+    <li><b>Solvency</b> (debt/equity, interest coverage) — is the debt load safe?</li>
+    <li><b>Profitability</b> (margins, ROE, ROA) — how well does it convert sales to profit?</li>
+    <li><b>Efficiency</b> (asset turnover) — how hard do its assets work?</li>
+    <li><b>DuPont</b> splits ROE into margin × turnover × leverage — exposing the real driver.</li>
+    <li>High ROE built on <b>leverage</b> is fragile, not impressive.</li>
+    <li><b>Quality of earnings:</b> profit should be backed by cash — the gap is the red flag.</li>
+  </ol></div>
+
+  <h3 class="sub">Check yourself</h3>
+  <details class="quiz"><summary><span><span class="q">Q1 ·</span> Two firms both have 20% ROE. One has 15% margins and low debt; the other has 4% margins and huge debt. Which is healthier?</span></summary><div class="ans">The <b>first</b>. Same ROE, but DuPont shows the first earns it through genuine <b>profitability</b>, while the second manufactures it through <b>leverage</b>. The leveraged firm's return is borrowed and fragile — a downturn could wipe it out. Identical headline number, opposite quality.</div></details>
+  <details class="quiz"><summary><span><span class="q">Q2 ·</span> A retailer has a current ratio of 2.0 but a quick ratio of 0.6. What does that tell you?</span></summary><div class="ans">Most of its current assets are <b>inventory</b>. It looks liquid on paper, but if that stock doesn't sell quickly, it could struggle to pay near-term bills. The gap between the two ratios is the warning.</div></details>
+  <details class="quiz"><summary><span><span class="q">Q3 ·</span> Net income is up 30% but operating cash flow fell. Concerned?</span></summary><div class="ans"><b>Yes.</b> This is the classic quality-of-earnings red flag. Real profit should bring in cash. A widening gap suggests earnings may be inflated by accounting choices, uncollected sales, or one-offs rather than genuine business performance.</div></details>
+
+  <h3 class="sub">Glossary</h3>
+  <dl class="gloss">
+    <dt>Liquidity ratios</dt><dd>Measure ability to meet short-term obligations (current, quick ratio).</dd>
+    <dt>Solvency / leverage ratios</dt><dd>Measure long-term debt burden (debt-to-equity, interest coverage).</dd>
+    <dt>Profitability ratios</dt><dd>Measure profit relative to sales or capital (margins, ROE, ROA).</dd>
+    <dt>Efficiency ratios</dt><dd>Measure how productively assets generate sales (asset turnover).</dd>
+    <dt>ROE / ROA</dt><dd>Return on equity (owners' money) / return on assets (all capital).</dd>
+    <dt>DuPont analysis</dt><dd>Splits ROE into margin × turnover × leverage to find its source.</dd>
+    <dt>Common-size statement</dt><dd>Each line shown as a % of revenue or assets, for size-free comparison.</dd>
+    <dt>Quality of earnings</dt><dd>How real and cash-backed reported profits are.</dd>
+    <dt>Interest coverage</dt><dd>EBIT ÷ interest expense — how comfortably debt costs are covered.</dd>
+  </dl>
+</div></section>
+
+<footer class="foot"><div class="wrap">
+  <div class="nextcard"><div class="u">Up next · Module 05</div><h3>Economics for Finance</h3>
+  <p>You can read a company. Now zoom out to the whole economy that surrounds it — supply and demand, GDP, inflation, interest rates, and the policy levers that move every market. Just enough economics to understand <em>why</em> prices move.</p>
+  <div class="call">&gt; <span>say:</span> "give me M05" — or it's next in this batch.</div></div>
+  <div class="endsig">— End of Module 04 · Reading &amp; Analyzing Financial Statements —</div>
+</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:20px;font-family:var(--mono);font-size:12px;letter-spacing:.04em;"><a href="M03_accounting.html" style="color:var(--gold);text-decoration:none;">&larr; Prev · M03</a><a href="index.html" style="color:var(--ink-mute);text-decoration:none;">&#8962; Home</a><a href="M05_economics_for_finance.html" style="color:var(--gold);text-decoration:none;">Next · M05 &rarr;</a></div>
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const upd=()=>{const h=document.documentElement;const sc=h.scrollTop||document.body.scrollTop;const max=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(sc/max*100)+'%';};
+  document.addEventListener('scroll',upd,{passive:true});upd();
+
+  const m=document.getElementById('m'),t=document.getElementById('t'),l=document.getElementById('l');
+  const mVal=document.getElementById('mVal'),tVal=document.getElementById('tVal'),lVal=document.getElementById('lVal');
+  const d1=document.getElementById('d1'),d2=document.getElementById('d2'),d3=document.getElementById('d3'),droe=document.getElementById('droe'),warn=document.getElementById('warn');
+  function draw(){
+    const mv=+m.value, tv=+t.value, lv=+l.value;
+    mVal.textContent=mv+'%'; tVal.textContent=tv.toFixed(1)+'×'; lVal.textContent=lv.toFixed(1)+'×';
+    d1.textContent=mv+'%'; d2.textContent=tv.toFixed(1)+'×'; d3.textContent=lv.toFixed(1)+'×';
+    const roe=(mv/100)*tv*lv*100;
+    droe.textContent=roe.toFixed(1)+'%';
+    if(lv>=3.5){warn.style.color='#F0625A';warn.textContent='⚠ Leverage is high — this ROE is heavily borrowed and risky.';}
+    else{warn.style.color='#5E6B78';warn.textContent='Tip: crank leverage to see ROE rise — but that\'s borrowed return, and it cuts both ways.';}
+  }
+  [m,t,l].forEach(el=>el.addEventListener('input',draw)); draw();
+</script>
+</body>
+</html>

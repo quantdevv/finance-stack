@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M07 · Financial Markets, Institutions &amp; Participants</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --base:#0E1116; --surface:#161B22; --raised:#1C232C;
+    --hair:#2A323D; --hair-soft:#222932;
+    --ink:#E8EFF5; --ink-mute:#9AA7B4; --ink-faint:#5E6B78;
+    --gold:#D4A24E; --gold-soft:#3a3017;
+    --gain:#3FB950; --loss:#F0625A; --blue:#5AA6E0;
+    --display:"Fraunces",Georgia,serif;
+    --body:"Inter",system-ui,sans-serif;
+    --mono:"JetBrains Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--base);color:var(--ink);font-family:var(--body);
+    font-size:17px;line-height:1.72;-webkit-font-smoothing:antialiased;
+    background-image:
+      radial-gradient(900px 480px at 88% -8%, rgba(212,162,78,0.05), transparent 60%),
+      radial-gradient(700px 420px at -5% 3%, rgba(90,166,224,0.035), transparent 55%);
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:0 26px;}
+  #bar{position:fixed;top:0;left:0;height:3px;width:0;background:var(--gold);z-index:99;
+    box-shadow:0 0 10px rgba(212,162,78,0.6);transition:width .1s linear;}
+  .topbar{border-bottom:1px solid var(--hair);background:rgba(14,17,22,0.88);
+    backdrop-filter:blur(8px);position:sticky;top:0;z-index:50;}
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:46px;
+    max-width:980px;font-family:var(--mono);font-size:11px;letter-spacing:0.08em;
+    color:var(--ink-mute);text-transform:uppercase;}
+  .topbar .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--gain);
+    margin-right:8px;box-shadow:0 0 8px var(--gain);}
+  .hero{padding:72px 0 40px;border-bottom:1px solid var(--hair-soft);}
+  .hero .wrap{max-width:820px;}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:0.2em;text-transform:uppercase;
+    color:var(--gold);display:flex;align-items:center;gap:13px;margin-bottom:24px;}
+  .kicker::before{content:"";height:1px;width:38px;background:var(--gold);opacity:0.6;}
+  .hero h1{font-family:var(--display);font-weight:600;font-size:clamp(2.3rem,5.5vw,3.5rem);
+    line-height:1.05;letter-spacing:-0.02em;margin-bottom:22px;}
+  .hero h1 em{font-style:italic;color:var(--gold);font-weight:500;}
+  .hero .stand{font-size:1.12rem;color:var(--ink-mute);max-width:60ch;}
+  .metarow{display:flex;flex-wrap:wrap;gap:22px;margin-top:30px;font-family:var(--mono);
+    font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-faint);}
+  .metarow b{color:var(--ink-mute);font-weight:500;}
+  .toc{background:var(--surface);border:1px solid var(--hair);border-radius:12px;
+    padding:24px 26px;margin:44px 0 8px;}
+  .toc h2{font-family:var(--mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;
+    color:var(--ink-faint);margin-bottom:16px;font-weight:500;}
+  .toc ol{list-style:none;counter-reset:t;}
+  .toc li{counter-increment:t;padding:7px 0;border-bottom:1px solid var(--hair-soft);}
+  .toc li:last-child{border-bottom:none;}
+  .toc a{color:var(--ink);text-decoration:none;display:flex;gap:14px;align-items:baseline;transition:color .15s;}
+  .toc a:hover{color:var(--gold);}
+  .toc a::before{content:counter(t,decimal-leading-zero);font-family:var(--mono);font-size:12px;color:var(--gold);min-width:26px;}
+  section.lesson{padding:30px 0;}
+  .lesson .wrap{max-width:720px;}
+  h2.sec{font-family:var(--display);font-weight:600;font-size:1.85rem;letter-spacing:-0.015em;
+    margin:54px 0 8px;line-height:1.15;scroll-margin-top:70px;}
+  .sec-no{font-family:var(--mono);font-size:12px;letter-spacing:0.16em;color:var(--gold);
+    text-transform:uppercase;display:block;margin-bottom:10px;}
+  h3.sub{font-family:var(--display);font-weight:600;font-size:1.28rem;margin:38px 0 6px;
+    letter-spacing:-0.01em;color:var(--ink);}
+  p{margin:16px 0;color:#D5DEE6;}
+  p strong{color:var(--ink);font-weight:600;}
+  em.term{font-style:normal;color:var(--gold);font-weight:500;}
+  ul.clean{margin:18px 0;padding-left:0;list-style:none;}
+  ul.clean li{position:relative;padding-left:26px;margin:11px 0;color:#D5DEE6;}
+  ul.clean li::before{content:"";position:absolute;left:6px;top:12px;width:6px;height:6px;background:var(--gold);border-radius:50%;}
+  ul.clean li b{color:var(--ink);font-weight:600;}
+  .box{border-radius:0 10px 10px 0;padding:18px 22px;margin:26px 0;font-size:0.98rem;
+    background:var(--surface);border:1px solid var(--hair);border-left-width:3px;}
+  .box .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;
+    margin-bottom:9px;display:flex;align-items:center;gap:8px;font-weight:500;}
+  .box p{margin:8px 0;color:#CBD5DE;}.box p:first-of-type{margin-top:0;}
+  .box.eng{border-left-color:var(--blue);}.box.eng .tag{color:var(--blue);}
+  .box.ex{border-left-color:var(--gold);}.box.ex .tag{color:var(--gold);}
+  .box.india{border-left-color:var(--gain);}.box.india .tag{color:var(--gain);}
+  .box.key{border-left-color:var(--gold);background:rgba(212,162,78,0.06);}.box.key .tag{color:var(--gold);}
+  .box.warn{border-left-color:var(--loss);}.box.warn .tag{color:var(--loss);}
+  .box code{font-family:var(--mono);font-size:0.86em;background:rgba(255,255,255,0.05);padding:2px 6px;border-radius:4px;color:var(--gold);}
+  figure{margin:34px 0;background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:26px 22px 18px;}
+  figure svg{width:100%;height:auto;display:block;}
+  figcaption{font-family:var(--mono);font-size:11px;letter-spacing:0.05em;color:var(--ink-faint);text-align:center;margin-top:16px;}
+  .play{background:var(--surface);border:1px solid var(--gold-soft);border-radius:14px;padding:24px 24px 20px;margin:32px 0;}
+  .play .ptitle{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
+    color:var(--gold);margin-bottom:18px;display:flex;align-items:center;gap:8px;}
+  .btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;}
+  .btn{font-family:var(--mono);font-size:12px;background:var(--raised);color:var(--ink);border:1px solid var(--hair);
+    border-radius:8px;padding:9px 15px;cursor:pointer;transition:all .15s;}
+  .btn:hover{border-color:var(--gold);color:var(--gold);}
+  .btn.primary{background:var(--gold);color:#1a1206;border-color:var(--gold);font-weight:700;}
+  .btn:disabled{opacity:0.4;cursor:not-allowed;}
+  .takeaways{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:28px;margin:30px 0;}
+  .takeaways h3{font-family:var(--display);font-size:1.3rem;margin-bottom:14px;color:var(--ink);}
+  .takeaways ol{counter-reset:k;list-style:none;}
+  .takeaways li{counter-increment:k;position:relative;padding:11px 0 11px 40px;border-bottom:1px solid var(--hair-soft);color:#D5DEE6;font-size:0.97rem;}
+  .takeaways li:last-child{border-bottom:none;}
+  .takeaways li::before{content:counter(k,decimal-leading-zero);position:absolute;left:0;top:11px;font-family:var(--mono);font-size:12px;color:var(--gold);}
+  .gloss{margin:24px 0;}
+  .gloss dt{font-family:var(--mono);font-size:13px;color:var(--gold);font-weight:700;margin-top:18px;}
+  .gloss dd{margin:5px 0 0;color:#CBD5DE;font-size:0.96rem;}
+  .quiz{margin:18px 0;border:1px solid var(--hair);border-radius:10px;overflow:hidden;background:var(--surface);}
+  .quiz summary{padding:15px 20px;cursor:pointer;font-weight:500;color:var(--ink);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;}
+  .quiz summary::-webkit-details-marker{display:none;}
+  .quiz summary .q{font-family:var(--mono);font-size:11px;color:var(--gold);}
+  .quiz summary::after{content:"+";font-family:var(--mono);color:var(--ink-faint);font-size:18px;}
+  .quiz[open] summary::after{content:"–";}
+  .quiz .ans{padding:0 20px 17px;color:#CBD5DE;font-size:0.95rem;border-top:1px solid var(--hair-soft);padding-top:14px;}
+  .foot{border-top:1px solid var(--hair);margin-top:60px;padding:46px 0 80px;}
+  .nextcard{background:var(--surface);border:1px solid var(--hair);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:22px 24px;}
+  .nextcard .u{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:10px;}
+  .nextcard h3{font-family:var(--display);font-size:1.4rem;color:var(--ink);margin-bottom:8px;}
+  .nextcard p{color:var(--ink-mute);font-size:0.96rem;margin:0;}
+  .nextcard .call{margin-top:16px;font-family:var(--mono);font-size:12.5px;color:var(--ink);}
+  .nextcard .call span{color:var(--gold);}
+  .endsig{font-family:var(--mono);font-size:10.5px;letter-spacing:0.1em;color:var(--ink-faint);text-transform:uppercase;text-align:center;margin-top:40px;}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}#bar{transition:none;}}
+  @media (max-width:560px){body{font-size:16px;}h2.sec{font-size:1.55rem;}}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+<div class="topbar"><div class="wrap">
+  <div><a href="index.html" style="color:var(--gold);text-decoration:none;margin-right:14px;">&larr; Home</a><span class="dot"></span>MODULE 07 / 24</div>
+  <div>PART III · MARKETS &amp; INSTRUMENTS</div>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">M07 · The Marketplace</div>
+  <h1>Financial markets &amp;<br>who <em>moves</em> the money.</h1>
+  <p class="stand">You know what money is and how to value cash flows. Now meet the machine where those values get traded — the markets, the venues, the players, and the invisible plumbing that makes a tap on your phone turn into shares in your account two days later.</p>
+  <div class="metarow">
+    <span><b>Depth</b> ◐◐○○ Core</span>
+    <span><b>Read</b> ~26 min</span>
+    <span><b>Builds on</b> M01, M02</span>
+  </div>
+</div></header>
+
+<div class="wrap"><nav class="toc">
+  <h2>What we'll cover</h2>
+  <ol>
+    <li><a href="#s1">What a financial market actually is</a></li>
+    <li><a href="#s2">Money markets vs capital markets</a></li>
+    <li><a href="#s3">Primary vs secondary markets</a></li>
+    <li><a href="#s4">Exchanges vs over-the-counter (OTC)</a></li>
+    <li><a href="#s5">The participants — who's in the room</a></li>
+    <li><a href="#s6">Order types, bid-ask &amp; liquidity</a></li>
+    <li><a href="#s7">Indices — Nifty, Sensex &amp; what they measure</a></li>
+    <li><a href="#s8">The plumbing — clearing &amp; settlement</a></li>
+  </ol>
+</nav></div>
+
+<section class="lesson"><div class="wrap">
+
+  <h2 class="sec" id="s1"><span class="sec-no">Section 01</span>What a financial market actually is</h2>
+  <p>Back in M01 you saw the financial system's job: move money from people who have surplus (savers) to people who can use it (borrowers and businesses). A <em class="term">financial market</em> is simply any place — physical or electronic — where that transfer happens through buying and selling <strong>financial instruments</strong>: shares, bonds, currencies, derivatives, and so on.</p>
+  <p>A market does three quiet but vital jobs: it lets capital find its best use (<strong>allocation</strong>), it lets you turn an asset back into cash quickly (<strong>liquidity</strong>), and through millions of buy/sell decisions it sets a <strong>price</strong> — the market's collective opinion of what something is worth right now.</p>
+  <div class="box key">
+    <div class="tag">★ The one-line model</div>
+    <p>A market is a <strong>price-discovery machine.</strong> Every trade is two people disagreeing about the future but agreeing on a price. The constant tug-of-war between buyers and sellers produces the single number we call "the price" — and it updates the instant new information arrives.</p>
+  </div>
+
+  <h2 class="sec" id="s2"><span class="sec-no">Section 02</span>Money markets vs capital markets</h2>
+  <p>Markets are first split by <strong>how long the money is tied up.</strong></p>
+  <ul class="clean">
+    <li><b>Money markets</b> — very short-term debt, maturing in under a year. Treasury bills, commercial paper, certificates of deposit, overnight inter-bank lending. Low risk, low return, highly liquid. This is where governments, banks, and big firms park or borrow cash for days or weeks.</li>
+    <li><b>Capital markets</b> — long-term funding, over a year. This splits into the <b>equity market</b> (shares — ownership) and the <b>debt/bond market</b> (loans — lending). This is where companies raise money to build, and where most investing happens.</li>
+  </ul>
+  <div class="box india">
+    <div class="tag">🇮🇳 India lens</div>
+    <p>India's money market is overseen by the <strong>RBI</strong>; the capital market by <strong>SEBI</strong>. When the RBI changes the repo rate (M01), it's acting directly on the money market — the short end — and that ripples out into every other rate. Instruments you'll hear about: T-bills (91/182/364-day), commercial paper, and the call money market where banks lend each other money overnight.</p>
+  </div>
+
+  <h2 class="sec" id="s3"><span class="sec-no">Section 03</span>Primary vs secondary markets</h2>
+  <p>This distinction trips up a lot of people, so make it stick: it's about <strong>who gets the money.</strong></p>
+  <ul class="clean">
+    <li><b>Primary market</b> — securities are <em>created and sold for the first time.</em> The company (or government) gets the cash. An <em class="term">IPO</em> (Initial Public Offering) is the classic example: a firm sells new shares to the public and the proceeds fund the business.</li>
+    <li><b>Secondary market</b> — existing securities trade <em>between investors.</em> The company gets nothing; money moves from one investor to another. When you buy a share on the NSE, you're buying it from another investor, not from the company.</li>
+  </ul>
+  <div class="box eng">
+    <div class="tag">⌘ Engineer's note</div>
+    <p>Think of the primary market as a <strong>mint</strong> (new units issued, issuer funded) and the secondary market as a <strong>resale marketplace</strong> (units change hands, original issuer untouched). Most of what people call "the stock market" is the secondary market — but the secondary market's liquidity is exactly what makes anyone willing to buy in the primary market. They depend on each other.</p>
+  </div>
+
+  <h2 class="sec" id="s4"><span class="sec-no">Section 04</span>Exchanges vs over-the-counter</h2>
+  <p>Where do trades physically happen? Two models:</p>
+  <ul class="clean">
+    <li><b>Exchange-traded</b> — a centralized, regulated venue with standardized contracts, transparent prices, and an order book everyone trades against. Stocks and listed derivatives trade this way. Think <strong>NSE, BSE</strong>.</li>
+    <li><b>Over-the-counter (OTC)</b> — a decentralized web of direct, negotiated deals between two parties (often via dealers). Customizable but less transparent and with more counterparty risk. Most bonds, currencies (forex), and many derivatives trade OTC.</li>
+  </ul>
+  <p>The trade-off is <strong>standardization &amp; safety (exchange)</strong> vs <strong>flexibility &amp; customization (OTC)</strong>. A retail equity investor lives almost entirely in the exchange world; a corporate treasurer hedging a specific currency exposure may need the OTC world.</p>
+
+  <h2 class="sec" id="s5"><span class="sec-no">Section 05</span>The participants — who's in the room</h2>
+  <p>A market is its people. The main cast:</p>
+  <ul class="clean">
+    <li><b>Retail investors</b> — individuals like you, trading your own money.</li>
+    <li><b>Institutional investors</b> — mutual funds, pension funds, insurers, banks, foreign portfolio investors (FPIs). They move huge sums and dominate volume.</li>
+    <li><b>Brokers</b> — licensed intermediaries who route your order to the exchange (Zerodha, Groww, ICICI Direct). You can't trade on the exchange directly; you go through a broker.</li>
+    <li><b>Market makers / dealers</b> — firms that continuously quote both a buy and a sell price, providing liquidity and earning the spread between them.</li>
+    <li><b>Custodians</b> — hold securities safely on behalf of large investors.</li>
+    <li><b>Clearing corporations &amp; depositories</b> — the back-office plumbing (Section 08) that guarantees and records every trade.</li>
+    <li><b>Regulators</b> — SEBI (markets), RBI (money/banking), setting and enforcing the rules.</li>
+  </ul>
+
+  <h2 class="sec" id="s6"><span class="sec-no">Section 06</span>Order types, bid-ask &amp; liquidity</h2>
+  <p>When you trade, you send an <strong>order</strong>. The two you must know:</p>
+  <ul class="clean">
+    <li><b>Market order</b> — "fill me right now at whatever the best available price is." Fast, but you don't control the exact price.</li>
+    <li><b>Limit order</b> — "fill me only at this price or better." You control price, but it may not execute.</li>
+  </ul>
+  <p>At any moment the market shows a <em class="term">bid</em> (highest price buyers will pay) and an <em class="term">ask/offer</em> (lowest price sellers will accept). The gap between them is the <em class="term">bid-ask spread</em> — a direct, real cost of trading and a thermometer of <strong>liquidity</strong>.</p>
+
+  <figure>
+    <svg viewBox="0 0 680 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bid-ask spread diagram">
+      <line x1="40" y1="100" x2="640" y2="100" stroke="#2A323D" stroke-width="2"/>
+      <rect x="120" y="70" width="150" height="60" rx="8" fill="rgba(63,185,80,0.12)" stroke="#3FB950"/>
+      <rect x="410" y="70" width="150" height="60" rx="8" fill="rgba(240,98,90,0.12)" stroke="#F0625A"/>
+      <text x="195" y="95" text-anchor="middle" fill="#3FB950" font-family="JetBrains Mono,monospace" font-size="13">BID ₹99.80</text>
+      <text x="195" y="114" text-anchor="middle" fill="#9AA7B4" font-family="Inter,sans-serif" font-size="11">buyers wait here</text>
+      <text x="485" y="95" text-anchor="middle" fill="#F0625A" font-family="JetBrains Mono,monospace" font-size="13">ASK ₹100.20</text>
+      <text x="485" y="114" text-anchor="middle" fill="#9AA7B4" font-family="Inter,sans-serif" font-size="11">sellers wait here</text>
+      <line x1="270" y1="55" x2="410" y2="55" stroke="#D4A24E" stroke-width="1.4" stroke-dasharray="4 3"/>
+      <text x="340" y="44" text-anchor="middle" fill="#D4A24E" font-family="JetBrains Mono,monospace" font-size="12">spread = ₹0.40</text>
+    </svg>
+    <figcaption>The spread is the toll you pay to cross from buyer to seller. Tight spread = liquid; wide spread = illiquid.</figcaption>
+  </figure>
+
+  <div class="box ex">
+    <div class="tag">▸ Why liquidity matters</div>
+    <p>A blue-chip like Reliance has a spread of a few paise — you can buy and sell instantly at almost the same price. A thinly-traded small-cap might have a spread of 1–2%, meaning you lose money the instant you buy. <strong>Liquidity is invisible until you need it</strong> — and in a panic, illiquid assets are the ones you can't sell at any sensible price.</p>
+  </div>
+
+  <h2 class="sec" id="s7"><span class="sec-no">Section 07</span>Indices — Nifty, Sensex &amp; what they measure</h2>
+  <p>An <em class="term">index</em> is a single number that tracks a basket of stocks, giving you the market's overall mood at a glance. India's two headline indices:</p>
+  <ul class="clean">
+    <li><b>Nifty 50</b> — 50 large companies on the NSE, weighted by free-float market cap.</li>
+    <li><b>Sensex</b> — 30 large companies on the BSE, India's oldest index (since 1986).</li>
+  </ul>
+  <p>"The market is up 1%" almost always means an index moved 1%. Indices also became something you can <em>invest in</em> directly — <strong>index funds</strong> and ETFs simply hold the basket, a cornerstone idea you'll meet again in M13 (portfolios) and M21 (the CFA worldview).</p>
+  <div class="box eng">
+    <div class="tag">⌘ Engineer's note</div>
+    <p>An index is a weighted aggregate — a single scalar summarizing a high-dimensional system, exactly like a benchmark score. "Free-float market-cap weighted" means each company's influence is proportional to the value of shares actually available to trade. Change the weights and you change what the number even means — which is why different indices can disagree on the same day.</p>
+  </div>
+
+  <h2 class="sec" id="s8"><span class="sec-no">Section 08</span>The plumbing — clearing &amp; settlement</h2>
+  <p>Here's what almost nobody understands, and you're about to. When you tap "buy," the trade isn't truly done at the moment of matching. Behind the scenes a careful relay race runs to make sure the buyer actually gets shares and the seller actually gets money — without either having to trust the other. Walk through it:</p>
+
+  <div class="play" id="play">
+    <div class="ptitle">▶ Interactive · The life of a trade — step through it</div>
+    <div class="btnrow">
+      <button class="btn primary" id="next">Next step →</button>
+      <button class="btn" id="reset">Reset</button>
+    </div>
+    <svg id="track" viewBox="0 0 660 60" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:16px;"></svg>
+    <div style="background:var(--raised);border:1px solid var(--hair);border-radius:10px;padding:18px 20px;min-height:120px;">
+      <div id="stageName" style="font-family:var(--mono);font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Stage 1 — You place the order</div>
+      <div id="stageBody" style="color:#CBD5DE;font-size:0.97rem;">You tap "Buy 10 shares" in your broker app. Nothing has been bought yet — you've just sent an instruction.</div>
+    </div>
+  </div>
+
+  <div class="box india">
+    <div class="tag">🇮🇳 India lens · the demat era</div>
+    <p>Your shares don't exist as paper — they live electronically in a <strong>demat account</strong> at a <em>depository</em>: <strong>NSDL</strong> or <strong>CDSL</strong>. The <strong>clearing corporation</strong> (NSE's NCL) steps in as the guaranteed counterparty to every trade, so you never rely on the stranger on the other side. And since 2023, India runs on a <strong>T+1</strong> cycle — settlement one business day after the trade — among the fastest in the world. (A move toward optional T+0 is underway.)</p>
+  </div>
+
+  <div class="box key">
+    <div class="tag">★ Why the plumbing is genius</div>
+    <p>The clearing corporation's role as central counterparty means the system has <strong>no single point of trust</strong>. Buyer and seller never have to know or trust each other — they each only face the clearing corp, which guarantees the trade. It's the financial equivalent of an escrow service running billions of times a day. This is what makes a market feel instant and safe even though it's strangers trading with strangers.</p>
+  </div>
+
+  <div class="takeaways">
+    <h3>The eight things to carry forward</h3>
+    <ol>
+      <li>A market is a <b>price-discovery machine</b> doing three jobs: allocation, liquidity, pricing.</li>
+      <li><b>Money markets</b> = short-term (under 1yr); <b>capital markets</b> = long-term (equity + debt).</li>
+      <li><b>Primary</b> market funds the issuer (IPO); <b>secondary</b> market is investors trading with each other.</li>
+      <li><b>Exchanges</b> (standardized, transparent) vs <b>OTC</b> (negotiated, flexible).</li>
+      <li>You reach the market through a <b>broker</b>; institutions dominate the volume.</li>
+      <li>The <b>bid-ask spread</b> is a real trading cost and a measure of liquidity.</li>
+      <li>An <b>index</b> (Nifty, Sensex) is a weighted basket summarizing the market in one number.</li>
+      <li><b>Clearing &amp; settlement</b> (T+1, NSDL/CDSL, clearing corp) is the trust-free plumbing behind every trade.</li>
+    </ol>
+  </div>
+
+  <h3 class="sub">Check yourself</h3>
+  <details class="quiz"><summary><span><span class="q">Q1 ·</span> You buy 10 shares of Infosys on the NSE. Does Infosys receive your money?</span></summary>
+    <div class="ans">No. That's a <b>secondary-market</b> trade — your money goes to another investor who sold. Infosys only received cash when it <em>originally issued</em> those shares in the primary market (its IPO / further issues).</div></details>
+  <details class="quiz"><summary><span><span class="q">Q2 ·</span> Why does a wide bid-ask spread cost you money?</span></summary>
+    <div class="ans">Because you buy at the higher <b>ask</b> and would have to sell at the lower <b>bid</b>. The gap is an immediate loss you must overcome before you even break even — and it's wider for illiquid (thinly-traded) securities.</div></details>
+  <details class="quiz"><summary><span><span class="q">Q3 ·</span> What does the clearing corporation do, and why does it matter?</span></summary>
+    <div class="ans">It acts as the <b>central counterparty</b> — the guaranteed buyer to every seller and seller to every buyer. This removes counterparty risk: you never have to trust the stranger on the other side, only the clearing corp, which is heavily regulated and capitalized.</div></details>
+
+  <h3 class="sub">Glossary — terms to know cold</h3>
+  <dl class="gloss">
+    <dt>Money market</dt><dd>Market for short-term debt (under one year): T-bills, commercial paper, call money.</dd>
+    <dt>Capital market</dt><dd>Market for long-term funding: equities (shares) and bonds (debt).</dd>
+    <dt>Primary market</dt><dd>Where new securities are first issued; the issuer receives the funds (e.g. an IPO).</dd>
+    <dt>Secondary market</dt><dd>Where existing securities trade between investors; the issuer is not involved.</dd>
+    <dt>OTC</dt><dd>Over-the-counter — decentralized, negotiated trading between parties, off-exchange.</dd>
+    <dt>Bid / Ask</dt><dd>Highest price buyers will pay / lowest price sellers will accept; the gap is the spread.</dd>
+    <dt>Liquidity</dt><dd>How easily an asset can be sold quickly without moving its price.</dd>
+    <dt>Index</dt><dd>A weighted basket of securities expressed as one number (Nifty 50, Sensex).</dd>
+    <dt>Depository (NSDL/CDSL)</dt><dd>Electronic registries holding shares in demat form.</dd>
+    <dt>Clearing &amp; settlement</dt><dd>The process of confirming, guaranteeing, and finalising trades (India: T+1).</dd>
+  </dl>
+
+</div></section>
+
+<footer class="foot"><div class="wrap">
+  <div class="nextcard">
+    <div class="u">Up next · Module 08</div>
+    <h3>Equities &amp; Stock Valuation</h3>
+    <p>You know where shares trade — now learn what they actually are and what they're worth. Ownership, market cap, the two great schools of valuation (multiples vs intrinsic/DCF), and a callback to M02: the Gordon Growth Model in action.</p>
+    <div class="call">&gt; <span>say:</span> "next" to continue the run.</div>
+  </div>
+  <div class="endsig">— End of Module 07 · Financial Markets, Institutions &amp; Participants —</div>
+</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:20px;font-family:var(--mono);font-size:12px;letter-spacing:.04em;"><a href="M06_corporate_finance.html" style="color:var(--gold);text-decoration:none;">&larr; Prev · M06</a><a href="index.html" style="color:var(--ink-mute);text-decoration:none;">&#8962; Home</a><a href="M08_equities_valuation.html" style="color:var(--gold);text-decoration:none;">Next · M08 &rarr;</a></div>
+</footer>
+
+<script>
+  const bar=document.getElementById('bar');
+  const upd=()=>{const h=document.documentElement;const sc=h.scrollTop||document.body.scrollTop;
+    const max=(h.scrollHeight-h.clientHeight)||1;bar.style.width=(sc/max*100)+'%';};
+  document.addEventListener('scroll',upd,{passive:true});upd();
+
+  const stages=[
+    {n:"Stage 1 — You place the order",b:"You tap \"Buy 10 shares\" in your broker app. Nothing has been bought yet — you've just sent an instruction."},
+    {n:"Stage 2 — Broker routes it",b:"Your broker validates the order (funds, limits) and routes it electronically to the exchange in milliseconds."},
+    {n:"Stage 3 — Exchange matches",b:"The NSE's order book matches your buy with a willing seller's order at an agreed price. A trade is now 'executed' — but not yet final."},
+    {n:"Stage 4 — Clearing",b:"The clearing corporation steps in as central counterparty, nets out all the day's trades, and figures out exactly who owes what to whom. It guarantees the trade."},
+    {n:"Stage 5 — Settlement (T+1)",b:"One business day later, money leaves your account and shares land in your demat account at NSDL/CDSL. Now — and only now — the trade is truly complete."}
+  ];
+  const labels=["Order","Broker","Match","Clear","Settle"];
+  const track=document.getElementById('track');
+  const nameEl=document.getElementById('stageName'), bodyEl=document.getElementById('stageBody');
+  const nextBtn=document.getElementById('next'), resetBtn=document.getElementById('reset');
+  let cur=0;
+  function render(){
+    const W=660,n=labels.length,gap=W/(n-1);
+    let s='<line x1="20" y1="20" x2="'+(W-20)+'" y2="20" stroke="#2A323D" stroke-width="2"/>';
+    labels.forEach((l,i)=>{
+      const x=20+i*((W-40)/(n-1));
+      const done=i<=cur;
+      s+='<circle cx="'+x+'" cy="20" r="9" fill="'+(done?'#D4A24E':'#1C232C')+'" stroke="'+(done?'#D4A24E':'#2A323D')+'" stroke-width="2"/>';
+      s+='<text x="'+x+'" y="50" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="'+(done?'#D4A24E':'#5E6B78')+'">'+l+'</text>';
+    });
+    track.innerHTML=s;
+    nameEl.textContent=stages[cur].n; bodyEl.textContent=stages[cur].b;
+    nextBtn.disabled=(cur>=stages.length-1);
+    nextBtn.textContent=(cur>=stages.length-1)?"Trade complete ✓":"Next step →";
+  }
+  nextBtn.addEventListener('click',()=>{if(cur<stages.length-1){cur++;render();}});
+  resetBtn.addEventListener('click',()=>{cur=0;render();});
+  render();
+</script>
+</body>
+</html>
