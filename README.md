@@ -1,4 +1,4 @@
-# Finance Mastery Academy
+# Finance Stack
 
 A 24-module, self-contained finance curriculum — from how money works to corporate finance, markets, valuation, derivatives, risk, quant finance, the CA/CFA paths, and personal finance. Every lesson is a single standalone HTML page (no build step, no dependencies).
 
